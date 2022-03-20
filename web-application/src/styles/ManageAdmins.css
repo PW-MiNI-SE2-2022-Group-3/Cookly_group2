@@ -1,0 +1,21 @@
+.tablecell {
+    text-align: left;
+    border-radius: 0px;
+}
+
+.tablecellheader {
+    font-size: 14px;
+    font-weight: lighter;
+    background-color: #c4560c;
+}
+
+.tablecontainer {
+    margin: auto;
+    border-radius: 0;
+}
+
+.table {
+    max-width: 100%;
+    margin: auto;
+    border-radius: 0px;
+}

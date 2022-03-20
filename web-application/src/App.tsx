@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+//Estimated time - 10hr +
+import React from "react";
+import { useState } from "react";
+import { Link, Route, BrowserRouter, Routes } from "react-router-dom";
+import LoginScreen from "./Components/Login";
+import MainWindow from "./Components/MainWindow";
+import ManageAdmins from "./Components/ManageAdmins";
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isLogged ? (
+              <MainWindow />
+            ) : (
+              <LoginScreen setisLogged={setIsLogged} />
+            )
+          }
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
