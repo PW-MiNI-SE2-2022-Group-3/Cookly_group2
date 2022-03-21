@@ -27,6 +27,14 @@ public class Recipe {
         return instructions;
     }
 
+    public Set<User> getUsersWhoLiked() {
+        return usersWhoLiked;
+    }
+
+    public void setUsersWhoLiked(Set<User> usersWhoLiked) {
+        this.usersWhoLiked = usersWhoLiked;
+    }
+
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
@@ -53,6 +61,9 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "id"),//recipe id
             inverseJoinColumns = @JoinColumn(name = "id"))//ingredient id
     Set<Ingredient> ingredientsUsedInRecipe;
+
+    @ManyToMany(mappedBy = "likedRecipes")
+    Set<User> usersWhoLiked;
 
     @Column(nullable = false, name = "tag")
     private List<String> tags;
