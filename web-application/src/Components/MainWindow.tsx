@@ -14,6 +14,7 @@ interface MainWindowProps {}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
+  const [clickedRecipe, setclickedRecipe] = useState(false)
 
   return (
     <>
@@ -39,6 +40,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 }}
                 onClick={() => {
                   setClickedAdmin(true);
+                  setclickedRecipe(false);
                 }}
               >
                 ADMINS
@@ -53,6 +55,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                   borderRadius: 0,
                 }}
                 onClick={() => {
+                  setclickedRecipe(true);
                   setClickedAdmin(false);
                 }}
               >
@@ -75,7 +78,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes />}
+        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes></ManageRecipes>}
       </Container>
     </>
   );
