@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sessions")
+@RequestMapping("/ingredients")
 public class IngredientController {
 
     @Autowired
