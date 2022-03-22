@@ -7,23 +7,14 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/RegisterAdmin.css";
 
-interface AddRecipesProps {
+interface AddIngredientsProps {
   setAddRegister: any;
 }
 
-const AddRecipes: React.FC<AddRecipesProps> = (
-  props: AddRecipesProps
+const AddIngredient: React.FC<AddIngredientsProps> = (
+  props: AddIngredientsProps
 ) => {
   const [name, setName] = useState("");
-  const [instructions, setInstructions] = useState("");
-  //we use state with all enums. then after adding some tags we set them to true and when sending to server we send only those marked as true
-  const [tags, setTags] = useState({
-    "vegetarian":false,
-    "gluten free":false,
-    "low calorie":false,
-    "no lactose":false,
-  });
-  const [ingredients, setIngredients] = useState({});
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
@@ -33,22 +24,18 @@ const AddRecipes: React.FC<AddRecipesProps> = (
   const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      name: name,
-      instructions: instructions,
-      tags: tags,
-      ingredients: ingredients,
+      name: name
     };
     //axios goes here --
     setSubmitted(true);
     setError(false);
     setName("");
-    setInstructions("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (name === "" || instructions === "" || Object.keys(ingredients).length === 0) {
+    if (name === "") {
       setError(true);
     } else {
       Register(event);
@@ -67,7 +54,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (
           margin: "auto",
         }}
       >
-        Successfully registered a new recipe!
+        Successfully registered a new ingredient!
       </Box>
     );
   };
@@ -98,7 +85,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADD NEW RECIPE</Box>
+        <Box className="heading">ADD NEW INGREDIENT</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -109,23 +96,9 @@ const AddRecipes: React.FC<AddRecipesProps> = (
               fullWidth
               variant="standard"
               value={name}
-              helperText="Please enter name of the recipe"
+              helperText="Please enter name of the ingredient"
               onChange={(event) => {
                 setName(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Instructions</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={instructions}
-              variant="standard"
-              helperText="Please enter instructions"
-              onChange={(event) => {
-                setInstructions(event.target.value);
                 setSubmitted(false);
               }}
             />
@@ -158,4 +131,4 @@ const AddRecipes: React.FC<AddRecipesProps> = (
   );
 };
 
-export default AddRecipes;
+export default AddIngredient;
