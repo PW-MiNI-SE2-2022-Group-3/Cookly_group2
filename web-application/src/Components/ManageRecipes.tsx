@@ -19,7 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 
-import Register from "./RegisterAdmin";
+import AddRecipes from "./RegisterRecipe";
 import "../styles/ManageAdmins.css";
 
 interface ManageRecipesProps {}
@@ -207,7 +207,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (props: ManageRecipesProps) 
           </TableFooter>
         </Table>
       </TableContainer>
-      {addRecipe && <Register setAddUser={setAddRecipe}></Register>}
+      {addRecipe && <AddRecipes setAddRegister={setAddRecipe}></AddRecipes>}
     </Box>
   );
 };
