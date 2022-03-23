@@ -11,38 +11,38 @@ drop table tags;
 drop table users;
 
 create table ingredients (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     name varchar(30) not null,
     constraint ingredients_pk primary key (id)
 );
 
 create table recipes (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     name varchar(30) not null,
     instructions varchar(1000) not null,
     constraint recipes_pk primary key (id)
 );
 
 create table shops (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     name varchar(30) not null,
     constraint shops_pk primary key (id)
 );
 
 create table restaurants (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     name varchar(30) not null,
     constraint restaurants_pk primary key (id)
 );
 
 create table tags (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     name varchar(30) not null,
     constraint tags_pk primary key (id)
 );
 
 create table users (
-    id number not null,
+    id number GENERATED ALWAYS AS IDENTITY,
     username varchar(30) not null,
     password varchar(64) not null,
     constraint users_pk primary key (id)
