@@ -17,16 +17,18 @@ import axios from "axios";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import PersonIcon from "@mui/icons-material/Person";
+import EggIcon from "@mui/icons-material/Egg";
 
 import AddIngredient from "./RegisterIngredient";
 import "../styles/ManageAdmins.css";
 
 interface ManageIngredientsProps {}
 
-const columns = ["ID","NAME", "ACTIONS"];
+const columns = ["ID", "NAME", "ACTIONS"];
 
-const ManageIngredients: React.FC<ManageIngredientsProps> = (props: ManageIngredientsProps) => {
+const ManageIngredients: React.FC<ManageIngredientsProps> = (
+  props: ManageIngredientsProps
+) => {
   const [deleteIngredient, setDeleteIngredient] = useState(false);
   const [editIngredient, setEditIngredient] = useState(false);
   const [IngredientIdToDelete, setIngredientID] = useState(-1);
@@ -35,20 +37,17 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (props: ManageIngred
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([
     {
-      id:1,
-      name: "Butter"
+      id: 1,
+      name: "Butter",
     },
     {
-      id:2,
-      name: "Chicken"
-      
+      id: 2,
+      name: "Chicken",
     },
     {
-      id:3,
-      name: "Water"
-      
+      id: 3,
+      name: "Water",
     },
-    
   ]);
 
   const emptyRows = () => {
@@ -103,7 +102,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (props: ManageIngred
         }}
       >
         Add Ingredient
-        <PersonIcon style={{ marginLeft: "10px" }} />
+        <EggIcon style={{ marginLeft: "10px" }} />
       </Button>
 
       <TableContainer
@@ -197,7 +196,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (props: ManageIngred
           </TableFooter>
         </Table>
       </TableContainer>
-      {addIngredient && <AddIngredient setAddRegister={setAddIngredient}></AddIngredient>}
+      {addIngredient && (
+        <AddIngredient setAddRegister={setAddIngredient}></AddIngredient>
+      )}
     </Box>
   );
 };
