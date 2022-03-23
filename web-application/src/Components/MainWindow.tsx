@@ -14,8 +14,8 @@ interface MainWindowProps {}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
-  const [clickedRecipe, setclickedRecipe] = useState(false);
-
+  const [clickedRecipe, setclickedRecipe] = useState(false)
+  const [clickedIngredient, setClickedIngredient] = useState(false)
   return (
     <>
       <AppBar position="static" style={{ backgroundColor: "#c4560c" }}>
@@ -41,6 +41,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 onClick={() => {
                   setClickedAdmin(true);
                   setclickedRecipe(false);
+                  setClickedIngredient(false)
                 }}
               >
                 ADMINS
@@ -57,9 +58,27 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 onClick={() => {
                   setclickedRecipe(true);
                   setClickedAdmin(false);
+                  setClickedIngredient(false)
                 }}
               >
                 RECIPES
+              </Button>
+              <Button
+                key="ingredients"
+                sx={{
+                  background: clickedAdmin ? "#c4560c" : "brown",
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  borderRadius: 0,
+                }}
+                onClick={() => {
+                  setClickedIngredient(true)
+                  setclickedRecipe(false);
+                  setClickedAdmin(false);
+                }}
+              >
+                INGREDIENTS
               </Button>
             </Box>
             <Button
@@ -78,7 +97,9 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes />}
+        {clickedAdmin       ?  <ManageAdmins/>      :null}
+        {clickedRecipe      ?  <ManageRecipes/>     :null}
+        {clickedIngredient  ?  <ManageIngredients/> :null}
       </Container>
     </>
   );

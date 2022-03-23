@@ -18,8 +18,6 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
-
-import "../styles/ManageAdmins.css";
 import AddRecipes from "./RegisterRecipe";
 
 interface ManageRecipesProps {}
