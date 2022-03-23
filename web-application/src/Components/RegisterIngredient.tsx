@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-import "../styles/RegisterAdmin.css";
+import "../styles/Register.css";
 
 interface AddIngredientsProps {
   setAddRegister: any;
@@ -24,7 +24,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
   const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      name: name
+      name: name,
     };
     //axios goes here --
     setSubmitted(true);

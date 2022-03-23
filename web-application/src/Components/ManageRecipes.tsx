@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
 import AddRecipes from "./RegisterRecipe";
+import EditRecipe from "./EditRecipe";
 
 interface ManageRecipesProps {}
 
@@ -35,8 +36,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   props: ManageRecipesProps
 ) => {
   // const [deleteAdmin, setDeleteRecipe] = useState(false);
-  // const [editRecipe, setEditRecipe] = useState(false);
-  // const [RecipeIdToDelete, setRecipeID] = useState(-1);
+  const [editRecipe, setEditRecipe] = useState(false);
+  const [editRecipeData, setEditRecipeData] = useState({});
   const [addRecipe, setAddRecipe] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -98,8 +99,11 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     // );
     //  this.props.resetUserDeletion();
   };
-  const editButtonHandler = (event: any, userId: number) => {};
-
+  const editButtonHandler = (event: any, d: any) => {
+    console.log(d);
+    setEditRecipe(true);
+    setEditRecipeData(d);
+  };
   return (
     <Box style={{ width: "90%", margin: "auto" }}>
       <Button
@@ -182,7 +186,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d.id)}
+                    onClick={(event) => editButtonHandler(event, d)}
                     tabIndex={d.id}
                   >
                     Edit
@@ -215,6 +219,12 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         </Table>
       </TableContainer>
       {addRecipe && <AddRecipes setAddRegister={setAddRecipe} />}
+      {editRecipe && (
+        <EditRecipe
+          setEditUser={setEditRecipe}
+          editUserData={editRecipeData}
+        ></EditRecipe>
+      )}
     </Box>
   );
 };

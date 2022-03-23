@@ -7,14 +7,15 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface AddRecipesProps {
-  setAddRegister: any;
+interface EditRecipeProps {
+  setEditUser: any;
+  editUserData: any;
 }
 
-const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
+const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
+  // States for registration
   const [name, setName] = useState("");
   const [instructions, setInstructions] = useState("");
-  //we use state with all enums. then after adding some tags we set them to true and when sending to server we send only those marked as true
   const [tags, setTags] = useState({
     vegetarian: false,
     "gluten free": false,
@@ -28,7 +29,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
   const [error, setError] = useState(false);
 
   //register users
-  const Register = (event: any) => {
+  const Edit = (event: any) => {
     event.preventDefault();
     const data = {
       name: name,
@@ -53,7 +54,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
     ) {
       setError(true);
     } else {
-      Register(event);
+      Edit(event);
     }
   };
 
@@ -69,7 +70,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
           margin: "auto",
         }}
       >
-        Successfully registered a new recipe!
+        Successfully registered!
       </Box>
     );
   };
@@ -86,7 +87,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
           margin: "auto",
         }}
       >
-        Please enter all required fields
+        Please enter all the fields
       </Box>
     );
   };
@@ -96,11 +97,11 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setAddRegister(false);
+            props.setEditUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADD NEW RECIPE</Box>
+        <Box className="heading">EDIT RECIPE DETAILS</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -110,7 +111,7 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
               required
               fullWidth
               variant="standard"
-              value={name}
+              value={name == "" ? props.editUserData.name : name}
               helperText="Please enter name of the recipe"
               onChange={(event) => {
                 setName(event.target.value);
@@ -123,7 +124,11 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
             <TextField
               required
               fullWidth
-              value={instructions}
+              value={
+                instructions == ""
+                  ? props.editUserData.instructions
+                  : instructions
+              }
               variant="standard"
               helperText="Please enter instructions"
               onChange={(event) => {
@@ -132,20 +137,34 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
               }}
             />
           </div>
+          {/* <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Login</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={username == "" ? props.editUserData.login : username}
+              variant="standard"
+              helperText="Please enter your username"
+              onChange={(event) => {
+                setUsername(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>*/}
           <Button
             type="submit"
             color="primary"
             sx={{ borderRadius: 0 }}
             onClick={handleSubmit}
           >
-            Submit
+            Enter
           </Button>
           <Button
             type="reset"
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddRegister(false);
+              props.setEditUser(false);
             }}
           >
             Cancel
@@ -160,4 +179,4 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
   );
 };
 
-export default AddRecipes;
+export default EditRecipe;
