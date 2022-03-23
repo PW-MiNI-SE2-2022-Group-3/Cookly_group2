@@ -42,12 +42,12 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
-    event.preventDefault();
-    if (name === "" || password === "" || surname === "" || username === "") {
-      setError(true);
-    } else {
-      Register(event);
-    }
+    //   event.preventDefault();
+    //   if (name === "" || password === "" || surname === "" || username === "") {
+    //     setError(true);
+    //   } else {
+    //     Register(event);
+    //   }
   };
 
   // Showing success message

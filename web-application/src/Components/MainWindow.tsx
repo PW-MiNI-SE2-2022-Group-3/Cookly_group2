@@ -16,7 +16,6 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
   const [clickedRecipe, setclickedRecipe] = useState(false)
   const [clickedIngredient, setClickedIngredient] = useState(false)
-
   return (
     <>
       <AppBar position="static" style={{ backgroundColor: "#c4560c" }}>
