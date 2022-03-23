@@ -21,6 +21,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import Register from "./RegisterAdmin";
 import "../styles/ManageAdmins.css";
+import EditAdmin from "./EditAdmin";
 
 interface ManageAdminProps {}
 
@@ -28,8 +29,8 @@ const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 
 const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
   // const [deleteAdmin, setDeleteAdmin] = useState(false);
-  // const [editAdmin, setEditAdmin] = useState(false);
-  // const [adminIdToDelete, setAdminID] = useState(-1);
+  const [editAdmin, setEditAdmin] = useState(false);
+  const [editAdminData, setEditAdminData] = useState({});
   const [addAdmin, setAddAdmin] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -141,7 +142,11 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
     // );
     //  this.props.resetUserDeletion();
   };
-  const editButtonHandler = (event: any, userId: number) => {};
+  const editButtonHandler = (event: any, d: any) => {
+    console.log(d);
+    setEditAdmin(true);
+    setEditAdminData(d);
+  };
 
   return (
     <Box style={{ width: "90%", margin: "auto" }}>
@@ -223,7 +228,7 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d.id)}
+                    onClick={(event) => editButtonHandler(event, d)}
                     tabIndex={d.id}
                   >
                     Edit
@@ -256,6 +261,12 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
         </Table>
       </TableContainer>
       {addAdmin && <Register setAddUser={setAddAdmin}></Register>}
+      {editAdmin && (
+        <EditAdmin
+          setEditUser={setEditAdmin}
+          editUserData={editAdminData}
+        ></EditAdmin>
+      )}
     </Box>
   );
 };
