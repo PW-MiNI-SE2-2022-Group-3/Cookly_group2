@@ -8,7 +8,7 @@ import {
 import LoginScreen from "./Login";
 
 it("renders correctly", () => {
-  const { queryByTestId } = render(<LoginScreen setisLogged={false} />);
+  const { queryByTestId } = render(<LoginScreen setIsLogged={false} />);
 
   expect(queryByTestId("username-textfield")).toBeTruthy();
   expect(queryByTestId("password-textfield")).toBeTruthy();

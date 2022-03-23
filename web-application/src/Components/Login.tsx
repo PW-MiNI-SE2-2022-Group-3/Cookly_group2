@@ -8,7 +8,7 @@ import axios from "axios";
 import MainWindow from "./MainWindow";
 
 interface LoginProps {
-  setisLogged: any;
+  setIsLogged: any;
 }
 
 const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
@@ -24,7 +24,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
     };
 
     //call api ---- TODO --- if false setLogin.. to false
-    props.setisLogged(true);
+    props.setIsLogged(true);
   };
 
   return (

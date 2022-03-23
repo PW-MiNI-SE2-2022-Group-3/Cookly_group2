@@ -15,9 +15,9 @@ function App() {
           path="/"
           element={
             isLogged ? (
-              <MainWindow />
+              <MainWindow setIsLogged={setIsLogged} />
             ) : (
-              <LoginScreen setisLogged={setIsLogged} />
+              <LoginScreen setIsLogged={setIsLogged} />
             )
           }
         ></Route>

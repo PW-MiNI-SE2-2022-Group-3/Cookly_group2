@@ -9,8 +9,11 @@ import Button from "@mui/material/Button";
 import ManageAdmins from "./ManageAdmins";
 import ManageRecipes from "./ManageRecipes";
 import ManageIngredients from "./ManageIngredients";
+import LoginScreen from "./Login";
 
-interface MainWindowProps {}
+interface MainWindowProps {
+  setIsLogged: any;
+}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
@@ -90,8 +93,13 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 alignSelf: "right",
                 borderRadius: 0,
               }}
+              onClick={() => {
+                props.setIsLogged(false);
+              }}
             >
-              LOG OUT
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                LOG OUT
+              </Link>
             </Button>
           </Toolbar>
         </Container>
