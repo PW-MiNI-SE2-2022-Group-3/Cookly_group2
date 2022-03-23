@@ -14,8 +14,8 @@ interface MainWindowProps {}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
-  const [clickedRecipe, setclickedRecipe] = useState(false)
-  const [clickedIngredient, setClickedIngredient] = useState(false)
+  const [clickedRecipe, setclickedRecipe] = useState(false);
+  const [clickedIngredient, setClickedIngredient] = useState(false);
   return (
     <>
       <AppBar position="static" style={{ backgroundColor: "#c4560c" }}>
@@ -41,7 +41,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 onClick={() => {
                   setClickedAdmin(true);
                   setclickedRecipe(false);
-                  setClickedIngredient(false)
+                  setClickedIngredient(false);
                 }}
               >
                 ADMINS
@@ -49,7 +49,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               <Button
                 key="recipes"
                 sx={{
-                  background: clickedAdmin ? "#c4560c" : "brown",
+                  background: clickedRecipe ? "brown" : "#c4560c",
                   my: 2,
                   color: "white",
                   display: "block",
@@ -58,7 +58,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 onClick={() => {
                   setclickedRecipe(true);
                   setClickedAdmin(false);
-                  setClickedIngredient(false)
+                  setClickedIngredient(false);
                 }}
               >
                 RECIPES
@@ -66,14 +66,14 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               <Button
                 key="ingredients"
                 sx={{
-                  background: clickedAdmin ? "#c4560c" : "brown",
+                  background: clickedIngredient ? "brown" : "#c4560c",
                   my: 2,
                   color: "white",
                   display: "block",
                   borderRadius: 0,
                 }}
                 onClick={() => {
-                  setClickedIngredient(true)
+                  setClickedIngredient(true);
                   setclickedRecipe(false);
                   setClickedAdmin(false);
                 }}
@@ -97,9 +97,9 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin       ?  <ManageAdmins/>      :null}
-        {clickedRecipe      ?  <ManageRecipes/>     :null}
-        {clickedIngredient  ?  <ManageIngredients/> :null}
+        {clickedAdmin ? <ManageAdmins /> : null}
+        {clickedRecipe ? <ManageRecipes /> : null}
+        {clickedIngredient ? <ManageIngredients /> : null}
       </Container>
     </>
   );
