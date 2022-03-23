@@ -14,7 +14,7 @@ interface MainWindowProps {}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
-  const [clickedRecipe, setclickedRecipe] = useState(false)
+  const [clickedRecipe, setclickedRecipe] = useState(false);
 
   return (
     <>
@@ -78,7 +78,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes></ManageRecipes>}
+        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes />}
       </Container>
     </>
   );
