@@ -61,6 +61,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             <TextField
               label="Username"
               margin="normal"
+              data-testid="username-textfield"
               onChange={(event) => {
                 setUsername(event.target.value);
               }}
@@ -75,6 +76,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             <TextField
               label="Password"
               margin="normal"
+              data-testid="password-textfield"
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
@@ -88,6 +90,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             />
             <div style={{ height: 20 }} />
             <Button
+              data-testid="login-button"
               style={{
                 backgroundColor: "#c4560c",
                 color: "white",
