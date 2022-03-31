@@ -11,7 +11,7 @@ Widget createLoginScreen() => const MaterialApp(
 
 
 void main() {
-  testWidgets("Test to see if email text box is the same as user email",
+  testWidgets("Email and password texfields are rendered on screen",
           (WidgetTester tester) async {
         await tester.pumpWidget(createLoginScreen());
 

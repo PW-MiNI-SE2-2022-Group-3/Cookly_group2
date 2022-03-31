@@ -7,11 +7,12 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface RegisterViewProps {
-  setAddUser: any;
+interface EditAdminProps {
+  setEditUser: any;
+  editUserData: any;
 }
 
-const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
+const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
   // States for registration
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -23,7 +24,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
   const [error, setError] = useState(false);
 
   //register users
-  const Register = (event: any) => {
+  const Edit = (event: any) => {
     event.preventDefault();
     const data = {
       firstName: name,
@@ -46,7 +47,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
     if (name === "" || password === "" || surname === "" || username === "") {
       setError(true);
     } else {
-      Register(event);
+      Edit(event);
     }
   };
 
@@ -89,11 +90,11 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setAddUser(false);
+            props.setEditUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADMIN REGISTRATION</Box>
+        <Box className="heading">EDIT ADMIN DETAILS</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -103,7 +104,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
               required
               fullWidth
               variant="standard"
-              value={name}
+              value={name == "" ? props.editUserData.firstName : name}
               helperText="Please enter your name"
               onChange={(event) => {
                 setName(event.target.value);
@@ -116,7 +117,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             <TextField
               required
               fullWidth
-              value={surname}
+              value={surname == "" ? props.editUserData.lastName : surname}
               variant="standard"
               helperText="Please enter your surname"
               onChange={(event) => {
@@ -130,7 +131,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             <TextField
               required
               fullWidth
-              value={username}
+              value={username == "" ? props.editUserData.login : username}
               variant="standard"
               helperText="Please enter your username"
               onChange={(event) => {
@@ -139,20 +140,9 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
               }}
             />
           </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Password</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={password}
-              variant="standard"
-              type="password"
-              helperText="Please enter your password"
-              onChange={(event) => {
-                setPassword(event.target.value);
-                setSubmitted(false);
-              }}
-            />
+          <div>
+            Want to change Password?
+            <Button href="#text-buttons">Click here</Button>
           </div>
           <Button
             type="submit"
@@ -167,7 +157,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddUser(false);
+              props.setEditUser(false);
             }}
           >
             Cancel
@@ -182,4 +172,4 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
   );
 };
 
-export default Register;
+export default EditAdmin;

@@ -7,46 +7,54 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface RegisterViewProps {
-  setAddUser: any;
+interface EditRecipeProps {
+  setEditUser: any;
+  editUserData: any;
 }
 
-const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
+const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
   // States for registration
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [tags, setTags] = useState({
+    vegetarian: false,
+    "gluten free": false,
+    "low calorie": false,
+    "no lactose": false,
+  });
+  const [ingredients, setIngredients] = useState({});
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
   //register users
-  const Register = (event: any) => {
+  const Edit = (event: any) => {
     event.preventDefault();
     const data = {
-      firstName: name,
-      lastName: surname,
-      login: username,
-      password: password,
+      name: name,
+      instructions: instructions,
+      tags: tags,
+      ingredients: ingredients,
     };
     //axios goes here --
     setSubmitted(true);
     setError(false);
     setName("");
-    setSurname("");
-    setUsername("");
-    setPassword("");
+    setInstructions("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (name === "" || password === "" || surname === "" || username === "") {
+    if (
+      name === "" ||
+      instructions === "" ||
+      Object.keys(ingredients).length === 0
+    ) {
       setError(true);
     } else {
-      Register(event);
+      Edit(event);
     }
   };
 
@@ -89,11 +97,11 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setAddUser(false);
+            props.setEditUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADMIN REGISTRATION</Box>
+        <Box className="heading">EDIT RECIPE DETAILS</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -103,8 +111,8 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
               required
               fullWidth
               variant="standard"
-              value={name}
-              helperText="Please enter your name"
+              value={name == "" ? props.editUserData.name : name}
+              helperText="Please enter name of the recipe"
               onChange={(event) => {
                 setName(event.target.value);
                 setSubmitted(false);
@@ -112,25 +120,29 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             />
           </div>
           <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Surname</InputLabel>
+            <InputLabel>Instructions</InputLabel>
             <TextField
               required
               fullWidth
-              value={surname}
+              value={
+                instructions == ""
+                  ? props.editUserData.instructions
+                  : instructions
+              }
               variant="standard"
-              helperText="Please enter your surname"
+              helperText="Please enter instructions"
               onChange={(event) => {
-                setSurname(event.target.value);
+                setInstructions(event.target.value);
                 setSubmitted(false);
               }}
             />
           </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
+          {/* <div style={{ marginTop: 10, marginBottom: 10 }}>
             <InputLabel>Login</InputLabel>
             <TextField
               required
               fullWidth
-              value={username}
+              value={username == "" ? props.editUserData.login : username}
               variant="standard"
               helperText="Please enter your username"
               onChange={(event) => {
@@ -138,22 +150,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
                 setSubmitted(false);
               }}
             />
-          </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Password</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={password}
-              variant="standard"
-              type="password"
-              helperText="Please enter your password"
-              onChange={(event) => {
-                setPassword(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
+          </div>*/}
           <Button
             type="submit"
             color="primary"
@@ -167,7 +164,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddUser(false);
+              props.setEditUser(false);
             }}
           >
             Cancel
@@ -182,4 +179,4 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
   );
 };
 
-export default Register;
+export default EditRecipe;

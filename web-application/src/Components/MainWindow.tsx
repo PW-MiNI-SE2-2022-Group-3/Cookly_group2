@@ -9,12 +9,16 @@ import Button from "@mui/material/Button";
 import ManageAdmins from "./ManageAdmins";
 import ManageRecipes from "./ManageRecipes";
 import ManageIngredients from "./ManageIngredients";
+import LoginScreen from "./Login";
 
-interface MainWindowProps {}
+interface MainWindowProps {
+  setIsLogged: any;
+}
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedAdmin, setClickedAdmin] = useState(true);
-
+  const [clickedRecipe, setclickedRecipe] = useState(false);
+  const [clickedIngredient, setClickedIngredient] = useState(false);
   return (
     <>
       <AppBar position="static" style={{ backgroundColor: "#c4560c" }}>
@@ -39,6 +43,8 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 }}
                 onClick={() => {
                   setClickedAdmin(true);
+                  setclickedRecipe(false);
+                  setClickedIngredient(false);
                 }}
               >
                 ADMINS
@@ -46,17 +52,36 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               <Button
                 key="recipes"
                 sx={{
-                  background: clickedAdmin ? "#c4560c" : "brown",
+                  background: clickedRecipe ? "brown" : "#c4560c",
                   my: 2,
                   color: "white",
                   display: "block",
                   borderRadius: 0,
                 }}
                 onClick={() => {
+                  setclickedRecipe(true);
                   setClickedAdmin(false);
+                  setClickedIngredient(false);
                 }}
               >
                 RECIPES
+              </Button>
+              <Button
+                key="ingredients"
+                sx={{
+                  background: clickedIngredient ? "brown" : "#c4560c",
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  borderRadius: 0,
+                }}
+                onClick={() => {
+                  setClickedIngredient(true);
+                  setclickedRecipe(false);
+                  setClickedAdmin(false);
+                }}
+              >
+                INGREDIENTS
               </Button>
             </Box>
             <Button
@@ -68,14 +93,21 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 alignSelf: "right",
                 borderRadius: 0,
               }}
+              onClick={() => {
+                props.setIsLogged(false);
+              }}
             >
-              LOG OUT
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                LOG OUT
+              </Link>
             </Button>
           </Toolbar>
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin ? <ManageAdmins /> : <ManageRecipes />}
+        {clickedAdmin ? <ManageAdmins /> : null}
+        {clickedRecipe ? <ManageRecipes /> : null}
+        {clickedIngredient ? <ManageIngredients /> : null}
       </Container>
     </>
   );

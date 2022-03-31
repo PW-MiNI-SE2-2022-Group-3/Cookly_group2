@@ -7,16 +7,14 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface RegisterViewProps {
-  setAddUser: any;
+interface AddIngredientsProps {
+  setAddRegister: any;
 }
 
-const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
-  // States for registration
+const AddIngredient: React.FC<AddIngredientsProps> = (
+  props: AddIngredientsProps
+) => {
   const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
@@ -26,24 +24,18 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
   const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      firstName: name,
-      lastName: surname,
-      login: username,
-      password: password,
+      name: name,
     };
     //axios goes here --
     setSubmitted(true);
     setError(false);
     setName("");
-    setSurname("");
-    setUsername("");
-    setPassword("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (name === "" || password === "" || surname === "" || username === "") {
+    if (name === "") {
       setError(true);
     } else {
       Register(event);
@@ -62,7 +54,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
           margin: "auto",
         }}
       >
-        Successfully registered!
+        Successfully registered a new ingredient!
       </Box>
     );
   };
@@ -79,7 +71,7 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
           margin: "auto",
         }}
       >
-        Please enter all the fields
+        Please enter all required fields
       </Box>
     );
   };
@@ -89,11 +81,11 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setAddUser(false);
+            props.setAddRegister(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADMIN REGISTRATION</Box>
+        <Box className="heading">ADD NEW INGREDIENT</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -104,52 +96,9 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
               fullWidth
               variant="standard"
               value={name}
-              helperText="Please enter your name"
+              helperText="Please enter name of the ingredient"
               onChange={(event) => {
                 setName(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Surname</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={surname}
-              variant="standard"
-              helperText="Please enter your surname"
-              onChange={(event) => {
-                setSurname(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Login</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={username}
-              variant="standard"
-              helperText="Please enter your username"
-              onChange={(event) => {
-                setUsername(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Password</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={password}
-              variant="standard"
-              type="password"
-              helperText="Please enter your password"
-              onChange={(event) => {
-                setPassword(event.target.value);
                 setSubmitted(false);
               }}
             />
@@ -160,14 +109,14 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
             sx={{ borderRadius: 0 }}
             onClick={handleSubmit}
           >
-            Enter
+            Submit
           </Button>
           <Button
             type="reset"
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddUser(false);
+              props.setAddRegister(false);
             }}
           >
             Cancel
@@ -182,4 +131,4 @@ const Register: React.FC<RegisterViewProps> = (props: RegisterViewProps) => {
   );
 };
 
-export default Register;
+export default AddIngredient;

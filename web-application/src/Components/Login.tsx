@@ -8,7 +8,7 @@ import axios from "axios";
 import MainWindow from "./MainWindow";
 
 interface LoginProps {
-  setisLogged: any;
+  setIsLogged: any;
 }
 
 const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
@@ -24,7 +24,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
     };
 
     //call api ---- TODO --- if false setLogin.. to false
-    props.setisLogged(true);
+    props.setIsLogged(true);
   };
 
   return (
@@ -59,8 +59,9 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
               <img src={logo} width={300} alt="logo" />
             </Grid>
             <TextField
-              label="Username"
               margin="normal"
+              data-testid="username-textfield"
+              placeholder="Username"
               onChange={(event) => {
                 setUsername(event.target.value);
               }}
@@ -73,8 +74,9 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
               }}
             />
             <TextField
-              label="Password"
               margin="normal"
+              data-testid="password-textfield"
+              placeholder="Password"
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
@@ -88,6 +90,8 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             />
             <div style={{ height: 20 }} />
             <Button
+              data-testid="login-button"
+              placeholder="Log In"
               style={{
                 backgroundColor: "#c4560c",
                 color: "white",
