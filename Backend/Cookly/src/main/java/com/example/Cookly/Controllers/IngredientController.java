@@ -1,6 +1,6 @@
 package com.example.Cookly.Controllers;
 
-import com.example.Cookly.Models.Ingredient;
+import com.example.Cookly.restModels.Ingredient;
 import com.example.Cookly.Repositories.IngredientRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

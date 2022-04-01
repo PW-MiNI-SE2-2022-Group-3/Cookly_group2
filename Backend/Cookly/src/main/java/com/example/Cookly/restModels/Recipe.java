@@ -1,9 +1,6 @@
-package com.example.Cookly.Models;
+package com.example.Cookly.restModels;
 
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 /*
 
 @Entity
