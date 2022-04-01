@@ -1,7 +1,5 @@
-package com.example.Cookly.Models;
+package com.example.Cookly.restModels;
 
-import javax.persistence.*;
-import java.util.Set;
 /*
 @Entity
 @Table(name="Users")
