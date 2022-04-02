@@ -1,8 +1,8 @@
 package com.example.Cookly.mapper;
 
-import com.example.Cookly.DTOModels.IngredientDTO;
+import com.example.Cookly.models.DTOModels.IngredientDTO;
 import com.example.Cookly.business.ingredient.model.Ingredient;
-import com.example.Cookly.restModels.IngredientRest;
+import com.example.Cookly.models.restModels.IngredientRest;
 
 import java.util.Objects;
 import java.util.Optional;

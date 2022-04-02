@@ -1,6 +1,6 @@
 package com.example.Cookly.business.ingredient;
 
-import com.example.Cookly.DTOModels.IngredientDTO;
+import com.example.Cookly.models.DTOModels.IngredientDTO;
 import com.example.Cookly.Repositories.IngredientRepository;
 import com.example.Cookly.business.ingredient.model.Ingredient;
 import com.example.Cookly.mapper.IngredientMapper;

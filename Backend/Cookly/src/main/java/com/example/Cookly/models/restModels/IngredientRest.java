@@ -1,4 +1,4 @@
-package com.example.Cookly.restModels;
+package com.example.Cookly.models.restModels;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

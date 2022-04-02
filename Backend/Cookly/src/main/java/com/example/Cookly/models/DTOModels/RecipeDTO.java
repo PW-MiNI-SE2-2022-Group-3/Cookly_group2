@@ -1,4 +1,4 @@
-package com.example.Cookly.DTOModels;
+package com.example.Cookly.models.DTOModels;
 
 import com.sun.istack.NotNull;
 

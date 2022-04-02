@@ -1,7 +1,7 @@
 package com.example.Cookly.Repositories;
 
 
-import com.example.Cookly.DTOModels.TagDTO;
+import com.example.Cookly.models.DTOModels.TagDTO;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

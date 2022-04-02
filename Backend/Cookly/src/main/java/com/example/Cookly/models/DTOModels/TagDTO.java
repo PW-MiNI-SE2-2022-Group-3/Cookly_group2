@@ -1,4 +1,4 @@
-package com.example.Cookly.DTOModels;
+package com.example.Cookly.models.DTOModels;
 
 import com.sun.istack.NotNull;
 
@@ -6,26 +6,27 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "ingredients")
-public class IngredientDTO {
+@Table(name = "tags")
+public class TagDTO {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private long tagId;
 
     @NotNull
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "ingredient")
-    private Set<RecipeIngredientDTO> recipeSet;
+    @ManyToMany(mappedBy = "tagSet")
+    private Set<RecipeDTO> recipeSet;
 
-    public long getIngredientId() {
-        return id;
+    public long getTagId() {
+        return tagId;
     }
 
-    public void setIngredientId(long ingredientId) {
-        this.id = ingredientId;
+    public void setTagId(long tagId) {
+        this.tagId = tagId;
     }
 
     public String getName() {
@@ -36,11 +37,11 @@ public class IngredientDTO {
         this.name = name;
     }
 
-    public Set<RecipeIngredientDTO> getRecipeSet() {
+    public Set<RecipeDTO> getRecipeSet() {
         return recipeSet;
     }
 
-    public void setRecipeSet(Set<RecipeIngredientDTO> recipeSet) {
+    public void setRecipeSet(Set<RecipeDTO> recipeSet) {
         this.recipeSet = recipeSet;
     }
 }
