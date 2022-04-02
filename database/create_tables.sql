@@ -45,6 +45,8 @@ create table users (
     id number GENERATED ALWAYS AS IDENTITY,
     username varchar(30) not null,
     password varchar(64) not null,
+    token varchar(36) not null,
+    is_admin binary(1) not null default 0,
     constraint users_pk primary key (id)
 );
 
