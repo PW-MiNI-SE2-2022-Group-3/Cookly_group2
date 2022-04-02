@@ -2,6 +2,7 @@ package com.example.cookly.mapper;
 
 import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.business.ingredient.model.Ingredient;
+import com.example.cookly.models.rest.IngredientRecipeRest;
 import com.example.cookly.models.rest.IngredientRest;
 
 import java.util.Objects;
@@ -56,6 +57,16 @@ public class IngredientMapper {
             ingredientRest.setId(ingredient.getIngredientId());
             ingredientRest.setName(ingredient.getName());
             return Optional.of(ingredientRest);
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<IngredientRecipeRest> mapToIngredientRecipeRest(final Ingredient ingredient) {
+        if (Objects.nonNull(ingredient)) {
+            final IngredientRecipeRest ingredientRecipeRest = new IngredientRecipeRest();
+            ingredientRecipeRest.setIngredient(mapToIngredientRest(ingredient).orElseGet(null));
+            ingredientRecipeRest.setQuantity(ingredient.getQuantity());
+            return  Optional.of(ingredientRecipeRest);
         }
         return Optional.empty();
     }
