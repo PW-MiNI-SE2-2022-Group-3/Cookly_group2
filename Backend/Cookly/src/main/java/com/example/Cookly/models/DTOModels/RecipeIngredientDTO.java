@@ -4,6 +4,7 @@ import com.example.Cookly.models.DTOModels.connections.RecipeIngredientId;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ingredient_recipe")
@@ -56,5 +57,18 @@ public class RecipeIngredientDTO {
 
     public void setIngredient(RecipeDTO ingredient) {
         this.ingredient = ingredient;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeIngredientDTO that = (RecipeIngredientDTO) o;
+        return recipeIngredientId.equals(that.recipeIngredientId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipeIngredientId);
     }
 }

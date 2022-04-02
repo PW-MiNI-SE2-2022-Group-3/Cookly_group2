@@ -32,17 +32,15 @@ public class Ingredient {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object)
-            return true;
-        if (object == null || getClass() != object.getClass())
-            return false;
-        Ingredient ingredient = (Ingredient) object;
-        return name.equals(ingredient.name);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return name.equals(that.name);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
-
 }

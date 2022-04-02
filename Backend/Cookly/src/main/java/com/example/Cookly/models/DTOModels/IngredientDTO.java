@@ -3,6 +3,7 @@ package com.example.Cookly.models.DTOModels;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,5 +43,18 @@ public class IngredientDTO {
 
     public void setRecipeSet(Set<RecipeIngredientDTO> recipeSet) {
         this.recipeSet = recipeSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientDTO that = (IngredientDTO) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

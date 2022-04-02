@@ -10,8 +10,8 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientRest implements Serializable {
 
-    static final long serialVersionUID = 4L; 
-            
+
+    private static final long serialVersionUID = -6186475740761351574L;
     @NotNull
     @JsonProperty(value = "id")
     private Long id;
