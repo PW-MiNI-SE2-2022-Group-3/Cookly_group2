@@ -4,11 +4,14 @@ import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.models.rest.IngredientRecipeRest;
 import com.example.cookly.models.rest.IngredientRest;
+import org.yaml.snakeyaml.constructor.ConstructorException;
 
 import java.util.Objects;
 import java.util.Optional;
 
 public class IngredientMapper {
+
+    private IngredientMapper() {}
 
     public static Optional<Ingredient> mapToIngredient(final IngredientDTO ingredientDTO) {
         if (Objects.nonNull(ingredientDTO)) {
