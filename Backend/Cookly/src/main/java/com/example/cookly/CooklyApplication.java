@@ -1,4 +1,4 @@
-package com.example.Cookly;
+package com.example.cookly;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

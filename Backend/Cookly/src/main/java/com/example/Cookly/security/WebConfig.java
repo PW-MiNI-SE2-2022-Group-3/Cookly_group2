@@ -1,4 +1,4 @@
-package com.example.Cookly.configCORS;
+package com.example.cookly.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

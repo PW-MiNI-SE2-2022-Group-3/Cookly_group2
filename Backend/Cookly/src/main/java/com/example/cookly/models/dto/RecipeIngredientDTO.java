@@ -1,6 +1,6 @@
-package com.example.Cookly.models.DTOModels;
+package com.example.cookly.models.dto;
 
-import com.example.Cookly.models.DTOModels.connections.RecipeIngredientId;
+import com.example.cookly.models.dto.connections.RecipeIngredientId;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;

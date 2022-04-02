@@ -1,4 +1,4 @@
-package com.example.Cookly.models.DTOModels.connections;
+package com.example.cookly.models.dto.connections;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

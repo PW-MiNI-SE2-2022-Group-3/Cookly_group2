@@ -1,9 +1,9 @@
-package com.example.Cookly.business.ingredient;
+package com.example.cookly.business.ingredient;
 
-import com.example.Cookly.models.DTOModels.IngredientDTO;
-import com.example.Cookly.Repositories.IngredientRepository;
-import com.example.Cookly.business.ingredient.model.Ingredient;
-import com.example.Cookly.mapper.IngredientMapper;
+import com.example.cookly.models.dto.IngredientDTO;
+import com.example.cookly.repositories.IngredientRepository;
+import com.example.cookly.business.ingredient.model.Ingredient;
+import com.example.cookly.mapper.IngredientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

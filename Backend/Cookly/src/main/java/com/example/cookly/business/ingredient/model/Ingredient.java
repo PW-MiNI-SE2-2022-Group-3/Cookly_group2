@@ -1,4 +1,4 @@
-package com.example.Cookly.business.ingredient.model;
+package com.example.cookly.business.ingredient.model;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
-package com.example.Cookly.Repositories;
+package com.example.cookly.repositories;
 
-import com.example.Cookly.models.DTOModels.RecipeDTO;
+import com.example.cookly.models.dto.RecipeDTO;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.example.Cookly.business.ingredient;
+package com.example.cookly.business.ingredient;
 
-import com.example.Cookly.business.ingredient.model.Ingredient;
+import com.example.cookly.business.ingredient.model.Ingredient;
 
 import java.util.Set;
 
