@@ -15,33 +15,11 @@ public class IngredientController {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    @GetMapping
-    public List<IngredientRest> list() {
-        return ingredientRepository.findAll();
-    }
 
-    @PostMapping
-    public IngredientRest create(@RequestBody final IngredientRest session) {
-        System.out.println("pies");
-        System.out.println(session.getId());
-        System.out.println("pies");
 
-        return ingredientRepository.save(session);
-    }
-
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long id) {
-        ingredientRepository.deleteById(id);
-    }
-
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public IngredientRest udpate(@PathVariable Long id, @RequestBody IngredientRest ingredient) {
-
-        IngredientRest existing_ingredient = ingredientRepository.getById(id);
-        BeanUtils.copyProperties(ingredient, existing_ingredient, "id");
-        return ingredientRepository.saveAndFlush(existing_ingredient);
-    }
 
 
 }
+
+
  */
