@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IngredientRest implements Serializable {
@@ -33,5 +34,19 @@ public class IngredientRest implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+        IngredientRest ingredient = (IngredientRest) object;
+        return name.equals(ingredient.name);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
