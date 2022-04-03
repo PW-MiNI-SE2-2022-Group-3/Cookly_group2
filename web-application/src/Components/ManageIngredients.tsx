@@ -22,6 +22,8 @@ import AddIngredient from "./RegisterIngredient";
 import "../styles/ManageAdmins.css";
 import { getIngredients } from "../mock_server/api";
 import { Label } from "@mui/icons-material";
+import EditRecipe from "./EditRecipe";
+import EditIngredients from "./EditIngredient";
 
 interface ManageIngredientsProps {}
 
@@ -32,6 +34,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
 ) => {
   const [deleteIngredient, setDeleteIngredient] = useState(false);
   const [editIngredient, setEditIngredient] = useState(false);
+  const [editIngredientData, setEditIngredientData] = useState({});
   const [IngredientIdToDelete, setIngredientID] = useState(-1);
   const [addIngredient, setAddIngredient] = useState(false);
   const [page, setPage] = useState(0);
@@ -91,7 +94,10 @@ useEffect(() => {
     // );
     //  this.props.resetUserDeletion();
   };
-  const editButtonHandler = (event: any, userId: number) => {};
+  const editButtonHandler = (event: any, d: Ingredient) => {
+    setEditIngredient(true);
+    setEditIngredientData(d);
+  };
 
   return (
     <Box style={{ width: "90%", margin: "auto" }}>
@@ -174,7 +180,7 @@ useEffect(() => {
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d.id)}
+                    onClick={(event) => editButtonHandler(event, d)}
                     tabIndex={d.id}
                   >
                     Edit
@@ -211,6 +217,12 @@ useEffect(() => {
       </TableContainer>
       {addIngredient && (
         <AddIngredient setAddRegister={setAddIngredient}></AddIngredient>
+      )}
+      {editIngredient && (
+        <EditIngredients
+          setEditIngredient={setEditIngredient}
+          editIngredientData={editIngredientData}
+        ></EditIngredients>
       )}
     </Box>
   );

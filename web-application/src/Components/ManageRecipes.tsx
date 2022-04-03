@@ -99,7 +99,7 @@ useEffect(() => {
     // );
     //  this.props.resetUserDeletion();
   };
-  const editButtonHandler = (event: any, d: any) => {
+  const editButtonHandler = (event: any, d: Recipe) => {
     console.log(d);
     setEditRecipe(true);
     setEditRecipeData(d);

@@ -6,23 +6,16 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
-import Recipe from "./models/RecipeModel";
+import Ingredient from "./models/IngredientModel";
 
-interface EditRecipeProps {
-  setEditUser: any;
-  editUserData: any;
+interface EditIngredientsProps {
+  setEditIngredient: any;
+  editIngredientData:any
 }
 
-const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
-  // States for registration
+const EditIngredients: React.FC<EditIngredientsProps> = (props: EditIngredientsProps) => {
   const [name, setName] = useState("");
-  const [instructions, setInstructions] = useState("");
-  const [tags, setTags] = useState({
-    vegetarian: false,
-    "gluten free": false,
-    "low calorie": false,
-    "no lactose": false,
-  });
+  
   const [ingredients, setIngredients] = useState({});
 
   // States for checking the errors
@@ -30,32 +23,25 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
   const [error, setError] = useState(false);
 
   //register users
-  const Edit = (event: any) => {
+  const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      name: name,
-      instructions: instructions,
-      tags: tags,
-      ingredients: ingredients,
+      name: name
     };
     //axios goes here --
     setSubmitted(true);
     setError(false);
     setName("");
-    setInstructions("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
     if (
-      name === "" ||
-      instructions === "" ||
-      Object.keys(ingredients).length === 0
-    ) {
+      name === "") {
       setError(true);
     } else {
-      Edit(event);
+      Register(event);
     }
   };
 
@@ -71,7 +57,7 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
           margin: "auto",
         }}
       >
-        Successfully registered!
+        Successfully edited an ingredient!
       </Box>
     );
   };
@@ -88,7 +74,7 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
           margin: "auto",
         }}
       >
-        Please enter all the fields
+        Please enter name of ingredient
       </Box>
     );
   };
@@ -98,11 +84,11 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setEditUser(false);
+            props.setEditIngredient(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">EDIT RECIPE DETAILS</Box>
+        <Box className="heading">EDIT INGREDIENT</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -112,60 +98,28 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
               required
               fullWidth
               variant="standard"
-              value={name == "" ? props.editUserData.name : name}
-              helperText="Please enter name of the recipe"
+              value={name}
+              helperText="Please enter name of the ingredient"
               onChange={(event) => {
                 setName(event.target.value);
                 setSubmitted(false);
               }}
             />
           </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Instructions</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={
-                instructions == ""
-                  ? props.editUserData.instructions
-                  : instructions
-              }
-              variant="standard"
-              helperText="Please enter instructions"
-              onChange={(event) => {
-                setInstructions(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>
-          {/* <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <InputLabel>Login</InputLabel>
-            <TextField
-              required
-              fullWidth
-              value={username == "" ? props.editUserData.login : username}
-              variant="standard"
-              helperText="Please enter your username"
-              onChange={(event) => {
-                setUsername(event.target.value);
-                setSubmitted(false);
-              }}
-            />
-          </div>*/}
           <Button
             type="submit"
             color="primary"
             sx={{ borderRadius: 0 }}
             onClick={handleSubmit}
           >
-            Enter
+            Submit
           </Button>
           <Button
             type="reset"
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setEditUser(false);
+              props.setEditIngredient(false);
             }}
           >
             Cancel
@@ -180,4 +134,4 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
   );
 };
 
-export default EditRecipe;
+export default EditIngredients;

@@ -1,5 +1,7 @@
-const BASE_URL = 'http://localhost:3001';
+import axios from 'axios';
 
+const BASE_URL = 'http://localhost:3001';
+//GETS
 export const getIngredients = async () => {
 try{
     let response = await fetch(`${BASE_URL}/ingredients`);
@@ -11,6 +13,8 @@ try{
     }
 }catch(e){throw e;}
 }
+
+
 export const getRecipes = async () => {
 	try{
 		let response = await fetch(`${BASE_URL}/recipes`);
@@ -22,3 +26,10 @@ export const getRecipes = async () => {
 		}
 	}catch(e){throw e;}
 	}
+//UPDATES
+
+
+//DELETES
+
+
+//CREATES
