@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import { TableBody, TableFooter } from "@material-ui/core";
 import { TablePagination } from "@mui/material";
 import TablePaginationActions from "./TablePagination";
-
+import Recipe from "./models/RecipeModel"
 import axios from "axios";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,6 +20,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
 import AddRecipes from "./RegisterRecipe";
 import EditRecipe from "./EditRecipe";
+import { getRecipes } from "../mock_server/api";
+import { Label } from "@mui/icons-material";
 
 interface ManageRecipesProps {}
 
@@ -41,33 +43,31 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   const [addRecipe, setAddRecipe] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Butter Chicken",
-      instructions:
-        "take chicken and butten and smash them together until it works",
-      tags: "no lactose",
-      Ingredients: "butter, chicken",
-    },
-    {
-      id: 2,
-      name: "Schabowy",
-      instructions: "take surowy kotlet and fry it on a pan",
-      tags: "gluten free",
-      Ingredients: "surpoy kotlet",
-    },
-    {
-      id: 3,
-      name: "butter",
-      instructions: "take butter chicken and remove chicken",
-      tags: "no lactose",
-      Ingredients: "butter chicken",
-    },
-  ]);
+  const [data, setData] = useState<Recipe[] | null>(null);
+
+  
+  const GetRecipesFromServer = ()=>{
+    //it will show deleting label and after server finishes(after 2 sconds) it will hide it
+    getRecipes().then(
+        (new_recipes)=>{
+
+            setData(new_recipes);
+        }
+    ).catch((e)=>{
+        console.error(`Error ${e.status} ${e.text}`);
+    })
+
+
+}
+//load at the beginning
+useEffect(() => {
+   GetRecipesFromServer()
+}, [])
+
+
 
   const emptyRows = () => {
-    return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+    // return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   };
 
   // const adminDeletion = () => {
@@ -146,7 +146,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          {data != null ? <TableBody>
             {(rowsPerPage > 0
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
@@ -196,12 +196,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               </TableRow>
             ))}
           </TableBody>
+          :<Label>No Ingredients Available</Label>}
           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={5}
-                count={data.length}
+                count={data==null ? 0 : data.length }
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

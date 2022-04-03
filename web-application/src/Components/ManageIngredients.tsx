@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,7 +11,7 @@ import Box from "@mui/material/Box";
 import { TableBody, TableFooter } from "@material-ui/core";
 import { TablePagination } from "@mui/material";
 import TablePaginationActions from "./TablePagination";
-
+import Ingredient from "./models/IngredientModel";
 import axios from "axios";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +20,8 @@ import EggIcon from "@mui/icons-material/Egg";
 
 import AddIngredient from "./RegisterIngredient";
 import "../styles/ManageAdmins.css";
+import { getIngredients } from "../mock_server/api";
+import { Label } from "@mui/icons-material";
 
 interface ManageIngredientsProps {}
 
@@ -35,23 +36,30 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [addIngredient, setAddIngredient] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Butter",
-    },
-    {
-      id: 2,
-      name: "Chicken",
-    },
-    {
-      id: 3,
-      name: "Water",
-    },
-  ]);
+  const [data, setData] = useState<Ingredient[] | null>(null);
+
+
+  const GetIngredientsFromServer = ()=>{
+    //it will show deleting label and after server finishes(after 2 sconds) it will hide it
+    getIngredients().then(
+        (new_ingredients)=>{
+
+            setData(new_ingredients);
+        }
+    ).catch((e)=>{
+        console.error(`Error ${e.status} ${e.text}`);
+    })
+
+
+}
+//load at the beginning
+useEffect(() => {
+  GetIngredientsFromServer()
+}, [])
+
 
   const emptyRows = () => {
-    return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+    // return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   };
 
   const adminDeletion = () => {
@@ -127,7 +135,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          {
+          data != null?
+        <TableBody>
             {(rowsPerPage > 0
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
@@ -174,12 +184,15 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               </TableRow>
             ))}
           </TableBody>
+          : <Label>No Recipes Available</Label>
+        }
+          
           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={5}
-                count={data.length}
+                count={data == null ? 0 : data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
