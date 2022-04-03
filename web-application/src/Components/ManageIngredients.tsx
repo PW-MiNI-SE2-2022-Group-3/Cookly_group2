@@ -20,7 +20,7 @@ import EggIcon from "@mui/icons-material/Egg";
 
 import AddIngredient from "./RegisterIngredient";
 import "../styles/ManageAdmins.css";
-import { getIngredients } from "../mock_server/api";
+import { getAllIngredients, deleteIngredient } from "../mock_server/api";
 import { Label } from "@mui/icons-material";
 import EditRecipe from "./EditRecipe";
 import EditIngredients from "./EditIngredient";
@@ -32,9 +32,9 @@ const columns = ["ID", "NAME", "ACTIONS"];
 const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
 ) => {
-  const [deleteIngredient, setDeleteIngredient] = useState(false);
+  const [deleteIngredientBool, setDeleteIngredientBool] = useState(false);
   const [editIngredient, setEditIngredient] = useState(false);
-  const [editIngredientData, setEditIngredientData] = useState({});
+  const [editIngredientData, setEditIngredientData] = useState<Ingredient>({name:"", id:-1});
   const [IngredientIdToDelete, setIngredientID] = useState(-1);
   const [addIngredient, setAddIngredient] = useState(false);
   const [page, setPage] = useState(0);
@@ -42,17 +42,19 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [data, setData] = useState<Ingredient[] | null>(null);
 
 
-  const GetIngredientsFromServer = ()=>{
+  const GetIngredientsFromServer = async ()=>{
     //it will show deleting label and after server finishes(after 2 sconds) it will hide it
-    getIngredients().then(
-        (new_ingredients)=>{
+    // getIngredients().then(
+    //     (new_ingredients)=>{
 
-            setData(new_ingredients);
-        }
-    ).catch((e)=>{
-        console.error(`Error ${e.status} ${e.text}`);
-    })
-
+    //         setData(new_ingredients);
+    //     }
+    // ).catch((e)=>{
+    //     console.error(`Error ${e.status} ${e.text}`);
+    // })
+    const response = await getAllIngredients();
+    console.log(response);
+    setData(response.data);
 
 }
 //load at the beginning
@@ -66,10 +68,10 @@ useEffect(() => {
   };
 
   const adminDeletion = () => {
-    setDeleteIngredient(true);
+    setDeleteIngredientBool(true);
   };
   const resetAdminDeletion = () => {
-    setDeleteIngredient(false);
+    setDeleteIngredientBool(false);
   };
   const setIDToDelete = (ID: number) => {
     setIngredientID(ID);
@@ -83,6 +85,7 @@ useEffect(() => {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
   const deleteButtonHandler = (event: any, userId: number) => {
+    deleteIngredient(userId);
     // axios.delete(
     //   "--link--" + userId.toString(),
     //   {

@@ -1,41 +1,40 @@
 {
-	"ingredients": [{
-		"id": 1,
-		"name": "Butter"
-	  },
-	  {
-		"id": 2,
-		"name": "Chicken"
-	  },
-	  {
-		"id": 3,
-		"name": "Water"
-	  }
-	],
-	"users":[
-	],
-	"recipes":[
-		{
-		  "id": 1,
-		  "name": "Butter Chicken",
-		  "instructions":
-			"take chicken and butten and smash them together until it works",
-		  "tags": "no lactose",
-		  "Ingredients": "butter, chicken"
-		},
-		{
-		  "id": 2,
-		  "name": "Schabowy",
-		  "instructions": "take surowy kotlet and fry it on a pan",
-		  "tags": "gluten free",
-		  "Ingredients": "surpoy kotlet"
-		},
-		{
-		  "id": 3,
-		  "name": "butter",
-		  "instructions": "take butter chicken and remove chicken",
-		  "tags": "no lactose",
-		  "Ingredients": "butter chicken"
-		}
-	  ]
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Butter"
+    },
+    {
+      "id": 2,
+      "name": "Chicken"
+    },
+    {
+      "id": 3,
+      "name": "Water"
+    }
+  ],
+  "users": [],
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Butter Chicken",
+      "instructions": "take chicken and butten and smash them together until it works",
+      "tags": "no lactose",
+      "Ingredients": "butter, chicken"
+    },
+    {
+      "id": 2,
+      "name": "Schabowy",
+      "instructions": "take surowy kotlet and fry it on a pan",
+      "tags": "gluten free",
+      "Ingredients": "surpoy kotlet"
+    },
+    {
+      "id": 3,
+      "name": "butter",
+      "instructions": "take butter chicken and remove chicken",
+      "tags": "no lactose",
+      "Ingredients": "butter chicken"
+    }
+  ]
 }

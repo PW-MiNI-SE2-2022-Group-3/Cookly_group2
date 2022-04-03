@@ -2,33 +2,42 @@ import { Box, Grid } from "@material-ui/core";
 import { Button, InputLabel } from "@mui/material";
 import TextField from "@mui/material/TextField/TextField";
 import CloseIcon from "@mui/icons-material/Close";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 import Ingredient from "./models/IngredientModel";
+import { editIngredient } from "../mock_server/api";
 
 interface EditIngredientsProps {
   setEditIngredient: any;
-  editIngredientData:any
+  editIngredientData:Ingredient
 }
 
 const EditIngredients: React.FC<EditIngredientsProps> = (props: EditIngredientsProps) => {
   const [name, setName] = useState("");
-  
+  const [IngredientId, setIngredientId] = useState(-1);
   const [ingredients, setIngredients] = useState({});
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+	  setName(props.editIngredientData.name);
+	  setIngredientId(props.editIngredientData.id);
+	  
+  }, [])
+  
   //register users
   const Register = (event: any) => {
     event.preventDefault();
     const data = {
+	  id: IngredientId,
       name: name
     };
     //axios goes here --
+	editIngredient(IngredientId, data);
     setSubmitted(true);
     setError(false);
     setName("");

@@ -6,6 +6,7 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
+import { addIngredient } from "../mock_server/api";
 
 interface AddIngredientsProps {
   setAddRegister: any;
@@ -29,6 +30,9 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
     //axios goes here --
     setSubmitted(true);
     setError(false);
+    console.log(name);
+    let new_ing = {id: Math.floor(Math.random()*1000), "name":name};
+    addIngredient(new_ing);
     setName("");
   };
 
@@ -81,6 +85,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
+            
             props.setAddRegister(false);
           }}
           className="cls-bttn"

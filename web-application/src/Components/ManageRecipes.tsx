@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
 import AddRecipes from "./RegisterRecipe";
 import EditRecipe from "./EditRecipe";
-import { getRecipes } from "../mock_server/api";
+import { getAllRecipes } from "../mock_server/api";
 import { Label } from "@mui/icons-material";
 
 interface ManageRecipesProps {}
@@ -46,17 +46,19 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   const [data, setData] = useState<Recipe[] | null>(null);
 
   
-  const GetRecipesFromServer = ()=>{
+  const GetRecipesFromServer = async ()=>{
     //it will show deleting label and after server finishes(after 2 sconds) it will hide it
-    getRecipes().then(
-        (new_recipes)=>{
+    // getRecipes().then(
+    //     (new_recipes)=>{
 
-            setData(new_recipes);
-        }
-    ).catch((e)=>{
-        console.error(`Error ${e.status} ${e.text}`);
-    })
-
+    //         setData(new_recipes);
+    //     }
+    // ).catch((e)=>{
+    //     console.error(`Error ${e.status} ${e.text}`);
+    // })
+    const response = await getAllRecipes();
+    console.log(response);
+    setData(response.data);
 
 }
 //load at the beginning
