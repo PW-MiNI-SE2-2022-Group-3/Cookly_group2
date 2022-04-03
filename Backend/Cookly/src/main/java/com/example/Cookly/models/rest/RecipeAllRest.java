@@ -10,7 +10,7 @@ import java.util.Set;
 public class RecipeAllRest implements Serializable {
 
     private static final long serialVersionUID = 2386684379664486812L;
-    
+
     @NotNull
     @JsonProperty("recipe_count")
     private long recipeCount;
