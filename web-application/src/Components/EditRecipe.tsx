@@ -2,15 +2,16 @@ import { Box, Grid } from "@material-ui/core";
 import { Button, InputLabel } from "@mui/material";
 import TextField from "@mui/material/TextField/TextField";
 import CloseIcon from "@mui/icons-material/Close";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 import Recipe from "./models/RecipeModel";
+import { editRecipe } from "../mock_server/api";
 
 interface EditRecipeProps {
   setEditUser: any;
-  editUserData: any;
+  editUserData: Recipe;
 }
 
 const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
@@ -24,21 +25,31 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
     "no lactose": false,
   });
   const [ingredients, setIngredients] = useState({});
-
+  const [RecipeId, setRecipeId] = useState(-1)
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+    setName(props.editUserData.name);
+    setInstructions(props.editUserData.instructions);
+    setRecipeId(props.editUserData.id);
+  
+
+  }, [])
+  
   //register users
   const Edit = (event: any) => {
     event.preventDefault();
     const data = {
+      id: RecipeId,
       name: name,
       instructions: instructions,
-      tags: tags,
-      ingredients: ingredients,
+      tags: "",
+      Ingredients: "",
     };
     //axios goes here --
+    editRecipe(data.id, data);
     setSubmitted(true);
     setError(false);
     setName("");
@@ -50,8 +61,8 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
     event.preventDefault();
     if (
       name === "" ||
-      instructions === "" ||
-      Object.keys(ingredients).length === 0
+      instructions === "" 
+      // ||Object.keys(ingredients).length === 0
     ) {
       setError(true);
     } else {

@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
 import AddRecipes from "./RegisterRecipe";
 import EditRecipe from "./EditRecipe";
-import { getAllRecipes } from "../mock_server/api";
+import { deleteRecipe, getAllRecipes } from "../mock_server/api";
 import { Label } from "@mui/icons-material";
 
 interface ManageRecipesProps {}
@@ -39,7 +39,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
 ) => {
   // const [deleteAdmin, setDeleteRecipe] = useState(false);
   const [editRecipe, setEditRecipe] = useState(false);
-  const [editRecipeData, setEditRecipeData] = useState({});
+  const [editRecipeData, setEditRecipeData] = useState<Recipe>({name:"", id:-1, instructions:"", tags:"", Ingredients:""});
   const [addRecipe, setAddRecipe] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -89,7 +89,8 @@ useEffect(() => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
-  const deleteButtonHandler = (event: any, userId: number) => {
+  const deleteButtonHandler = (event: any, RecipeId: number) => {
+    deleteRecipe(RecipeId);
     // axios.delete(
     //   "--link--" + userId.toString(),
     //   {

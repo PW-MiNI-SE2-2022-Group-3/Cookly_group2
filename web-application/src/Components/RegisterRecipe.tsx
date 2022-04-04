@@ -6,6 +6,7 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
+import { addRecipe } from "../mock_server/api";
 
 interface AddRecipesProps {
   setAddRegister: any;
@@ -30,13 +31,23 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
   //register users
   const Register = (event: any) => {
     event.preventDefault();
+    let tags_string = "";
+    if(tags["gluten free"]==true){
+      tags_string+="gluten free ";
+    }
+    if(tags["low calorie"]==true){
+      tags_string+="low calorie";
+    }
+    
     const data = {
+      id: Math.floor(Math.random()*1000),
       name: name,
       instructions: instructions,
-      tags: tags,
-      ingredients: ingredients,
+      tags: tags_string,
+      Ingredients: "",
     };
     //axios goes here --
+    addRecipe(data);
     setSubmitted(true);
     setError(false);
     setName("");
@@ -48,8 +59,9 @@ const AddRecipes: React.FC<AddRecipesProps> = (props: AddRecipesProps) => {
     event.preventDefault();
     if (
       name === "" ||
-      instructions === "" ||
-      Object.keys(ingredients).length === 0
+      instructions === "" 
+      // ||
+      // Object.keys(ingredients).length === 0
     ) {
       setError(true);
     } else {
