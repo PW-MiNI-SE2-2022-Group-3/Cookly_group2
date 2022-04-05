@@ -1,5 +1,6 @@
 package com.example.cookly.models.dto;
 
+import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.models.dto.connections.RecipeIngredientId;
 import com.sun.istack.NotNull;
 
@@ -25,7 +26,7 @@ public class RecipeIngredientDTO {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("id")
     @JoinColumn(name = "ingredient_id")
-    private RecipeDTO ingredient;
+    private IngredientDTO ingredient;
 
     public RecipeIngredientId getRecipeIngredientId() {
         return recipeIngredientId;
@@ -51,11 +52,11 @@ public class RecipeIngredientDTO {
         this.recipe = recipe;
     }
 
-    public RecipeDTO getIngredient() {
+    public IngredientDTO getIngredient() {
         return ingredient;
     }
 
-    public void setIngredient(RecipeDTO ingredient) {
+    public void setIngredient(IngredientDTO ingredient) {
         this.ingredient = ingredient;
     }
 
