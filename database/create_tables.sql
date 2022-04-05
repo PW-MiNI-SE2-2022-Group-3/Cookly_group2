@@ -56,37 +56,37 @@ create table ingredient_recipe (
     recipe_id int not null,
     ingredient_id int not null,
     quantity varchar(30),
-    constraint recipes_ingredient_fk foreign key (recipe_id) references recipes(id),
-    constraint ingredient_recipe_fk foreign key (ingredient_id) references ingredients(id)
+    constraint recipes_ingredient_fk foreign key (recipe_id) references recipes(id) on update cascade on delete cascade,
+    constraint ingredient_recipe_fk foreign key (ingredient_id) references ingredients(id) on update cascade on delete cascade
 );
 
 create table restaurant_recipe (
     recipe_id int not null,
     restaurant_id int not null,
     price int not null,
-    constraint recipes_restaurants_fk foreign key (recipe_id) references recipes(id),
-    constraint restaurants_recipes_fk foreign key (restaurant_id) references restaurants(id)
+    constraint recipes_restaurants_fk foreign key (recipe_id) references recipes(id) on update cascade on delete cascade,
+    constraint restaurants_recipes_fk foreign key (restaurant_id) references restaurants(id) on update cascade on delete cascade
 );
 
 create table shop_ingredient (
     shop_id int not null,
     ingredient_id int not null,
     price int not null,
-    constraint shops_ingredients_fk foreign key (shop_id) references shops(id),
-    constraint ingredients_shops_fk foreign key (ingredient_id) references ingredients(id)
+    constraint shops_ingredients_fk foreign key (shop_id) references shops(id) on update cascade on delete cascade,
+    constraint ingredients_shops_fk foreign key (ingredient_id) references ingredients(id) on update cascade on delete cascade
 );
 
 
 create table recipe_user (
     recipe_id int not null,
     user_id int not null,
-    constraint recipes_users_fk foreign key (recipe_id) references recipes(id),
-    constraint users_recipes_fk foreign key (user_id) references users(id)
+    constraint recipes_users_fk foreign key (recipe_id) references recipes(id) on update cascade on delete cascade,
+    constraint users_recipes_fk foreign key (user_id) references users(id) on update cascade on delete cascade
 );
 
 create table recipe_tag (
     recipe_id int not null,
     tag_id int not null,
-    constraint recipes_tagss_fk foreign key (recipe_id) references recipes(id),
-    constraint tags_recipes_fk foreign key (tag_id) references tags(id)
+    constraint recipes_tagss_fk foreign key (recipe_id) references recipes(id) on update cascade on delete cascade,
+    constraint tags_recipes_fk foreign key (tag_id) references tags(id) on update cascade on delete cascade
 );
