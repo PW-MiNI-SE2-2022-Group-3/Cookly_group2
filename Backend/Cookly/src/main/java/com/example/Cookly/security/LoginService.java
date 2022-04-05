@@ -23,7 +23,7 @@ public class LoginService {
         Optional<UserDTO> userDTOOptional = userRepository.findByUsername(credentials.getUsername());
 
         if (userDTOOptional.isEmpty()) return Optional.empty();
-        if (userDTOOptional.get().getPassword().equals(credentials.getPassword())) return Optional.empty();
+        if (!userDTOOptional.get().getPassword().equals(credentials.getPassword())) return Optional.empty();
 
         return userDTOOptional.map(UserDTO::getToken);
     }

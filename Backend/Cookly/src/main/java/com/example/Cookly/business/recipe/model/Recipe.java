@@ -1,7 +1,6 @@
 package com.example.cookly.business.recipe.model;
 
 import com.example.cookly.business.ingredient.model.Ingredient;
-import com.example.cookly.business.recipe.RecipeTag;
 
 import java.util.Objects;
 import java.util.Set;
