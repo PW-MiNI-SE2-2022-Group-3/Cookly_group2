@@ -47,8 +47,8 @@ public class IngredientController {
         return ResponseEntity.ok(new IngredientsAllRest(count, ingredients));
     }
 
-    @RequestMapping(value = "id", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long id) {
+    @DeleteMapping
+    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @RequestParam(value = "id") Long id) {
         if(ingredientService.deleteIngredient(id))
             return ResponseEntity.ok(id.toString());
         return ResponseEntity.badRequest().body("No ingredient matching this id was found");
