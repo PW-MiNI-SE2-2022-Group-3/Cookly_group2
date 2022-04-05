@@ -1,6 +1,7 @@
 package com.example.cookly.controllers;
 
 import com.example.cookly.business.ingredient.IngredientService;
+import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.mapper.IngredientMapper;
 import com.example.cookly.models.rest.IngredientRest;
 import com.example.cookly.models.rest.IngredientsAllRest;
@@ -46,10 +47,17 @@ public class IngredientController {
         return ResponseEntity.ok(new IngredientsAllRest(count, ingredients));
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @RequestParam(value = "id") Long id) {
+    @RequestMapping(value = "id", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long id) {
         if(ingredientService.deleteIngredient(id))
             return ResponseEntity.ok(id.toString());
         return ResponseEntity.badRequest().body("No ingredient matching this id was found");
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> updateIngredient(@RequestParam Long id, @RequestBody IngredientRest ingredient) {
+        if (ingredientService.editIngredient(IngredientMapper.mapToIngredient(ingredient).orElseThrow(), id))
+            return  ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
     }
 }

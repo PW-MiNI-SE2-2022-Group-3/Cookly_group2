@@ -9,5 +9,6 @@ public interface IngredientServiceInterface {
     boolean deleteIngredient(Long ingredientId);
     long numberOfIngredients();
     Set<Ingredient> getIngredients(Integer page, Integer limit);
+    boolean editIngredient(Ingredient ingredient, Long id);
     
 }

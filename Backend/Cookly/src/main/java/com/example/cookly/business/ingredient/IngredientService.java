@@ -4,6 +4,7 @@ import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.repositories.IngredientRepository;
 import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.mapper.IngredientMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +76,24 @@ public class IngredientService implements IngredientServiceInterface{
         catch (final Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    public boolean editIngredient(Ingredient ingredient, Long id) {
+        try {
+            final Optional<IngredientDTO> new_ingredient = IngredientMapper.mapToIngredientDTO(ingredient);
+            final Optional<IngredientDTO> old_ingredient = ingredientRepository.findById(id);
+            if (old_ingredient.isPresent()) {
+                old_ingredient.get().setName(new_ingredient.get().getName());
+                ingredientRepository.save(old_ingredient.orElse(null));
+                return true;
+            }
+            return false;
+
+        }
+        catch (final Exception e) {
+            throw e;
+        }
+
     }
 }
