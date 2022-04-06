@@ -7,13 +7,15 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface AddIngredientsProps {
-  setAddRegister: any;
+interface EditIngredientsProps {
+  setEditIngredient: any;
+  editIngredientData: any;
 }
 
-const AddIngredient: React.FC<AddIngredientsProps> = (
-  props: AddIngredientsProps
+const EditIngredients: React.FC<EditIngredientsProps> = (
+  props: EditIngredientsProps
 ) => {
+  // States for registration
   const [name, setName] = useState("");
 
   // States for checking the errors
@@ -21,22 +23,30 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
   const [error, setError] = useState(false);
 
   //register users
-  const Register = (event: any) => {
+  const Edit = (event: any) => {
     event.preventDefault();
     const data = {
-      id: 12,
       name: name,
     };
     axios
-      .post("http://localhost:3001/ingredients", data)
-      .then((result) => {
-        console.log(result.data);
+      .post(
+        "http://localhost:3001/ingredients/" + props.editIngredientData.id,
+        props.editIngredientData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "root",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
         setSubmitted(true);
         setError(false);
         setName("");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.error(error.message);
       });
   };
 
@@ -46,7 +56,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
     if (name === "") {
       setError(true);
     } else {
-      Register(event);
+      Edit(event);
     }
   };
 
@@ -62,7 +72,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
           margin: "auto",
         }}
       >
-        Successfully registered a new ingredient!
+        Successfully registered!
       </Box>
     );
   };
@@ -79,7 +89,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
           margin: "auto",
         }}
       >
-        Please enter all required fields
+        Please enter all the fields
       </Box>
     );
   };
@@ -89,11 +99,11 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setAddRegister(false);
+            props.setEditIngredient(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADD NEW INGREDIENT</Box>
+        <Box className="heading">EDIT INGREDIENT DETAILS</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -103,8 +113,8 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
               required
               fullWidth
               variant="standard"
-              value={name}
-              helperText="Please enter name of the ingredient"
+              value={name == "" ? props.editIngredientData.name : name}
+              helperText="Please enter your name"
               onChange={(event) => {
                 setName(event.target.value);
                 setSubmitted(false);
@@ -117,14 +127,14 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
             sx={{ borderRadius: 0 }}
             onClick={handleSubmit}
           >
-            Submit
+            Enter
           </Button>
           <Button
             type="reset"
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddRegister(false);
+              props.setEditIngredient(false);
             }}
           >
             Cancel
@@ -139,4 +149,4 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
   );
 };
 
-export default AddIngredient;
+export default EditIngredients;
