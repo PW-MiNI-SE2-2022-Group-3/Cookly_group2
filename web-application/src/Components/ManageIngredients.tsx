@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -20,6 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
 import AddIngredient from "./RegisterIngredient";
+import EditIngredients from "./EditIngredients";
 import "../styles/ManageAdmins.css";
 
 interface ManageIngredientsProps {}
@@ -29,26 +30,53 @@ const columns = ["ID", "NAME", "ACTIONS"];
 const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
 ) => {
+  type IngredientResponse = {
+    id?: number;
+    name?: string;
+  };
+
   const [deleteIngredient, setDeleteIngredient] = useState(false);
   const [editIngredient, setEditIngredient] = useState(false);
-  const [IngredientIdToDelete, setIngredientID] = useState(-1);
+  const [editIngredientData, setEditIngredientData] = useState({});
+  const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
   const [addIngredient, setAddIngredient] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Butter",
-    },
-    {
-      id: 2,
-      name: "Chicken",
-    },
-    {
-      id: 3,
-      name: "Water",
-    },
-  ]);
+  const [data, setData] = useState<IngredientResponse[]>([]);
+  // {
+  //   id: 1,
+  //   name: "Butter",
+  // },
+  // {
+  //   id: 2,
+  //   name: "Chicken",
+  // },
+  // {
+  //   id: 3,
+  //   name: "Water",
+  // },
+  // ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      axios
+        .get("http://localhost:3001/ingredients?page=0&limit=5", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "root",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data.ingredients);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    fetchData();
+  }, []);
 
   const emptyRows = () => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -61,7 +89,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     setDeleteIngredient(false);
   };
   const setIDToDelete = (ID: number) => {
-    setIngredientID(ID);
+    setIngredientIdToDelete(ID);
   };
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -71,21 +99,30 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
-  const deleteButtonHandler = (event: any, userId: number) => {
-    // axios.delete(
-    //   "--link--" + userId.toString(),
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "--authorization--",
-    //     },
-    //   }
-    // );
-    //  this.props.resetUserDeletion();
-  };
-  const editButtonHandler = (event: any, userId: number) => {};
 
-  return (
+  const deleteButtonHandler = (event: any, ingredientId: number) => {
+    axios
+      .delete("http://localhost:3001/ingredients/" + ingredientId, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "root",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
+
+  const editButtonHandler = (event: any, ingredient: any) => {
+    console.log(ingredient);
+    setEditIngredient(true);
+    setEditIngredientData(ingredient);
+  };
+
+  return data !== undefined ? (
     <Box style={{ width: "90%", margin: "auto" }}>
       <Button
         variant="contained"
@@ -131,7 +168,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             {(rowsPerPage > 0
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
-            ).map((d) => (
+            ).map((d: any) => (
               <TableRow hover>
                 <TableCell className="tablecell"> {d.id} </TableCell>
                 <TableCell className="tablecell">{d.name}</TableCell>
@@ -164,7 +201,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d.id)}
+                    onClick={(event) => editButtonHandler(event, d)}
                     tabIndex={d.id}
                   >
                     Edit
@@ -199,7 +236,15 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       {addIngredient && (
         <AddIngredient setAddRegister={setAddIngredient}></AddIngredient>
       )}
+      {editIngredient && (
+        <EditIngredients
+          setEditIngredient={setEditIngredient}
+          editIngredientData={editIngredientData}
+        ></EditIngredients>
+      )}
     </Box>
+  ) : (
+    <></>
   );
 };
 export default ManageIngredients;
