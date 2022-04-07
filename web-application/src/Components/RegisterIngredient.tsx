@@ -24,7 +24,6 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
   const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      id: 12,
       name: name,
     };
     axios

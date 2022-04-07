@@ -60,7 +60,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   useEffect(() => {
     const fetchData = async () => {
       axios
-        .get("http://localhost:3001/ingredients?page=0&limit=5", {
+        .get("http://localhost:3001/ingredients?page=0&limit=5000", {
           headers: {
             "Content-Type": "application/json",
             Authorization: "root",
