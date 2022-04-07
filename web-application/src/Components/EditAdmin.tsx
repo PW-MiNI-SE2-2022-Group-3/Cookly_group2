@@ -8,7 +8,6 @@ import { useState } from "react";
 import "../styles/Register.css";
 
 interface EditAdminProps {
-  //props
   setEditUser: any;
   editUserData: any;
 }
