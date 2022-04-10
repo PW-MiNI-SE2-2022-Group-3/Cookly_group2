@@ -38,6 +38,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleException(exceptionTypeEnum, e, request);
     }
 
+    @ExceptionHandler(RecipeEmptyException.class)
+    protected ResponseEntity<Object> handleForbiddenException(final RecipeEmptyException e, final WebRequest request) {
+        final  ExceptionTypeEnum exceptionTypeEnum = ExceptionTypeEnum.MAPPER;
+        return handleException(exceptionTypeEnum, e, request);
+    }
+
     @ExceptionHandler(DatabaseFindException.class)
     protected ResponseEntity<Object> handleForbiddenException(final DatabaseFindException e, final WebRequest request) {
         final  ExceptionTypeEnum exceptionTypeEnum = ExceptionTypeEnum.DATABASE_INTERNAL;
@@ -52,6 +58,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IngredientNotFountException.class)
     protected ResponseEntity<Object> handleForbiddenException(final IngredientNotFountException e, final WebRequest request) {
+        final  ExceptionTypeEnum exceptionTypeEnum = ExceptionTypeEnum.NOT_FOUND;
+        return handleException(exceptionTypeEnum, e, request);
+    }
+
+    @ExceptionHandler(RecipeNotFoundException.class)
+    protected ResponseEntity<Object> handleForbiddenException(final RecipeNotFoundException e, final WebRequest request) {
+        final  ExceptionTypeEnum exceptionTypeEnum = ExceptionTypeEnum.NOT_FOUND;
+        return handleException(exceptionTypeEnum, e, request);
+    }
+
+    @ExceptionHandler(TagNotFoundException.class)
+    protected ResponseEntity<Object> handleForbiddenException(final TagNotFoundException e, final WebRequest request) {
         final  ExceptionTypeEnum exceptionTypeEnum = ExceptionTypeEnum.NOT_FOUND;
         return handleException(exceptionTypeEnum, e, request);
     }
