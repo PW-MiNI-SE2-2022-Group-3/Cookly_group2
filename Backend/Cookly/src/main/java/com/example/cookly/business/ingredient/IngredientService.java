@@ -1,13 +1,21 @@
 package com.example.cookly.business.ingredient;
 
+import com.example.cookly.exceptions.models.DatabaseFindException;
+import com.example.cookly.exceptions.models.DatabaseSaveException;
+import com.example.cookly.exceptions.models.IngredientDuplicateException;
 import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.repositories.IngredientRepository;
 import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.mapper.IngredientMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,8 +42,11 @@ public class IngredientService implements IngredientServiceInterface{
                       try {
                           ingredientRepository.save(ingredientDTO);
                       }
-                      catch (final Exception e) {
-                       throw e;
+                      catch (final DataIntegrityViolationException e) {
+                       throw new IngredientDuplicateException(ingredient.getName());
+                      }
+                      catch (final DataAccessException e) {
+                          throw new DatabaseSaveException(ingredient.getIngredientId());
                       }
                   }
 
@@ -48,8 +59,8 @@ public class IngredientService implements IngredientServiceInterface{
             ingredientRepository.deleteById(ingredientId);
             return true;
         }
-        catch (final Exception e) {
-            return false;
+        catch (final EmptyResultDataAccessException e) {
+            throw new DatabaseSaveException(ingredientId);
         }
     }
 
@@ -58,8 +69,8 @@ public class IngredientService implements IngredientServiceInterface{
         try {
             return StreamSupport.stream(ingredientRepository.findAll().spliterator(), false).count();
         }
-        catch (final Exception e) {
-            throw e;
+        catch (final DataAccessException e) {
+            throw new DatabaseFindException("ingredient count");
         }
     }
 
@@ -73,16 +84,23 @@ public class IngredientService implements IngredientServiceInterface{
                     .skip((long) limit * page)
                     .limit(limit).collect(Collectors.toSet());
         }
-        catch (final Exception e) {
-            throw e;
+        catch (final DataAccessException e) {
+            throw new DatabaseFindException("full ingredient list");
         }
     }
 
     @Override
     public boolean editIngredient(Ingredient ingredient, Long id) {
+        Optional<IngredientDTO> old_ingredient;
+        try {
+             old_ingredient = ingredientRepository.findById(id);
+        }catch (final DataAccessException)
+        {
+            throw new DatabaseFindException("ingredient to edit");
+        }
         try {
             final Optional<IngredientDTO> new_ingredient = IngredientMapper.mapToIngredientDTO(ingredient);
-            final Optional<IngredientDTO> old_ingredient = ingredientRepository.findById(id);
+
             if (old_ingredient.isPresent()) {
                 old_ingredient.get().setName(new_ingredient.get().getName());
                 ingredientRepository.save(old_ingredient.orElse(null));
@@ -91,8 +109,8 @@ public class IngredientService implements IngredientServiceInterface{
             return false;
 
         }
-        catch (final Exception e) {
-            throw e;
+        catch (final DataAccessException | NoSuchElementException e) {
+            throw new DatabaseSaveException(id);
         }
 
     }
