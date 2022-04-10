@@ -2,10 +2,7 @@ package com.example.cookly.business.recipe;
 
 import com.example.cookly.business.ingredient.IngredientService;
 import com.example.cookly.business.recipe.model.Recipe;
-import com.example.cookly.exceptions.models.DatabaseFindException;
-import com.example.cookly.exceptions.models.DatabaseSaveException;
-import com.example.cookly.exceptions.models.IngredientDuplicateException;
-import com.example.cookly.exceptions.models.RecipeNotFoundException;
+import com.example.cookly.exceptions.models.*;
 import com.example.cookly.mapper.RecipeMapper;
 import com.example.cookly.models.dto.RecipeDTO;
 import com.example.cookly.repositories.RecipeIngredientRepository;
@@ -16,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +22,7 @@ import java.util.stream.StreamSupport;
 import static com.example.cookly.mapper.RecipeMapper.mapToRecipeDTO;
 
 @Service
-public class RecipeService {
+public class RecipeService implements RecipeServiceInterface {
 
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
@@ -38,16 +36,7 @@ public class RecipeService {
         this.ingredientService = ingredientService;
     }
 
-    public long getRecipeCount() {
-        try
-        {
-            return StreamSupport.stream(recipeRepository.findAll().spliterator(), false).count();
-        }
-        catch (final DataAccessException e) {
-            throw new DatabaseFindException("Recipe count");
-        }
-    }
-
+    @Override
     public void addRecipe(final Recipe recipe) {
         final Optional<RecipeDTO>  recipeDTOOptional = mapToRecipeDTO(recipe);
 
@@ -57,11 +46,22 @@ public class RecipeService {
                         recipeRepository.save(recipeDTO);
                     } catch (final DataIntegrityViolationException e) {
                         throw new IngredientDuplicateException(recipe.getName());
-                    } catch (final DataAccessException) {
+                    } catch (final DataAccessException e) {
                         throw new DatabaseSaveException(recipe.getRecipeId());
                     }
                 }
         );
+    }
+
+    @Override
+    public long getRecipesCount() {
+        try
+        {
+            return StreamSupport.stream(recipeRepository.findAll().spliterator(), false).count();
+        }
+        catch (final DataAccessException e) {
+            throw new DatabaseFindException("Recipe count");
+        }
     }
 
     public Set<Recipe> getAllRecipes(final Integer page, final Integer limit) {
@@ -89,5 +89,37 @@ public class RecipeService {
         }
     }
 
+    @Transactional
+    @Override
+    public void updateRecipe(Recipe recipe) {
+        final  RecipeDTO recipeToEdit = recipeRepository.findById(recipe.getRecipeId()).orElseThrow( () -> new RecipeNotFoundException(recipe.getRecipeId()));
+
+        recipeToEdit.setName(recipe.getName());
+        recipeToEdit.setInstruction(recipe.getInstructions());
+        recipeToEdit.setTagSet(recipe.getTags().stream()
+        .map( tag -> tagRepository.findById(tag.getId()).orElseThrow(() -> new TagNotFoundException(tag.getId())))
+                        .collect(Collectors.toSet())
+        );
+
+        try {
+            recipeRepository.save(recipeToEdit);
+        } catch (final DataAccessException e) {
+            throw new DatabaseSaveException(recipeToEdit.getId());
+        }
+
+        try {
+            recipeIngredientRepository.deleteAllByRecipeId(recipeToEdit.getId());
+            recipe.getIngredients().forEach(
+                    ingredient -> {
+                        if (ingredientService.isIngredientMissing(ingredient.getIngredientId())) {
+                            throw new IngredientNotFountException(ingredient.getIngredientId());
+                        }
+                        recipeIngredientRepository.addIngredientForRecipe(recipe.getRecipeId(), ingredient.getIngredientId(), ingredient.getQuantity());
+                    }
+            );
+        } catch (final DataAccessException e) {
+            throw new DatabaseSaveException(recipe.getRecipeId());
+        }
+    }
 
 }

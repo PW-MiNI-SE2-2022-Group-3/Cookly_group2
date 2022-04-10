@@ -1,20 +1,18 @@
 package com.example.cookly.business.ingredient;
 
+import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.exceptions.models.DatabaseFindException;
 import com.example.cookly.exceptions.models.DatabaseSaveException;
 import com.example.cookly.exceptions.models.IngredientDuplicateException;
+import com.example.cookly.mapper.IngredientMapper;
 import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.repositories.IngredientRepository;
-import com.example.cookly.business.ingredient.model.Ingredient;
-import com.example.cookly.mapper.IngredientMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
@@ -114,4 +112,6 @@ public class IngredientService implements IngredientServiceInterface{
         }
 
     }
+
+    public boolean isIngredientMissing(final long id) {return ingredientRepository.findById(id).isEmpty();}
 }

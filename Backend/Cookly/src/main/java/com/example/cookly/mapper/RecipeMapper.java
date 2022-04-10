@@ -86,7 +86,7 @@ public class RecipeMapper {
                         recipeIngredientDTO.setQuantity(ingredient.getQuantity());
                         recipeIngredientDTO.setIngredient(mapToIngredientDTO(ingredient).orElseThrow());
                         return recipeIngredientDTO;
-                    }).collect(Collectors.toSet());
+                    }).collect(Collectors.toSet()));
             return Optional.of(recipeDTO);
         }
         return Optional.empty();
