@@ -94,7 +94,7 @@ public class IngredientService implements IngredientServiceInterface{
         Optional<IngredientDTO> old_ingredient;
         try {
              old_ingredient = ingredientRepository.findById(id);
-        }catch (final DataAccessException)
+        }catch (final DataAccessException e)
         {
             throw new DatabaseFindException("ingredient to edit");
         }
