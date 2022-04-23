@@ -89,6 +89,7 @@ const EditUser: React.FC<EditUserProps> = (props: EditUserProps) => {
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
             props.setEditUser(false);
           }}

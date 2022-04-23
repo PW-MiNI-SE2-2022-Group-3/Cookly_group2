@@ -25,7 +25,14 @@ import EditUser from "./EditUser";
 
 interface ManageUserProps {}
 
-const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
+const userColumns = [
+  "USER ID",
+  "FIRST NAME",
+  "LAST NAME",
+  "USERNAME",
+  "ACTIONS",
+];
+const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
   // const [deleteUser, setDeleteUser] = useState(false);
@@ -217,67 +224,97 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         <Table size="small" className="table">
           <TableHead>
             <TableRow>
-              {columns.map((name) => (
-                <TableCell
-                  key={name}
-                  className="tablecellheader"
-                  style={{
-                    textAlign: name === "ACTIONS" ? "center" : "left",
-                    color: "white",
-                  }}
-                >
-                  {name}
-                </TableCell>
-              ))}
+              {clickedAppUser
+                ? userColumns.map((name) => (
+                    <TableCell
+                      key={name}
+                      className="tablecellheader"
+                      style={{
+                        textAlign: name === "ACTIONS" ? "center" : "left",
+                        color: "white",
+                      }}
+                    >
+                      {name}
+                    </TableCell>
+                  ))
+                : adminColumns.map((name) => (
+                    <TableCell
+                      key={name}
+                      className="tablecellheader"
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      {name}
+                    </TableCell>
+                  ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : data
-            ).map((d) => (
-              <TableRow hover>
-                <TableCell className="tablecell"> {d.id} </TableCell>
-                <TableCell className="tablecell">{d.firstName}</TableCell>
-                <TableCell className="tablecell">{d.lastName}</TableCell>
-                <TableCell className="tablecell"> {d.login} </TableCell>
-                <TableCell
-                  className="tablecell"
-                  style={{ textAlign: "center", width: "35%" }}
-                >
-                  <Button
-                    variant="contained"
-                    style={{
-                      backgroundColor: "darkred",
-                      color: "white",
-                      borderRadius: 0,
-                      width: "200px",
-                      margin: "5px",
-                    }}
-                    onClick={(event) => deleteButtonHandler(event, d.id)}
-                    tabIndex={d.id}
-                  >
-                    Delete
-                    <DeleteIcon style={{ marginLeft: "10px" }} />
-                  </Button>
-                  <Button
-                    variant="contained"
-                    style={{
-                      backgroundColor: "green",
-                      color: "white",
-                      borderRadius: 0,
-                      width: "200px",
-                      margin: "5px",
-                    }}
-                    onClick={(event) => editButtonHandler(event, d)}
-                    tabIndex={d.id}
-                  >
-                    Edit
-                    <EditIcon style={{ marginLeft: "10px" }} />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {clickedAppUser
+              ? (rowsPerPage > 0
+                  ? data.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : data
+                ).map((d) => (
+                  <TableRow hover>
+                    <TableCell className="tablecell"> {d.id} </TableCell>
+                    <TableCell className="tablecell">{d.firstName}</TableCell>
+                    <TableCell className="tablecell">{d.lastName}</TableCell>
+                    <TableCell className="tablecell"> {d.login} </TableCell>
+                    <TableCell
+                      className="tablecell"
+                      style={{ textAlign: "center", width: "35%" }}
+                    >
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: "darkred",
+                          color: "white",
+                          borderRadius: 0,
+                          width: "200px",
+                          margin: "5px",
+                        }}
+                        onClick={(event) => deleteButtonHandler(event, d.id)}
+                        tabIndex={d.id}
+                      >
+                        Delete
+                        <DeleteIcon style={{ marginLeft: "10px" }} />
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                          borderRadius: 0,
+                          width: "200px",
+                          margin: "5px",
+                        }}
+                        onClick={(event) => editButtonHandler(event, d)}
+                        tabIndex={d.id}
+                      >
+                        Edit
+                        <EditIcon style={{ marginLeft: "10px" }} />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              : (rowsPerPage > 0
+                  ? data.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : data
+                ).map((d) => (
+                  <TableRow hover>
+                    <TableCell className="tablecell"> {d.id} </TableCell>
+                    <TableCell className="tablecell">{d.firstName}</TableCell>
+                    <TableCell className="tablecell">{d.lastName}</TableCell>
+                    <TableCell className="tablecell"> {d.login} </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
           <TableFooter>
             <TableRow>

@@ -87,6 +87,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
             props.setAddRegister(false);
           }}

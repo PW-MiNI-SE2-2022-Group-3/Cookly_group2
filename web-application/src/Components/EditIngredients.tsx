@@ -98,6 +98,7 @@ const EditIngredients: React.FC<EditIngredientsProps> = (
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
             props.setEditIngredient(false);
           }}

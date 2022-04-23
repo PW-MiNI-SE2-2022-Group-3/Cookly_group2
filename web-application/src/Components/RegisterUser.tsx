@@ -90,12 +90,13 @@ const RegisterUser: React.FC<RegisterUserViewProps> = (
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
             props.setAddUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">USER REGISTRATION</Box>
+        <Box className="heading">REGISTRATION</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
