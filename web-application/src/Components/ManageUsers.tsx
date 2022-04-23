@@ -19,19 +19,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 
-import Register from "./RegisterAdmin";
-import "../styles/ManageAdmins.css";
-import EditAdmin from "./EditAdmin";
+import Register from "./RegisterUser";
+import "../styles/Manage.css";
+import EditUser from "./EditUser";
 
-interface ManageAdminProps {}
+interface ManageUserProps {}
 
 const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 
-const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
-  // const [deleteAdmin, setDeleteAdmin] = useState(false);
-  const [editAdmin, setEditAdmin] = useState(false);
-  const [editAdminData, setEditAdminData] = useState({});
-  const [addAdmin, setAddAdmin] = useState(false);
+const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
+  // const [deleteUser, setDeleteUser] = useState(false);
+  const [clickedAdmin, setClickedAdmin] = useState(true);
+  const [clickedAppUser, setclickedAppUser] = useState(false);
+  const [editUser, setEditUser] = useState(false);
+  const [editUserData, setEditUserData] = useState({});
+  const [addUser, setAddUser] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([
@@ -113,14 +115,14 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   };
 
-  // const adminDeletion = () => {
-  //   setDeleteAdmin(true);
+  // const userDeletion = () => {
+  //   setDeleteUser(true);
   // };
-  // const resetAdminDeletion = () => {
-  //   setDeleteAdmin(false);
+  // const resetUserDeletion = () => {
+  //   setDeleteUser(false);
   // };
   // const setIDToDelete = (ID: number) => {
-  //   setAdminID(ID);
+  //   setUserID(ID);
   // };
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -144,30 +146,69 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
   };
   const editButtonHandler = (event: any, d: any) => {
     console.log(d);
-    setEditAdmin(true);
-    setEditAdminData(d);
+    setEditUser(true);
+    setEditUserData(d);
   };
 
   return (
     <Box style={{ width: "90%", margin: "auto" }}>
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Button
+          key="admins"
+          sx={{
+            background: clickedAdmin ? "brown" : "#c4560c",
+            my: 2,
+            width: "10%",
+            color: "white",
+            display: "block",
+            borderRadius: 0,
+            marginRight: "5px",
+            "&:hover": { backgroundColor: "#d97938" },
+          }}
+          onClick={() => {
+            setClickedAdmin(true);
+            setclickedAppUser(false);
+          }}
+        >
+          ADMINS
+        </Button>
+        <Button
+          key="appUsers"
+          sx={{
+            background: clickedAppUser ? "brown" : "#c4560c",
+            my: 2,
+            width: "10%",
+            color: "white",
+            display: "block",
+            borderRadius: 0,
+            "&:hover": { backgroundColor: "#d97938" },
+          }}
+          onClick={() => {
+            setClickedAdmin(false);
+            setclickedAppUser(true);
+          }}
+        >
+          APP USERS
+        </Button>
+      </Box>
       <Button
         variant="contained"
-        style={{
+        sx={{
           backgroundColor: "#c4560c",
           color: "white",
           float: "right",
           marginBottom: "10px",
           borderRadius: 0,
           width: "15%",
+          "&:hover": { backgroundColor: "#d97938" },
         }}
         onClick={() => {
-          setAddAdmin(true);
+          setAddUser(true);
         }}
       >
-        Add Admin
+        {clickedAdmin ? "Add Admin" : "Add User"}
         <PersonIcon style={{ marginLeft: "10px" }} />
       </Button>
-
       <TableContainer
         component={Paper}
         className="tablecontainer"
@@ -260,14 +301,14 @@ const ManageAdmins: React.FC<ManageAdminProps> = (props: ManageAdminProps) => {
           </TableFooter>
         </Table>
       </TableContainer>
-      {addAdmin && <Register setAddUser={setAddAdmin}></Register>}
-      {editAdmin && (
-        <EditAdmin
-          setEditUser={setEditAdmin}
-          editUserData={editAdminData}
-        ></EditAdmin>
+      {addUser && <Register setAddUser={setAddUser}></Register>}
+      {editUser && (
+        <EditUser
+          setEditUser={setEditUser}
+          editUserData={editUserData}
+        ></EditUser>
       )}
     </Box>
   );
 };
-export default ManageAdmins;
+export default ManageUsers;

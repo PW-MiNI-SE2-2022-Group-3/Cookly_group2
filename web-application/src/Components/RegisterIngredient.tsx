@@ -121,7 +121,10 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
           <Button
             type="reset"
             color="error"
-            sx={{ borderRadius: 0, float: "right" }}
+            sx={{
+              borderRadius: 0,
+              float: "right",
+            }}
             onClick={() => {
               props.setAddRegister(false);
             }}

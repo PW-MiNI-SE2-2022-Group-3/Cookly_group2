@@ -7,12 +7,13 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface EditAdminProps {
-  setEditUser: any;
-  editUserData: any;
+interface RegisterUserViewProps {
+  setAddUser: any;
 }
 
-const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
+const RegisterUser: React.FC<RegisterUserViewProps> = (
+  props: RegisterUserViewProps
+) => {
   // States for registration
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -24,7 +25,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
   const [error, setError] = useState(false);
 
   //register users
-  const Edit = (event: any) => {
+  const Register = (event: any) => {
     event.preventDefault();
     const data = {
       firstName: name,
@@ -47,7 +48,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
     if (name === "" || password === "" || surname === "" || username === "") {
       setError(true);
     } else {
-      Edit(event);
+      Register(event);
     }
   };
 
@@ -90,11 +91,11 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
       <div className="body-inner">
         <CloseIcon
           onClick={() => {
-            props.setEditUser(false);
+            props.setAddUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">EDIT ADMIN DETAILS</Box>
+        <Box className="heading">USER REGISTRATION</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -104,7 +105,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
               required
               fullWidth
               variant="standard"
-              value={name == "" ? props.editUserData.firstName : name}
+              value={name}
               helperText="Please enter your name"
               onChange={(event) => {
                 setName(event.target.value);
@@ -117,7 +118,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
             <TextField
               required
               fullWidth
-              value={surname == "" ? props.editUserData.lastName : surname}
+              value={surname}
               variant="standard"
               helperText="Please enter your surname"
               onChange={(event) => {
@@ -131,7 +132,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
             <TextField
               required
               fullWidth
-              value={username == "" ? props.editUserData.login : username}
+              value={username}
               variant="standard"
               helperText="Please enter your username"
               onChange={(event) => {
@@ -140,9 +141,20 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
               }}
             />
           </div>
-          <div>
-            Want to change Password?
-            <Button href="#text-buttons">Click here</Button>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Password</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={password}
+              variant="standard"
+              type="password"
+              helperText="Please enter your password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setSubmitted(false);
+              }}
+            />
           </div>
           <Button
             type="submit"
@@ -157,7 +169,7 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setEditUser(false);
+              props.setAddUser(false);
             }}
           >
             Cancel
@@ -172,4 +184,4 @@ const EditAdmin: React.FC<EditAdminProps> = (props: EditAdminProps) => {
   );
 };
 
-export default EditAdmin;
+export default RegisterUser;

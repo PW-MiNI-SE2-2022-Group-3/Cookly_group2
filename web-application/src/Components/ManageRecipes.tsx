@@ -108,13 +108,14 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     <Box style={{ width: "90%", margin: "auto" }}>
       <Button
         variant="contained"
-        style={{
+        sx={{
           backgroundColor: "#c4560c",
           color: "white",
           float: "right",
           marginBottom: "10px",
           borderRadius: 0,
           width: "15%",
+          "&:hover": { backgroundColor: "#d97938" },
         }}
         onClick={() => {
           setAddRecipe(true);

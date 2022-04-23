@@ -6,7 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import ManageAdmins from "./ManageAdmins";
+import ManageUsers from "./ManageUsers";
 import ManageRecipes from "./ManageRecipes";
 import ManageIngredients from "./ManageIngredients";
 import LoginScreen from "./Login";
@@ -16,7 +16,7 @@ interface MainWindowProps {
 }
 
 const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
-  const [clickedAdmin, setClickedAdmin] = useState(true);
+  const [clickedUser, setClickedUser] = useState(true);
   const [clickedRecipe, setclickedRecipe] = useState(false);
   const [clickedIngredient, setClickedIngredient] = useState(false);
   return (
@@ -33,21 +33,22 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button
-                key="admins"
+                key="users"
                 sx={{
-                  background: clickedAdmin ? "brown" : "#c4560c",
+                  background: clickedUser ? "brown" : "#c4560c",
                   my: 2,
                   color: "white",
                   display: "block",
                   borderRadius: 0,
+                  "&:hover": { backgroundColor: "#d97938" },
                 }}
                 onClick={() => {
-                  setClickedAdmin(true);
+                  setClickedUser(true);
                   setclickedRecipe(false);
                   setClickedIngredient(false);
                 }}
               >
-                ADMINS
+                USERS
               </Button>
               <Button
                 key="recipes"
@@ -57,10 +58,11 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                   color: "white",
                   display: "block",
                   borderRadius: 0,
+                  "&:hover": { backgroundColor: "#d97938" },
                 }}
                 onClick={() => {
                   setclickedRecipe(true);
-                  setClickedAdmin(false);
+                  setClickedUser(false);
                   setClickedIngredient(false);
                 }}
               >
@@ -74,11 +76,12 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                   color: "white",
                   display: "block",
                   borderRadius: 0,
+                  "&:hover": { backgroundColor: "#d97938" },
                 }}
                 onClick={() => {
                   setClickedIngredient(true);
                   setclickedRecipe(false);
-                  setClickedAdmin(false);
+                  setClickedUser(false);
                 }}
               >
                 INGREDIENTS
@@ -92,6 +95,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 display: "block",
                 alignSelf: "right",
                 borderRadius: 0,
+                "&:hover": { backgroundColor: "#d97938" },
               }}
               onClick={() => {
                 props.setIsLogged(false);
@@ -105,7 +109,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         </Container>
       </AppBar>
       <Container maxWidth="xl" style={{ marginTop: 20 }}>
-        {clickedAdmin ? <ManageAdmins /> : null}
+        {clickedUser ? <ManageUsers /> : null}
         {clickedRecipe ? <ManageRecipes /> : null}
         {clickedIngredient ? <ManageIngredients /> : null}
       </Container>

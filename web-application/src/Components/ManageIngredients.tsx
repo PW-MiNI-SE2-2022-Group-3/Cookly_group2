@@ -21,7 +21,7 @@ import EggIcon from "@mui/icons-material/Egg";
 
 import AddIngredient from "./RegisterIngredient";
 import EditIngredients from "./EditIngredients";
-import "../styles/ManageAdmins.css";
+import "../styles/Manage.css";
 
 interface ManageIngredientsProps {}
 
@@ -127,13 +127,14 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     <Box style={{ width: "90%", margin: "auto" }}>
       <Button
         variant="contained"
-        style={{
+        sx={{
           backgroundColor: "#c4560c",
           color: "white",
           float: "right",
           marginBottom: "10px",
           borderRadius: 0,
           width: "15%",
+          "&:hover": { backgroundColor: "#d97938" },
         }}
         onClick={() => {
           setAddIngredient(true);
