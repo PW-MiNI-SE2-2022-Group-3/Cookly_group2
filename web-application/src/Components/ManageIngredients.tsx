@@ -42,20 +42,21 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [addIngredient, setAddIngredient] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState<IngredientResponse[]>([]);
-  // {
-  //   id: 1,
-  //   name: "Butter",
-  // },
-  // {
-  //   id: 2,
-  //   name: "Chicken",
-  // },
-  // {
-  //   id: 3,
-  //   name: "Water",
-  // },
-  // ]);
+  const [data, setData] = useState<IngredientResponse[]>([
+    /*]);*/
+    {
+      id: 1,
+      name: "Butter",
+    },
+    {
+      id: 2,
+      name: "Chicken",
+    },
+    {
+      id: 3,
+      name: "Water",
+    },
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
