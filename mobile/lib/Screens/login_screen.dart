@@ -78,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.0,
               ),
               ElevatedButton(
+                style: kButtonStyle,
                   onPressed: () async {
                     try {
                       setState(() {
@@ -101,13 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text("Log In")),
               TextButton(
-                style: TextButton.styleFrom(
-                    // textStyle: const TextStyle(fontSize: 20),
-                    ),
+
                 onPressed: () {
                   Navigator.pushNamed(context, 'register');
                 },
-                child: const Text("Don't have an account? Register now"),
+                child: const Text("Don't have an account? Register now", style: TextStyle(color: Colors.deepOrangeAccent),),
               ),
             ],
           ),

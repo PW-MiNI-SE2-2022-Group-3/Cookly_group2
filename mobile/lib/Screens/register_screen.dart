@@ -82,7 +82,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           //Do something with the user input.
                         },
                         decoration: kTextFieldDecoration.copyWith(
-                            hintText: 'Enter your name')),
+                            hintText: 'Enter your name'),),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
                     TextField(
                         key: const Key("email_reg_TF"),
                         textAlign: TextAlign.center,
@@ -92,6 +95,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: 'Enter your email')),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
                     TextField(
                         key: const Key("password_reg_TF"),
                         textAlign: TextAlign.center,
@@ -102,6 +108,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: 'Enter password')),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
                     TextField(
                         key: const Key("password_again_reg_TF"),
                         textAlign: TextAlign.center,
@@ -114,10 +123,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             hintText: 'Repeat password')),
 
                     SizedBox(
-                      height: 100,
+                      height: 50,
                     ),
                     ElevatedButton(
                         key: Key("register_button"),
+                        style: kButtonStyle,
                         onPressed: () async {
                           print(email);
                           try {
