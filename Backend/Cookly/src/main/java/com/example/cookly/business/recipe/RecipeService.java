@@ -2,6 +2,7 @@ package com.example.cookly.business.recipe;
 
 import com.example.cookly.business.ingredient.IngredientService;
 import com.example.cookly.business.recipe.model.Recipe;
+import com.example.cookly.business.recipe.model.RecipeTag;
 import com.example.cookly.exceptions.models.*;
 import com.example.cookly.mapper.RecipeMapper;
 import com.example.cookly.models.dto.RecipeDTO;
@@ -11,11 +12,14 @@ import com.example.cookly.repositories.TagRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -64,12 +68,23 @@ public class RecipeService implements RecipeServiceInterface {
         }
     }
 
-    public Set<Recipe> getAllRecipes(final Integer page, final Integer limit) {
+    public Set<Recipe> getAllRecipes(final Integer page, final Integer limit, @Nullable String name, @Nullable Set<String> tags) {
+        final Predicate<Recipe> filterByName = recipe -> (Objects.isNull(name)) || (recipe.getName().contains(name));
+        final Predicate<Recipe> filterByTags = recipe ->
+                (Objects.isNull(tags) ||
+                        (tags.stream().allMatch(
+                                tag -> recipe.getTags().stream()
+                                        .map(RecipeTag::getName)
+                                        .collect(Collectors.toSet()).contains(tag))
+                        )
+                );
         try {
             return StreamSupport.stream(recipeRepository.findAll().spliterator(), false)
                     .map(RecipeMapper::mapToRecipe)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
+                    .filter(filterByName)
+                    .filter(filterByTags)
                     .skip((long) page * limit)
                     .limit(limit)
                     .collect(Collectors.toSet());
