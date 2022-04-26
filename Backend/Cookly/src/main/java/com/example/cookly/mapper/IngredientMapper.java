@@ -64,12 +64,25 @@ public class IngredientMapper {
         return Optional.empty();
     }
 
+
+
     public static Optional<IngredientRecipeRest> mapToIngredientRecipeRest(final Ingredient ingredient) {
         if (Objects.nonNull(ingredient)) {
             final IngredientRecipeRest ingredientRecipeRest = new IngredientRecipeRest();
             ingredientRecipeRest.setIngredient(mapToIngredientRest(ingredient).orElseGet(null));
             ingredientRecipeRest.setQuantity(ingredient.getQuantity());
             return  Optional.of(ingredientRecipeRest);
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<Ingredient> mapToIngredient(final IngredientRecipeRest ingredientRecipeRest) {
+        if (Objects.nonNull(ingredientRecipeRest)) {
+            final Ingredient ingredient = new Ingredient();
+            ingredient.setIngredientId(ingredientRecipeRest.getIngredient().getId());
+            ingredient.setName(ingredientRecipeRest.getIngredient().getName());
+            ingredient.setQuantity(ingredientRecipeRest.getQuantity());
+            return Optional.of(ingredient);
         }
         return Optional.empty();
     }

@@ -7,6 +7,7 @@ import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.models.dto.RecipeDTO;
 import com.example.cookly.models.dto.RecipeIngredientDTO;
 import com.example.cookly.models.dto.TagDTO;
+import com.example.cookly.models.rest.IngredientRecipeRest;
 import com.example.cookly.models.rest.RecipeRest;
 
 import java.util.*;
@@ -39,35 +40,35 @@ public class RecipeMapper {
         return Optional.empty();
     }
 
-    public static  Optional<RecipeRest> mapToRecipe(final Recipe recipe) {
+    public static  Optional<Recipe> mapToRecipe(final RecipeRest recipeRest) {
 
-        if (Objects.nonNull(recipe)) {
-            final RecipeRest recipeRest = new RecipeRest();
+        if (Objects.nonNull(recipeRest)) {
+            final Recipe recipe = new Recipe();
 
-            recipeRest.setId(recipe.getRecipeId());
-            recipeRest.setInstructions(recipe.getInstructions());
-            recipeRest.setName(recipe.getName());
+            recipe.setRecipeId(recipeRest.getId());
+            recipe.setInstructions(recipeRest.getInstructions());
+            recipe.setName(recipeRest.getName());
 
-            final Set<RecipeTag> tags;
-            if (Objects.isNull(recipe.getTags()))
+            final Set<String> tags;
+            if (Objects.isNull(recipeRest.getTags()))
                 tags = Collections.emptySet();
             else
-                tags = recipe.getTags();
-            recipeRest.setTags(tags.stream().map(RecipeTag::getName).collect(Collectors.toSet()));
+                tags = recipeRest.getTags();
+            recipe.setTags(tags.stream().map(RecipeTag::fingByName).collect(Collectors.toSet()));
 
-            final Set<Ingredient> ingredients;
+            final Set<IngredientRecipeRest> ingredients;
             if (Objects.isNull(recipe.getIngredients()))
                 ingredients = Collections.emptySet();
             else
-                ingredients = recipe.getIngredients();
+                ingredients = recipeRest.getIngredients();
 
-            recipeRest.setIngredients(ingredients.stream()
-                .map(IngredientMapper::mapToIngredientRecipeRest)
+            recipe.setIngredients(ingredients.stream()
+                .map(IngredientMapper::mapToIngredient)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet()));
 
-            return Optional.of(recipeRest);
+            return Optional.of(recipe);
         }
         return Optional.empty();
     }
@@ -118,4 +119,8 @@ public class RecipeMapper {
         }
         return Optional.empty();
     }
+
+
+
+
 }

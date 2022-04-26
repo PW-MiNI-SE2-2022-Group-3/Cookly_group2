@@ -23,7 +23,7 @@ public class SecurityService implements SecurityServiceInterface{
     @Override
     public boolean isAuthenticated(HttpHeaders headers) {
         if (Objects.isNull(headers) || headers.containsKey(SECURITY_HEADER) == false) {
-            //error handling
+        //error handling
             return false;
         }
 

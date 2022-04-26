@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecipeIngredientRepository  extends PagingAndSortingRepository<RecipeIngredientDTO, Long> {
-    @Modifying
-    @Query(value = "insert into recipe_ingredient (recipe_id, ingredient_id, quantity) values (:recipeId, ingredientId, :quantity", nativeQuery = true )
-    void addIngredientForRecipe(@Param("recipeId") long recipeId,
+  @Modifying
+  @Query(value = "insert into recipe_ingredient (recipe_id, ingredient_id, quantity) values (:recipeId, :ingredientId, :quantity", nativeQuery = true )
+  void addIngredientForRecipe(@Param("recipeId") long recipeId,
                                 @Param("ingredientId") long ingredientId,
                                 @Param("quantity") String quantity);
 
