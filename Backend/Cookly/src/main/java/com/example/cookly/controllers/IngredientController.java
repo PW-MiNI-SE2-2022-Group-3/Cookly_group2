@@ -36,7 +36,7 @@ public class IngredientController {
         return  ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @PostMapping("/all")
     public ResponseEntity<IngredientsAllRest> getAllIngredients(@RequestHeader HttpHeaders headers,
                                                                 @RequestParam(value = "page") int page,
                                                                 @RequestParam(value = "limit") int limit,

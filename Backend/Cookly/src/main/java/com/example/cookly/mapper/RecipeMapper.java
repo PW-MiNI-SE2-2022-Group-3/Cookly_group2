@@ -3,7 +3,6 @@ package com.example.cookly.mapper;
 import com.example.cookly.business.ingredient.model.Ingredient;
 import com.example.cookly.business.recipe.model.Recipe;
 import com.example.cookly.business.recipe.model.RecipeTag;
-import com.example.cookly.models.dto.IngredientDTO;
 import com.example.cookly.models.dto.RecipeDTO;
 import com.example.cookly.models.dto.RecipeIngredientDTO;
 import com.example.cookly.models.dto.TagDTO;
@@ -21,7 +20,7 @@ public class RecipeMapper {
         if (Objects.nonNull(recipeDTO)) {
             final Recipe recipe = new Recipe();
             recipe.setInstructions(recipeDTO.getInstruction());
-            recipe.setRecipeId(recipeDTO.getId());
+            recipe.setRecipeId(recipeDTO.getRecipeId());
             recipe.setName(recipeDTO.getName());
 
             Set<TagDTO> tags =recipeDTO.getTagSet();

@@ -34,7 +34,7 @@ public class Recipecontroller {
         return ResponseEntity.badRequest().body("No ingredient matching this id was found");
     }
 
-    @GetMapping
+    @PostMapping("/all")
     public ResponseEntity<RecipeAllRest> getAllRecipes(@RequestHeader HttpHeaders headers,
                                                            @RequestParam(value = "page") int page,
                                                            @RequestParam(value = "limit") int limit,

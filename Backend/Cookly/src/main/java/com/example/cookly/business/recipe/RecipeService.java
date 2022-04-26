@@ -48,6 +48,10 @@ public class RecipeService implements RecipeServiceInterface {
                 recipeDTO ->  {
                     try {
                         recipeRepository.save(recipeDTO);
+
+                        recipeDTO.getIngredientSet().forEach(i ->
+                                recipeIngredientRepository.addIngredientForRecipe(i.getRecipe().getRecipeId(), i.getIngredient().getIngredientId(), i.getQuantity()));
+
                     } catch (final DataIntegrityViolationException e) {
                         throw new IngredientDuplicateException(recipe.getName());
                     } catch (final DataAccessException e) {
@@ -123,7 +127,7 @@ public class RecipeService implements RecipeServiceInterface {
         }
 
         try {
-            recipeIngredientRepository.deleteAllByRecipeId(recipeToEdit.getId());
+            recipeIngredientRepository.deleteAllByRecipeId(recipeToEdit.getRecipeId());
             recipe.getIngredients().forEach(
                     ingredient -> {
                         if (ingredientService.isIngredientMissing(ingredient.getIngredientId())) {
