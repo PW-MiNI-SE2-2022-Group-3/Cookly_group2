@@ -102,16 +102,12 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     setLoading(true);
     event.preventDefault();
 
-    //special case
-    setNewIngredient((prevState) => ({
-      ...prevState,
-      id: 0,
-    }));
-
     axios
-      .post("http://localhost:3001/ingredients", newIngredient)
+      .post("http://localhost:3001/ingredients", {
+        name: newIngredient.name,
+        id: 0,
+      })
       .then((response) => {
-        console.log(response.data);
         setAddIngredient(false);
         setNewIngredient({});
         setLoading(false);
@@ -168,6 +164,19 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       });
   };
 
+  //Filter Ingredients
+  const filterIngredients = () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: "---" },
+      body: JSON.stringify({ name: searchValue }),
+    };
+
+    fetch("http://localhost:3001/ingredients?page=0&limit=5000", requestOptions)
+      .then((response) => console.log(response))
+      .catch((err) => alert(err));
+  };
+
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
@@ -196,6 +205,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         onChange={(event) => {
           setSearchValue(event.target.value);
+          filterIngredients();
         }}
       />
       <Button
