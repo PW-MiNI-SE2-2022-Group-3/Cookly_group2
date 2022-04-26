@@ -10,12 +10,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { TableBody, TableFooter } from "@material-ui/core";
-import { TablePagination } from "@mui/material";
+import { TablePagination, TextField } from "@mui/material";
 import TablePaginationActions from "./TablePagination";
 
 import axios from "axios";
 
 import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
@@ -40,6 +41,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [editIngredientData, setEditIngredientData] = useState({});
   const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
   const [addIngredient, setAddIngredient] = useState(false);
+
+  const [searchValue, setSearchValue] = useState("");
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState<IngredientResponse[]>([
@@ -125,6 +129,23 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
 
   return data !== undefined ? (
     <Box style={{ width: "90%", margin: "auto" }}>
+      <TextField
+        id="outlined-basic"
+        variant="standard"
+        placeholder="Search"
+        sx={{
+          backgroundColor: "white",
+          width: "30%",
+          padding: "0px",
+          marginBottom: "10px",
+        }}
+        InputProps={{
+          startAdornment: <SearchIcon />,
+        }}
+        onChange={(event) => {
+          setSearchValue(event.target.value);
+        }}
+      />
       <Button
         variant="contained"
         sx={{
@@ -144,6 +165,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         <EggIcon style={{ marginLeft: "10px" }} />
       </Button>
 
+      {/* data table */}
       <TableContainer
         component={Paper}
         className="tablecontainer"
@@ -217,7 +239,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={5}
+                colSpan={columns.length}
                 count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}

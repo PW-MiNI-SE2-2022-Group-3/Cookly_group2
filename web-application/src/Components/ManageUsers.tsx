@@ -22,16 +22,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import Register from "./RegisterUser";
 import "../styles/Manage.css";
 import EditUser from "./EditUser";
+import { ViewColumnSharp } from "@mui/icons-material";
 
 interface ManageUserProps {}
 
-const userColumns = [
-  "USER ID",
-  "FIRST NAME",
-  "LAST NAME",
-  "USERNAME",
-  "ACTIONS",
-];
+const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
@@ -225,7 +220,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           <TableHead>
             <TableRow>
               {clickedAppUser
-                ? userColumns.map((name) => (
+                ? columns.map((name) => (
                     <TableCell
                       key={name}
                       className="tablecellheader"
@@ -320,7 +315,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={5}
+                colSpan={columns.length}
                 count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
