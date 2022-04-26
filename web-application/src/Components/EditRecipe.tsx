@@ -96,6 +96,7 @@ const EditRecipe: React.FC<EditRecipeProps> = (props: EditRecipeProps) => {
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
             props.setEditUser(false);
           }}

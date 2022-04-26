@@ -7,45 +7,47 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface AddIngredientsProps {
-  setAddRegister: any;
+interface EditUserProps {
+  setEditUser: any;
+  editUserData: any;
 }
 
-const AddIngredient: React.FC<AddIngredientsProps> = (
-  props: AddIngredientsProps
-) => {
+const EditUser: React.FC<EditUserProps> = (props: EditUserProps) => {
+  // States for registration
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
   //register users
-  const Register = (event: any) => {
+  const Edit = (event: any) => {
     event.preventDefault();
     const data = {
-      name: name,
+      firstName: name,
+      lastName: surname,
+      login: username,
+      password: password,
     };
-    axios
-      .post("http://localhost:3001/ingredients", data)
-      .then((result) => {
-        console.log(result.data);
-        setSubmitted(true);
-        setError(false);
-        setName("");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //axios goes here --
+    setSubmitted(true);
+    setError(false);
+    setName("");
+    setSurname("");
+    setUsername("");
+    setPassword("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (name === "") {
+    if (name === "" || password === "" || surname === "" || username === "") {
       setError(true);
     } else {
-      Register(event);
+      Edit(event);
     }
   };
 
@@ -61,7 +63,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
           margin: "auto",
         }}
       >
-        Successfully registered a new ingredient!
+        Successfully registered!
       </Box>
     );
   };
@@ -78,7 +80,7 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
           margin: "auto",
         }}
       >
-        Please enter all required fields
+        Please enter all the fields
       </Box>
     );
   };
@@ -87,12 +89,13 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
-            props.setAddRegister(false);
+            props.setEditUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">ADD NEW INGREDIENT</Box>
+        <Box className="heading">EDIT USER DETAILS</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -102,13 +105,45 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
               required
               fullWidth
               variant="standard"
-              value={name}
-              helperText="Please enter name of the ingredient"
+              value={name == "" ? props.editUserData.firstName : name}
+              helperText="Please enter your name"
               onChange={(event) => {
                 setName(event.target.value);
                 setSubmitted(false);
               }}
             />
+          </div>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Surname</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={surname == "" ? props.editUserData.lastName : surname}
+              variant="standard"
+              helperText="Please enter your surname"
+              onChange={(event) => {
+                setSurname(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Login</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={username == "" ? props.editUserData.login : username}
+              variant="standard"
+              helperText="Please enter your username"
+              onChange={(event) => {
+                setUsername(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>
+          <div>
+            Want to change Password?
+            <Button href="#text-buttons">Click here</Button>
           </div>
           <Button
             type="submit"
@@ -116,14 +151,14 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
             sx={{ borderRadius: 0 }}
             onClick={handleSubmit}
           >
-            Submit
+            Enter
           </Button>
           <Button
             type="reset"
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setAddRegister(false);
+              props.setEditUser(false);
             }}
           >
             Cancel
@@ -138,4 +173,4 @@ const AddIngredient: React.FC<AddIngredientsProps> = (
   );
 };
 
-export default AddIngredient;
+export default EditUser;

@@ -7,56 +7,48 @@ import axios from "axios";
 import { useState } from "react";
 import "../styles/Register.css";
 
-interface EditIngredientsProps {
-  setEditIngredient: any;
-  editIngredientData: any;
+interface RegisterUserViewProps {
+  setAddUser: any;
 }
 
-const EditIngredients: React.FC<EditIngredientsProps> = (
-  props: EditIngredientsProps
+const RegisterUser: React.FC<RegisterUserViewProps> = (
+  props: RegisterUserViewProps
 ) => {
   // States for registration
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
   //register users
-  const Edit = (event: any) => {
+  const Register = (event: any) => {
     event.preventDefault();
     const data = {
-      name: name,
+      firstName: name,
+      lastName: surname,
+      login: username,
+      password: password,
     };
-    axios
-      .post(
-        "http://localhost:3001/ingredients/" + props.editIngredientData.id,
-        props.editIngredientData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "root",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        setSubmitted(true);
-        setError(false);
-        setName("");
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+    //axios goes here --
+    setSubmitted(true);
+    setError(false);
+    setName("");
+    setSurname("");
+    setUsername("");
+    setPassword("");
   };
 
   // Handling the form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (name === "") {
+    if (name === "" || password === "" || surname === "" || username === "") {
       setError(true);
     } else {
-      Edit(event);
+      Register(event);
     }
   };
 
@@ -98,12 +90,13 @@ const EditIngredients: React.FC<EditIngredientsProps> = (
     <div className="body">
       <div className="body-inner">
         <CloseIcon
+          sx={{ "&:hover": { backgroundColor: "gray" } }}
           onClick={() => {
-            props.setEditIngredient(false);
+            props.setAddUser(false);
           }}
           className="cls-bttn"
         ></CloseIcon>
-        <Box className="heading">EDIT INGREDIENT DETAILS</Box>
+        <Box className="heading">REGISTRATION</Box>
         {/* Calling to the methods */}
         <form className="body-form">
           {/* Labels and inputs for form data */}
@@ -113,10 +106,53 @@ const EditIngredients: React.FC<EditIngredientsProps> = (
               required
               fullWidth
               variant="standard"
-              value={name == "" ? props.editIngredientData.name : name}
+              value={name}
               helperText="Please enter your name"
               onChange={(event) => {
                 setName(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Surname</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={surname}
+              variant="standard"
+              helperText="Please enter your surname"
+              onChange={(event) => {
+                setSurname(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Login</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={username}
+              variant="standard"
+              helperText="Please enter your username"
+              onChange={(event) => {
+                setUsername(event.target.value);
+                setSubmitted(false);
+              }}
+            />
+          </div>
+          <div style={{ marginTop: 10, marginBottom: 10 }}>
+            <InputLabel>Password</InputLabel>
+            <TextField
+              required
+              fullWidth
+              value={password}
+              variant="standard"
+              type="password"
+              helperText="Please enter your password"
+              onChange={(event) => {
+                setPassword(event.target.value);
                 setSubmitted(false);
               }}
             />
@@ -134,7 +170,7 @@ const EditIngredients: React.FC<EditIngredientsProps> = (
             color="error"
             sx={{ borderRadius: 0, float: "right" }}
             onClick={() => {
-              props.setEditIngredient(false);
+              props.setAddUser(false);
             }}
           >
             Cancel
@@ -149,4 +185,4 @@ const EditIngredients: React.FC<EditIngredientsProps> = (
   );
 };
 
-export default EditIngredients;
+export default RegisterUser;
