@@ -19,12 +19,12 @@ public class RecipeIngredientDTO {
     private String quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("id")
+    @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
     private RecipeDTO recipe;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("id")
+    @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     private IngredientDTO ingredient;
 

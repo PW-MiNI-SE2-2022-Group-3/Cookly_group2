@@ -20,7 +20,7 @@ public class RecipeDTO {
     private String name;
 
     @NotNull
-    @Column(name = "instruction")
+    @Column(name = "instructions")
     private String instruction;
 
     @ManyToMany

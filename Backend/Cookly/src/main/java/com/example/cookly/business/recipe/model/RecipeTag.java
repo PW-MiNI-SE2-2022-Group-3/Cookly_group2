@@ -32,4 +32,12 @@ public enum RecipeTag {
                 .findFirst()
                 .orElse(null);
     }
+
+    public static  RecipeTag fingByName(final String name) {
+        return Arrays
+                .stream(RecipeTag.values())
+                .filter(tag -> tag.name.equals(name))
+                .findFirst()
+                .orElse(null);
+    }
 }
