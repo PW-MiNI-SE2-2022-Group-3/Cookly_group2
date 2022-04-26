@@ -57,7 +57,7 @@ public class RecipeMapper {
             recipe.setTags(tags.stream().map(RecipeTag::fingByName).collect(Collectors.toSet()));
 
             final Set<IngredientRecipeRest> ingredients;
-            if (Objects.isNull(recipe.getIngredients()))
+            if (Objects.isNull(recipeRest.getIngredients()))
                 ingredients = Collections.emptySet();
             else
                 ingredients = recipeRest.getIngredients();
@@ -76,13 +76,19 @@ public class RecipeMapper {
     public static Optional<RecipeDTO> mapToRecipeDTO(final Recipe recipe) {
         if(Objects.nonNull(recipe)) {
             final RecipeDTO recipeDTO = new RecipeDTO();
-            recipeDTO.setId(recipe.getRecipeId());
             recipeDTO.setName(recipe.getName());
             recipeDTO.setInstruction(recipe.getInstructions());
+            recipeDTO.setTagSet(
+                    recipe.getTags().stream()
+                            .map(TagMapper::mapToTagDTO)
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .collect(Collectors.toSet())
+            );
             recipeDTO.setIngredientSet(
                     recipe.getIngredients().stream()
                     .map(ingredient -> {
-                        RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
+                        final RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
                         recipeIngredientDTO.setRecipe(recipeDTO);
                         recipeIngredientDTO.setQuantity(ingredient.getQuantity());
                         recipeIngredientDTO.setIngredient(mapToIngredientDTO(ingredient).orElseThrow());

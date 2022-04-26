@@ -32,8 +32,6 @@ public class IngredientController {
 
     @PostMapping
     public ResponseEntity<Object> addIngredient(@RequestHeader HttpHeaders headers, @RequestBody @Valid IngredientRest ingredient) {
-        if (ingredient.getId() == null)
-            ingredient.setId(0L);
         ingredientService.addIngredient(IngredientMapper.mapToIngredient(ingredient).orElseThrow());
         return  ResponseEntity.ok().build();
     }

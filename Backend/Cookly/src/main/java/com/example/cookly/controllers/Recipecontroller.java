@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("/recipes")
 public class Recipecontroller {
 
     private final RecipeService recipeService;
@@ -55,8 +55,7 @@ public class Recipecontroller {
 
     @PostMapping
     public ResponseEntity<Object> addRecipe(@RequestHeader HttpHeaders headers, @RequestBody @Valid RecipeRest recipe) {
-        if (recipe.getId() == null)
-            recipe.setId(0L);
+
         recipeService.addRecipe(RecipeMapper.mapToRecipe(recipe).orElseThrow());
         return  ResponseEntity.ok().build();
     }

@@ -48,7 +48,7 @@ public class IngredientService implements IngredientServiceInterface{
                        throw new IngredientDuplicateException(ingredient.getName());
                       }
                       catch (final DataAccessException e) {
-                          throw new DatabaseSaveException(ingredient.getIngredientId());
+                          throw new DatabaseSaveException(ingredient.getName());
                       }
                   }
 
@@ -62,7 +62,7 @@ public class IngredientService implements IngredientServiceInterface{
             return true;
         }
         catch (final EmptyResultDataAccessException e) {
-            throw new DatabaseSaveException(ingredientId);
+            throw new DatabaseSaveException(ingredientId.toString());
         }
     }
 
@@ -115,7 +115,7 @@ public class IngredientService implements IngredientServiceInterface{
 
         }
         catch (final DataAccessException | NoSuchElementException e) {
-            throw new DatabaseSaveException(id);
+            throw new DatabaseSaveException(id.toString());
         }
 
     }

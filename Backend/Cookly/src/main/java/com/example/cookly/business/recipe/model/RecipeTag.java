@@ -36,7 +36,7 @@ public enum RecipeTag {
     public static  RecipeTag fingByName(final String name) {
         return Arrays
                 .stream(RecipeTag.values())
-                .filter(tag -> tag.name == name)
+                .filter(tag -> tag.name.equals(name))
                 .findFirst()
                 .orElse(null);
     }

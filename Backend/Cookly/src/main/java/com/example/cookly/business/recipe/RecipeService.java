@@ -51,7 +51,7 @@ public class RecipeService implements RecipeServiceInterface {
                     } catch (final DataIntegrityViolationException e) {
                         throw new IngredientDuplicateException(recipe.getName());
                     } catch (final DataAccessException e) {
-                        throw new DatabaseSaveException(recipe.getRecipeId());
+                        throw new DatabaseSaveException("recipe.getName()");
                     }
                 }
         );
@@ -119,7 +119,7 @@ public class RecipeService implements RecipeServiceInterface {
         try {
             recipeRepository.save(recipeToEdit);
         } catch (final DataAccessException e) {
-            throw new DatabaseSaveException(recipeToEdit.getId());
+            throw new DatabaseSaveException(recipeToEdit.getName());
         }
 
         try {
@@ -133,7 +133,7 @@ public class RecipeService implements RecipeServiceInterface {
                     }
             );
         } catch (final DataAccessException e) {
-            throw new DatabaseSaveException(recipe.getRecipeId());
+            throw new DatabaseSaveException(recipe.getName());
         }
     }
 
