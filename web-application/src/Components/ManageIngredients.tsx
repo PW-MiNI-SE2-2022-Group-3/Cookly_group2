@@ -77,7 +77,6 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   ]);
 
   useEffect(() => {
-    // setLoading(true);
     const fetchData = async () => {
       axios
         .get("http://localhost:3001/ingredients?page=0&limit=5000", {
@@ -87,14 +86,10 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           },
         })
         .then((response) => {
-          console.log(response.data);
           setData(response.data.ingredients);
-          // setLoading(false);
         })
         .catch((err) => {
-          // setLoading(false);
-          console.log(err);
-          // alert(err);
+          alert(err);
         });
     };
 
