@@ -33,12 +33,13 @@ import "../styles/Manage.css";
 
 interface ManageIngredientsProps {}
 
-const columns = ["ID", "NAME", "ACTIONS"];
+const columns = ["NO.", "NAME", "ACTIONS"];
 
 const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
 ) => {
   type IngredientResponse = {
+    id?: number;
     name?: string;
   };
 
@@ -48,69 +49,73 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [newIngredient, setNewIngredient] = useState<IngredientResponse>({});
 
   const [editIngredient, setEditIngredient] = useState(false);
-  const [editIngredientId, setEditIngredientId] = useState(-1);
   const [editIngredientData, setEditIngredientData] =
     useState<IngredientResponse>({});
-
-  // const [deleteIngredient, setDeleteIngredient] = useState(false);
-  // const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
 
   const [searchValue, setSearchValue] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // const [data, setData] = useState<IngredientResponse[]>([]);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Butter",
-    },
-    {
-      id: 2,
-      name: "Chicken",
-    },
-    {
-      id: 3,
-      name: "Water",
-    },
-  ]);
+  const [data, setData] = useState<IngredientResponse[]>([]);
+  // const [data, setData] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Butter",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Chicken",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Water",
+  //   },
+  // ]);
 
   useEffect(() => {
     const fetchData = async () => {
-      axios
-        .get("http://localhost:3001/ingredients?page=0&limit=5000", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "root",
-          },
-        })
-        .then((response) => {
-          setData(response.data.ingredients);
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      getData();
     };
 
     fetchData();
   }, []);
 
+  const getData = () => {
+    axios
+      .get("http://localhost:3001/ingredients?page=0&limit=5000", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response) => {
+        setData(response.data.ingredients);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   //Add Ingredient
   const addIngredientHandler = (event: any) => {
     setLoading(true);
     event.preventDefault();
-    const data = {
-      name: newIngredient,
-    };
+
+    //special case
+    setNewIngredient((prevState) => ({
+      ...prevState,
+      id: 0,
+    }));
+
     axios
-      .post("http://localhost:3001/ingredients", data)
+      .post("http://localhost:3001/ingredients", newIngredient)
       .then((response) => {
         console.log(response.data);
         setAddIngredient(false);
         setNewIngredient({});
         setLoading(false);
-        alert("Successfully added ingredient!");
+        getData();
       })
       .catch((err) => {
         setLoading(false);
@@ -123,22 +128,22 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     setLoading(true);
     event.preventDefault();
     axios
-      .post(
-        "http://localhost:3001/ingredients/" + editIngredientId,
+      .put(
+        "http://localhost:3001/ingredients?id=" + editIngredientData.id,
         editIngredientData,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "root",
+            Authorization: "---",
           },
         }
       )
       .then((response) => {
-        console.log(response.data);
         setEditIngredient(false);
         setEditIngredientData({});
         setLoading(false);
         alert("Successfully edited ingredient!");
+        getData();
       })
       .catch((err) => {
         setLoading(false);
@@ -152,26 +157,16 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       .delete("http://localhost:3001/ingredients/" + ingredientId, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "root",
+          Authorization: "---",
         },
       })
       .then((response) => {
-        console.log(response.data);
+        getData();
       })
-      .catch((error) => {
-        console.error(error.message);
+      .catch((err) => {
+        alert(err);
       });
   };
-
-  // const adminDeletion = () => {
-  //   setDeleteIngredient(true);
-  // };
-  // const resetAdminDeletion = () => {
-  //   setDeleteIngredient(false);
-  // };
-  // const setIDToDelete = (ID: number) => {
-  //   setIngredientIdToDelete(ID);
-  // };
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -284,8 +279,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                     }}
                     onClick={(event) => {
                       setEditIngredient(true);
-                      setEditIngredientId(d.id);
-                      setEditIngredientData({ name: d.name });
+                      setEditIngredientData({ name: d.name, id: d.id });
                     }}
                     tabIndex={d.id}
                   >
