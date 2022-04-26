@@ -9,8 +9,20 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { TableBody, TableFooter } from "@material-ui/core";
-import { TablePagination, TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+
+import TablePagination from "@mui/material/TablePagination";
+import TableBody from "@mui/material/TableBody";
+import TableFooter from "@mui/material/TableFooter";
 import TablePaginationActions from "./TablePagination";
 
 import axios from "axios";
@@ -20,8 +32,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
-import AddIngredient from "./RegisterIngredient";
-import EditIngredients from "./EditIngredients";
 import "../styles/Manage.css";
 
 interface ManageIngredientsProps {}
@@ -36,11 +46,19 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     name?: string;
   };
 
-  const [deleteIngredient, setDeleteIngredient] = useState(false);
-  const [editIngredient, setEditIngredient] = useState(false);
-  const [editIngredientData, setEditIngredientData] = useState({});
-  const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
+  const [loading, setLoading] = useState(false);
+
   const [addIngredient, setAddIngredient] = useState(false);
+  const [newIngredient, setNewIngredient] = useState("");
+
+  const [editIngredient, setEditIngredient] = useState(false);
+  const [editIngredientData, setEditIngredientData] = useState({
+    name: "",
+    id: 0,
+  });
+
+  const [deleteIngredient, setDeleteIngredient] = useState(false);
+  const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -63,6 +81,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   ]);
 
   useEffect(() => {
+    // setLoading(true);
     const fetchData = async () => {
       axios
         .get("http://localhost:3001/ingredients?page=0&limit=5000", {
@@ -74,37 +93,69 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         .then((response) => {
           console.log(response.data);
           setData(response.data.ingredients);
+          // setLoading(false);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          // setLoading(false);
+          console.log(err);
+          // alert(err);
         });
     };
 
     fetchData();
   }, []);
 
-  const emptyRows = () => {
-    return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  //Add Ingredient
+  const addIngredientHandler = (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+    const data = {
+      name: newIngredient,
+    };
+    axios
+      .post("http://localhost:3001/ingredients", data)
+      .then((response) => {
+        console.log(response.data);
+        setAddIngredient(false);
+        setNewIngredient("");
+        setLoading(false);
+        alert("Successfully added ingredient!");
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert(err);
+      });
   };
 
-  const adminDeletion = () => {
-    setDeleteIngredient(true);
-  };
-  const resetAdminDeletion = () => {
-    setDeleteIngredient(false);
-  };
-  const setIDToDelete = (ID: number) => {
-    setIngredientIdToDelete(ID);
-  };
-  const handleChangePage = (event: any, newPage: number) => {
-    setPage(newPage);
+  //Edit Ingredient
+  const editIngredientHandler = (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+    axios
+      .post(
+        "http://localhost:3001/ingredients/" + editIngredientData.id,
+        editIngredientData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "root",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setEditIngredient(false);
+        setEditIngredientData({ name: "", id: 0 });
+        setLoading(false);
+        alert("Successfully edited ingredient!");
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert(err.message);
+      });
   };
 
-  const handleChangeRowsPerPage = (event: any) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
+  //Delete Ingredient
   const deleteButtonHandler = (event: any, ingredientId: number) => {
     axios
       .delete("http://localhost:3001/ingredients/" + ingredientId, {
@@ -121,14 +172,29 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       });
   };
 
-  const editButtonHandler = (event: any, ingredient: any) => {
-    console.log(ingredient);
-    setEditIngredient(true);
-    setEditIngredientData(ingredient);
+  // const adminDeletion = () => {
+  //   setDeleteIngredient(true);
+  // };
+  // const resetAdminDeletion = () => {
+  //   setDeleteIngredient(false);
+  // };
+  // const setIDToDelete = (ID: number) => {
+  //   setIngredientIdToDelete(ID);
+  // };
+
+  const handleChangePage = (event: any, newPage: number) => {
+    setPage(newPage);
+  };
+  const emptyRows = () => {
+    return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  };
+  const handleChangeRowsPerPage = (event: any) => {
+    setPage(0);
+    setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   return data !== undefined ? (
-    <Box style={{ width: "90%", margin: "auto" }}>
+    <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
         id="outlined-basic"
         variant="standard"
@@ -225,7 +291,10 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d)}
+                    onClick={(event) => {
+                      setEditIngredient(true);
+                      setEditIngredientData({ name: d.name, id: d.id });
+                    }}
                     tabIndex={d.id}
                   >
                     Edit
@@ -257,15 +326,122 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           </TableFooter>
         </Table>
       </TableContainer>
-      {addIngredient && (
-        <AddIngredient setAddRegister={setAddIngredient}></AddIngredient>
-      )}
-      {editIngredient && (
-        <EditIngredients
-          setEditIngredient={setEditIngredient}
-          editIngredientData={editIngredientData}
-        ></EditIngredients>
-      )}
+
+      {/* add ingredient */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={addIngredient}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          ADD NEW INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            addIngredientHandler(event);
+          }}
+        >
+          <DialogContent sx={{ marginTop: "20px" }}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="name"
+              label="Ingredient Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewIngredient(event.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setAddIngredient(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* edit ingredient */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={editIngredient}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          EDIT INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            editIngredientHandler(event);
+          }}
+        >
+          <DialogContent sx={{ marginTop: "20px" }}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editIngredientData.name}
+              id="name"
+              label="Ingredient Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditIngredientData((prevState) => ({
+                  ...prevState,
+                  name: event.target.value,
+                }));
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setEditIngredient(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </Box>
   ) : (
     <></>

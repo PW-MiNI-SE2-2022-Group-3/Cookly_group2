@@ -9,8 +9,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { TableBody, TableFooter } from "@material-ui/core";
-import { TablePagination } from "@mui/material";
+import TextField from "@mui/material/TextField";
+
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+
+import TablePagination from "@mui/material/TablePagination";
+import TableBody from "@mui/material/TableBody";
+import TableFooter from "@mui/material/TableFooter";
 import TablePaginationActions from "./TablePagination";
 
 import axios from "axios";
@@ -153,7 +164,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
   };
 
   return (
-    <Box style={{ width: "90%", margin: "auto" }}>
+    <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         <Button
           key="admins"
