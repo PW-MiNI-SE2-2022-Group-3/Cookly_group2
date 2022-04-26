@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -50,14 +50,33 @@ const tagOptions = ["Vegetarian", "Gluten Free", "Low Calorie", "No Lactose"];
 const ManageRecipes: React.FC<ManageRecipesProps> = (
   props: ManageRecipesProps
 ) => {
-  // const [deleteAdmin, setDeleteRecipe] = useState(false);
-  const [editRecipe, setEditRecipe] = useState(false);
-  const [editRecipeData, setEditRecipeData] = useState({});
+  type IngredientResponse = {
+    name?: string;
+  };
+
+  type RecipeResponse = {
+    name?: string;
+    instruction?: string;
+    ingredients?: IngredientResponse[];
+    tags?: string[];
+  };
+
+  const [loading, setLoading] = useState(false);
+
   const [addRecipe, setAddRecipe] = useState(false);
+  const [newRecipe, setNewRecipe] = useState<RecipeResponse>({});
+
+  const [editRecipe, setEditRecipe] = useState(false);
+  const [editRecipeId, setEditRecipeId] = useState(-1);
+  const [editRecipeData, setEditRecipeData] = useState<RecipeResponse>({});
+
+  // const [deleteRecipe, setDeleteRecipe] = useState(false);
+  // const [recipeIdToDelete, setRecipeIdToDelete] = useState(-1);
+
+  const [searchValue, setSearchValue] = useState("");
 
   const [addFilter, setAddFilter] = useState(false);
   const [filterValue, setFilterValue] = useState("");
-  const [searchValue, setSearchValue] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -85,6 +104,31 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
       Ingredients: "butter chicken",
     },
   ]);
+
+  useEffect(() => {
+    // setLoading(true);
+    const fetchData = async () => {
+      axios
+        .get("http://localhost:3001/ingredients?page=0&limit=5000", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "root",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data.ingredients);
+          // setLoading(false);
+        })
+        .catch((err) => {
+          // setLoading(false);
+          console.log(err);
+          // alert(err);
+        });
+    };
+
+    fetchData();
+  }, []);
 
   const emptyRows = () => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;

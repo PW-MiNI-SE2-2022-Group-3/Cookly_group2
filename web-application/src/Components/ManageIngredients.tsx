@@ -16,9 +16,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -42,30 +39,29 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
 ) => {
   type IngredientResponse = {
-    id?: number;
     name?: string;
   };
 
   const [loading, setLoading] = useState(false);
 
   const [addIngredient, setAddIngredient] = useState(false);
-  const [newIngredient, setNewIngredient] = useState("");
+  const [newIngredient, setNewIngredient] = useState<IngredientResponse>({});
 
   const [editIngredient, setEditIngredient] = useState(false);
-  const [editIngredientData, setEditIngredientData] = useState({
-    name: "",
-    id: 0,
-  });
+  const [editIngredientId, setEditIngredientId] = useState(-1);
+  const [editIngredientData, setEditIngredientData] =
+    useState<IngredientResponse>({});
 
-  const [deleteIngredient, setDeleteIngredient] = useState(false);
-  const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
+  // const [deleteIngredient, setDeleteIngredient] = useState(false);
+  // const [ingredientIdToDelete, setIngredientIdToDelete] = useState(-1);
 
   const [searchValue, setSearchValue] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState<IngredientResponse[]>([
-    /*]);*/
+
+  // const [data, setData] = useState<IngredientResponse[]>([]);
+  const [data, setData] = useState([
     {
       id: 1,
       name: "Butter",
@@ -117,7 +113,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       .then((response) => {
         console.log(response.data);
         setAddIngredient(false);
-        setNewIngredient("");
+        setNewIngredient({});
         setLoading(false);
         alert("Successfully added ingredient!");
       })
@@ -133,7 +129,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     event.preventDefault();
     axios
       .post(
-        "http://localhost:3001/ingredients/" + editIngredientData.id,
+        "http://localhost:3001/ingredients/" + editIngredientId,
         editIngredientData,
         {
           headers: {
@@ -145,7 +141,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       .then((response) => {
         console.log(response.data);
         setEditIngredient(false);
-        setEditIngredientData({ name: "", id: 0 });
+        setEditIngredientData({});
         setLoading(false);
         alert("Successfully edited ingredient!");
       })
@@ -293,7 +289,8 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                     }}
                     onClick={(event) => {
                       setEditIngredient(true);
-                      setEditIngredientData({ name: d.name, id: d.id });
+                      setEditIngredientId(d.id);
+                      setEditIngredientData({ name: d.name });
                     }}
                     tabIndex={d.id}
                   >
@@ -364,7 +361,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               fullWidth
               variant="standard"
               onChange={(event) => {
-                setNewIngredient(event.target.value);
+                setNewIngredient({ name: event.target.value });
               }}
             />
           </DialogContent>
