@@ -9,11 +9,11 @@ import java.util.Objects;
 public class RecipeIngredientId implements Serializable {
 
     @Column(name = "recipe_id")
-    private long recipeId;
+    private Long recipeId;
 
 
     @Column(name = "ingredient_id")
-    private long ingredientId;
+    private Long ingredientId;
 
     public long getRecipeId() {
         return recipeId;
