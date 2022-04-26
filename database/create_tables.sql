@@ -13,7 +13,8 @@ drop table users;
 create table ingredients (
     id int not null AUTO_INCREMENT,
     name varchar(30) not null,
-    constraint ingredients_pk primary key (id)
+    constraint ingredients_pk primary key (id),
+    constraint ingredients_uk unique key (name)
 ) engine = INNODB;
 
 
@@ -22,25 +23,29 @@ create table recipes (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(30) not null,
     instructions varchar(1000) not null,
-    constraint recipes_pk primary key (id)
+    constraint recipes_pk primary key (id),
+	constraint recipes_uk unique key (name)
 )engine = INNODB;
 
 create table shops (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(30) not null,
-    constraint shops_pk primary key (id)
+    constraint shops_pk primary key (id),
+    constraint shops_uk unique key (name)
 )engine = INNODB;
 
 create table restaurants (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(30) not null,
-    constraint restaurants_pk primary key (id)
+    constraint restaurants_pk primary key (id),
+    constraint restaurants_uk unique key (name)
 )engine = INNODB;
 
 create table tags (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(30) not null,
-    constraint tags_pk primary key (id)
+    constraint tags_pk primary key (id),
+    constraint tags_uk unique key (name)
 )engine = INNODB;
 
 create table users (
@@ -51,6 +56,8 @@ create table users (
     is_admin int not null,
     constraint users_pk primary key (id)
 )engine = INNODB;
+
+insert into users(username, password, token, is_admin) values ('adam', '72f194207f667cb4a544c75507cd44bdaaf1d70625b8197fd2bcfc44d4077ffa', 'stopa', 1);
 
 create table ingredient_recipe (
     recipe_id int not null,
