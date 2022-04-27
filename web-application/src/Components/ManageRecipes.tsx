@@ -22,6 +22,12 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Select from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Slide from "@mui/material/Slide";
+import AppBar from "@mui/material/AppBar";
+import { TransitionProps } from "@mui/material/transitions";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -35,9 +41,10 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useTheme } from "@mui/material/styles";
-import InputLabel from "@mui/material/InputLabel";
 
 interface ManageRecipesProps {}
 
@@ -62,6 +69,15 @@ const MenuProps = {
     },
   },
 };
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function getStyles(name: string, personName: any, theme: any) {
   return {
@@ -448,6 +464,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
 
       {/* add recipe */}
       <Dialog
+        fullScreen
         sx={{
           "& .MuiDialog-paper": {
             width: "80%",
@@ -457,15 +474,43 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         }}
         maxWidth="xs"
         open={addRecipe}
+        TransitionComponent={Transition}
       >
-        <DialogTitle
+        <AppBar
           sx={{
+            position: "relative",
             backgroundColor: "#c4560c",
             color: "white",
           }}
         >
-          ADD NEW RECIPE
-        </DialogTitle>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={() => {
+                setAddRecipe(false);
+                setNewRecipeTagLabel([]);
+              }}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              ADD NEW RECIPE
+            </Typography>
+            <Button
+              autoFocus
+              type="submit"
+              color="inherit"
+              onClick={(event) => {
+                setNewRecipeTagLabel([]);
+                addRecipeHandler(event);
+              }}
+            >
+              Save
+            </Button>
+          </Toolbar>
+        </AppBar>
         {loading && <LinearProgress />}
         <form
           onSubmit={(event) => {
@@ -481,7 +526,6 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               id="name"
               label="Recipe Name"
               type="text"
-              fullWidth
               variant="standard"
               onChange={(event) => {
                 setNewRecipe((prevState) => ({
@@ -531,19 +575,6 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               </Select>
             </Box>
           </DialogContent>
-          <DialogActions>
-            <Button
-              type="reset"
-              color="error"
-              onClick={() => {
-                setAddRecipe(false);
-                setNewRecipeTagLabel([]);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Add</Button>
-          </DialogActions>
         </form>
       </Dialog>
 
