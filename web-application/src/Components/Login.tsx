@@ -11,7 +11,7 @@ import bg from "../Images/bg1.jpg";
 
 import axios from "axios";
 
-const { sha256 } = require("crypto-hash");
+// const { sha256 } = require("crypto-hash");
 
 interface LoginProps {
   setIsLogged: any;
@@ -24,25 +24,26 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
 
   //handleLogin
   const handleLogin = async (event: any) => {
-    let secret = await sha256(password);
-    axios
-      .post(
-        "http://localhost:3001/login",
-        { username: username, password: secret },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "---",
-          },
-        }
-      )
-      .then((response) => {
-        props.setIsLogged(true);
-      })
-      .catch((err) => {
-        props.setIsLogged(false);
-        alert(err);
-      });
+    // let secret = await sha256(password);
+    // axios
+    //   .post(
+    //     "http://localhost:3001/login",
+    //     { username: username, password: secret },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: "---",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     props.setIsLogged(true);
+    //   })
+    //   .catch((err) => {
+    //     props.setIsLogged(false);
+    //     alert(err);
+    //   });
+    props.setIsLogged(true);
   };
 
   return (
