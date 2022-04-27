@@ -12,7 +12,7 @@ public class IngredientDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private long ingredientId;
 
     @NotNull
     @Column(name = "name")
@@ -22,11 +22,11 @@ public class IngredientDTO {
     private Set<RecipeIngredientDTO> recipeSet;
 
     public long getIngredientId() {
-        return id;
+        return ingredientId;
     }
 
     public void setIngredientId(long ingredientId) {
-        this.id = ingredientId;
+        this.ingredientId = ingredientId;
     }
 
     public String getName() {

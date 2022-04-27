@@ -13,14 +13,14 @@ public class RecipeDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private long recipeId;
 
     @NotNull
     @Column(name = "name")
     private String name;
 
     @NotNull
-    @Column(name = "instruction")
+    @Column(name = "instructions")
     private String instruction;
 
     @ManyToMany
@@ -35,12 +35,12 @@ public class RecipeDTO {
     private Set<RecipeIngredientDTO> ingredientSet;
 
 
-    public long getId() {
-        return id;
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setRecipeId(long id) {
+        this.recipeId = id;
     }
 
     public String getName() {

@@ -7,6 +7,8 @@ public class Ingredient {
     private String name;
     private String quantity;
 
+
+
     public long getIngredientId() {
         return ingredientId;
     }
