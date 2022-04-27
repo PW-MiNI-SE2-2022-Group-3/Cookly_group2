@@ -83,7 +83,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
 
   const getData = () => {
     axios
-      .get("http://localhost:3001/ingredients?page=0&limit=5000", {
+      .post("http://localhost:3001/ingredients/all?page=0&limit=5000", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "---",
@@ -105,7 +105,6 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     axios
       .post("http://localhost:3001/ingredients", {
         name: newIngredient.name,
-        id: 0,
       })
       .then((response) => {
         setAddIngredient(false);
@@ -138,7 +137,6 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         setEditIngredient(false);
         setEditIngredientData({});
         setLoading(false);
-        alert("Successfully edited ingredient!");
         getData();
       })
       .catch((err) => {
@@ -166,15 +164,23 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
 
   //Filter Ingredients
   const filterIngredients = () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: "---" },
-      body: JSON.stringify({ name: searchValue }),
-    };
-
-    fetch("http://localhost:3001/ingredients?page=0&limit=5000", requestOptions)
-      .then((response) => console.log(response))
-      .catch((err) => alert(err));
+    axios
+      .post(
+        "http://localhost:3001/ingredients/all?page=0&limit=5000",
+        { name: searchValue },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        setData(response.data.ingredients);
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const handleChangePage = (event: any, newPage: number) => {
@@ -205,7 +211,8 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         onChange={(event) => {
           setSearchValue(event.target.value);
-          filterIngredients();
+          if (event.target.value !== "") filterIngredients();
+          else getData();
         }}
       />
       <Button
@@ -434,7 +441,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Ok</Button>
           </DialogActions>
         </form>
       </Dialog>
