@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -18,6 +19,9 @@ import DialogContent from "@mui/material/DialogContent";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -31,8 +35,9 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
-import AddRecipes from "./RegisterRecipe";
-import EditRecipe from "./EditRecipe";
+
+import { useTheme } from "@mui/material/styles";
+import InputLabel from "@mui/material/InputLabel";
 
 interface ManageRecipesProps {}
 
@@ -47,31 +52,54 @@ const columns = [
 
 const tagOptions = ["Vegetarian", "Gluten Free", "Low Calorie", "No Lactose"];
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: any, theme: any) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 const ManageRecipes: React.FC<ManageRecipesProps> = (
   props: ManageRecipesProps
 ) => {
   type IngredientResponse = {
+    id?: number;
     name?: string;
   };
 
   type RecipeResponse = {
+    id?: number;
     name?: string;
-    instruction?: string;
+    instructions?: string;
     ingredients?: IngredientResponse[];
     tags?: string[];
   };
+
+  const theme = useTheme();
 
   const [loading, setLoading] = useState(false);
 
   const [addRecipe, setAddRecipe] = useState(false);
   const [newRecipe, setNewRecipe] = useState<RecipeResponse>({});
+  const [newRecipeTags, setNewRecipeTags] = useState([]);
+  const [newRecipeTagLabel, setNewRecipeTagLabel] = useState([]);
+  const [newRecipeIngredientss, setNewRecipeIngredients] = useState([]);
 
   const [editRecipe, setEditRecipe] = useState(false);
-  const [editRecipeId, setEditRecipeId] = useState(-1);
   const [editRecipeData, setEditRecipeData] = useState<RecipeResponse>({});
-
-  // const [deleteRecipe, setDeleteRecipe] = useState(false);
-  // const [recipeIdToDelete, setRecipeIdToDelete] = useState(-1);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -80,69 +108,157 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Butter Chicken",
-      instructions:
-        "take chicken and butten and smash them together until it works",
-      tags: "no lactose",
-      Ingredients: "butter, chicken",
-    },
-    {
-      id: 2,
-      name: "Schabowy",
-      instructions: "take surowy kotlet and fry it on a pan",
-      tags: "gluten free",
-      Ingredients: "surpoy kotlet",
-    },
-    {
-      id: 3,
-      name: "butter",
-      instructions: "take butter chicken and remove chicken",
-      tags: "no lactose",
-      Ingredients: "butter chicken",
-    },
-  ]);
+
+  const [data, setData] = useState<RecipeResponse[]>([]);
+  // const [data, setData] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Butter Chicken",
+  //     instructions:
+  //       "take chicken and butten and smash them together until it works",
+  //     tags: "no lactose",
+  //     Ingredients: "butter, chicken",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Schabowy",
+  //     instructions: "take surowy kotlet and fry it on a pan",
+  //     tags: "gluten free",
+  //     Ingredients: "surpoy kotlet",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "butter",
+  //     instructions: "take butter chicken and remove chicken",
+  //     tags: "no lactose",
+  //     Ingredients: "butter chicken",
+  //   },
+  // ]);
 
   useEffect(() => {
-    // setLoading(true);
     const fetchData = async () => {
-      axios
-        .get("http://localhost:3001/ingredients?page=0&limit=5000", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "root",
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          setData(response.data.ingredients);
-          // setLoading(false);
-        })
-        .catch((err) => {
-          // setLoading(false);
-          console.log(err);
-          // alert(err);
-        });
+      getData();
     };
 
     fetchData();
   }, []);
 
+  const getData = () => {
+    axios
+      .post("http://localhost:3001/recipes/all?page=0&limit=5000", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response) => {
+        setData(response.data.recipes);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const handleTagChange = (event: any) => {
+    const {
+      target: { value },
+    } = event;
+    setNewRecipeTagLabel(typeof value === "string" ? value.split(",") : value);
+    setNewRecipeTags((prevState) => ({ ...prevState, value }));
+    console.log(newRecipeTags);
+  };
+
+  //Add Recipe
+  const addRecipeHandler = (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+
+    axios
+      .post("http://localhost:3001/recipes", {
+        name: newRecipe.name,
+        id: 0,
+      })
+      .then((response) => {
+        setAddRecipe(false);
+        setNewRecipe({});
+        setLoading(false);
+        getData();
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert(err);
+      });
+  };
+
+  //Edit Recipe
+  const editRecipeHandler = (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+    axios
+      .put(
+        "http://localhost:3001/recipes?id=" + editRecipeData.id,
+        editRecipeData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        setEditRecipe(false);
+        setEditRecipeData({});
+        setLoading(false);
+        getData();
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert(err.message);
+      });
+  };
+
+  //Delete Recipe
+  const deleteButtonHandler = (event: any, recipeId: number) => {
+    axios
+      .delete("http://localhost:3001/recipes/" + recipeId, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response) => {
+        getData();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  //Filter Recipes
+  const filterRecipes = () => {
+    axios
+      .post(
+        "http://localhost:3001/recipes/all?page=0&limit=5000",
+        { name: searchValue, tags: [filterValue] },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        setData(response.data.recipes);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   const emptyRows = () => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   };
 
-  // const adminDeletion = () => {
-  //   setDeleteRecipe(true);
-  // };
-  // const resetAdminDeletion = () => {
-  //   setDeleteRecipe(false);
-  // };
-  // const setIDToDelete = (ID: number) => {
-  //   setRecipeID(ID);
-  // };
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
@@ -151,25 +267,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
-  const deleteButtonHandler = (event: any, userId: number) => {
-    // axios.delete(
-    //   "--link--" + userId.toString(),
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "--authorization--",
-    //     },
-    //   }
-    // );
-    //  this.props.resetUserDeletion();
-  };
-  const editButtonHandler = (event: any, d: any) => {
-    console.log(d);
-    setEditRecipe(true);
-    setEditRecipeData(d);
-  };
 
-  return (
+  return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
         id="outlined-basic"
@@ -186,6 +285,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         }}
         onChange={(event) => {
           setSearchValue(event.target.value);
+          if (event.target.value !== "") filterRecipes();
+          else getData();
         }}
       />
       <Button
@@ -219,6 +320,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         }}
         onClick={() => {
           setAddFilter(true);
+          // filterRecipes();
         }}
       >
         Add Filter
@@ -239,7 +341,12 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                   key={name}
                   className="tablecellheader"
                   style={{
-                    textAlign: name === "ACTIONS" ? "center" : "left",
+                    textAlign:
+                      name === "ACTIONS" ||
+                      name === "TAGS" ||
+                      name === "INGREDIENTS"
+                        ? "center"
+                        : "left",
                     color: "white",
                   }}
                 >
@@ -257,8 +364,22 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 <TableCell className="tablecell"> {d.id} </TableCell>
                 <TableCell className="tablecell">{d.name}</TableCell>
                 <TableCell className="tablecell">{d.instructions}</TableCell>
-                <TableCell className="tablecell"> {d.tags} </TableCell>
-                <TableCell className="tablecell"> {d.Ingredients} </TableCell>
+                <TableCell className="tablecell">
+                  <ul>
+                    {d.tags.map((t: any) => (
+                      <li>{t}</li>
+                    ))}
+                  </ul>
+                </TableCell>
+                <TableCell className="tablecell">
+                  <ul>
+                    {d.ingredients.map((i: any) => (
+                      <li>
+                        {i.quantity} of {i.ingredient.name}
+                      </li>
+                    ))}
+                  </ul>
+                </TableCell>
 
                 <TableCell
                   className="tablecell"
@@ -288,7 +409,11 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => editButtonHandler(event, d)}
+                    onClick={(event) => {
+                      setEditRecipe(true);
+                      setEditRecipeData(d);
+                      console.log("From edit", d);
+                    }}
                     tabIndex={d.id}
                   >
                     Edit
@@ -320,13 +445,165 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </TableFooter>
         </Table>
       </TableContainer>
-      {addRecipe && <AddRecipes setAddRegister={setAddRecipe} />}
-      {editRecipe && (
-        <EditRecipe
-          setEditUser={setEditRecipe}
-          editUserData={editRecipeData}
-        ></EditRecipe>
-      )}
+
+      {/* add recipe */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={addRecipe}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          ADD NEW RECIPE
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            addRecipeHandler(event);
+          }}
+        >
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="name"
+              label="Recipe Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewRecipe((prevState) => ({
+                  ...prevState,
+                  name: event.target.value,
+                }));
+              }}
+              sx={{ margin: "10px 0px 10px 0px" }}
+            />
+            <TextField
+              autoFocus
+              required
+              multiline
+              margin="dense"
+              id="name"
+              label="Instructions"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewRecipe((prevState) => ({
+                  ...prevState,
+                  instructions: event.target.value,
+                }));
+              }}
+              sx={{ margin: "10px 0px 10px 0px" }}
+            />
+            <Box sx={{ margin: "10px 0px 10px 0px" }}>
+              <InputLabel>Tags</InputLabel>
+              <Select
+                id="tags"
+                multiple
+                value={newRecipeTagLabel}
+                onChange={handleTagChange}
+                input={<OutlinedInput sx={{ width: "100%" }} label="Name" />}
+                MenuProps={MenuProps}
+              >
+                {tagOptions.map((t) => (
+                  <MenuItem
+                    key={t}
+                    value={t}
+                    style={getStyles(t, newRecipeTagLabel, theme)}
+                  >
+                    {t}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setAddRecipe(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* edit recipe */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={editRecipe}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          EDIT RECIPE
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            // editRecipeHandler(event);
+          }}
+        >
+          <DialogContent sx={{ marginTop: "20px" }}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editRecipeData.name}
+              id="name"
+              label="Recipe Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditRecipeData((prevState) => ({
+                  ...prevState,
+                  name: event.target.value,
+                }));
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setEditRecipe(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Ok</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
 
       {/* filter tags */}
       <Dialog
@@ -388,6 +665,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         </DialogActions>
       </Dialog>
     </Box>
+  ) : (
+    <></>
   );
 };
 export default ManageRecipes;
