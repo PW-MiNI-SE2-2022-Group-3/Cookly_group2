@@ -23,6 +23,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
 import TableFooter from "@mui/material/TableFooter";
 import TablePaginationActions from "./TablePagination";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import axios from "axios";
 
@@ -30,10 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 
-import Register from "./RegisterUser";
 import "../styles/Manage.css";
-import EditUser from "./EditUser";
-import { ViewColumnSharp } from "@mui/icons-material";
 
 interface ManageUserProps {}
 
@@ -41,86 +39,58 @@ const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
-  // const [deleteUser, setDeleteUser] = useState(false);
+  type IngredientResponse = {
+    id?: number;
+    name?: string;
+  };
+
+  type RecipeResponse = {
+    id?: number;
+    name?: string;
+    instructions?: string;
+    ingredients?: IngredientResponse[];
+    tags?: string[];
+  };
+
+  type UserResponse = {
+    id?: number;
+    firstname?: string;
+    lastname?: string;
+    username?: string;
+    password?: string;
+    isAdmin?: boolean;
+    savedRecipes?: RecipeResponse[];
+  };
+
+  const [loading, setLoading] = useState(false);
+
+  const [addUser, setAddUser] = useState(false);
+  const [newUser, setNewUser] = useState<UserResponse>({});
+
+  const [editUser, setEditUser] = useState(false);
+  const [editUserData, setEditUserData] = useState<UserResponse>({});
+
   const [clickedAdmin, setClickedAdmin] = useState(true);
   const [clickedAppUser, setclickedAppUser] = useState(false);
-  const [editUser, setEditUser] = useState(false);
-  const [editUserData, setEditUserData] = useState({});
-  const [addUser, setAddUser] = useState(false);
+
+  const [searchValue, setSearchValue] = useState("");
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // const [data, setData] = useState<UserResponse[]>([]);
   const [data, setData] = useState([
     {
       id: 1,
-      firstName: "Ayetijhya",
-      lastName: "Desmukhya",
-      login: "ayeti82",
+      firstname: "Ayetijhya",
+      lastname: "Desmukhya",
+      username: "ayeti82",
     },
     {
       id: 2,
-      firstName: "Erza",
-      lastName: "Scarlet",
-      login: "scarlet56",
-    },
-    {
-      id: 3,
-      firstName: "Wanda",
-      lastName: "Maximoff",
-      login: "maxi09",
-    },
-    {
-      id: 4,
-      firstName: "Ayetijhya",
-      lastName: "Desmukhya",
-      login: "ayeti82",
-    },
-    {
-      id: 5,
-      firstName: "Erza",
-      lastName: "Scarlet",
-      login: "scarlet56",
-    },
-    {
-      id: 6,
-      firstName: "Wanda",
-      lastName: "Maximoff",
-      login: "maxi09",
-    },
-    {
-      id: 7,
-      firstName: "Ayetijhya",
-      lastName: "Desmukhya",
-      login: "ayeti82",
-    },
-    {
-      id: 8,
-      firstName: "Erza",
-      lastName: "Scarlet",
-      login: "scarlet56",
-    },
-    {
-      id: 9,
-      firstName: "Wanda",
-      lastName: "Maximoff",
-      login: "maxi09",
-    },
-    {
-      id: 10,
-      firstName: "Ayetijhya",
-      lastName: "Desmukhya",
-      login: "ayeti82",
-    },
-    {
-      id: 11,
-      firstName: "Erza",
-      lastName: "Scarlet",
-      login: "scarlet56",
-    },
-    {
-      id: 12,
-      firstName: "Wanda",
-      lastName: "Maximoff",
-      login: "maxi09",
+      firstname: "Erza",
+      lastname: "Scarlet",
+      username: "scarlet56",
     },
   ]);
 
@@ -128,15 +98,6 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
   };
 
-  // const userDeletion = () => {
-  //   setDeleteUser(true);
-  // };
-  // const resetUserDeletion = () => {
-  //   setDeleteUser(false);
-  // };
-  // const setIDToDelete = (ID: number) => {
-  //   setUserID(ID);
-  // };
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
@@ -145,25 +106,8 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
-  const deleteButtonHandler = (event: any, userId: number) => {
-    // axios.delete(
-    //   "--link--" + userId.toString(),
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: "--authorization--",
-    //     },
-    //   }
-    // );
-    //  this.props.resetUserDeletion();
-  };
-  const editButtonHandler = (event: any, d: any) => {
-    console.log(d);
-    setEditUser(true);
-    setEditUserData(d);
-  };
 
-  return (
+  return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         <Button
@@ -267,9 +211,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                 ).map((d) => (
                   <TableRow hover>
                     <TableCell className="tablecell"> {d.id} </TableCell>
-                    <TableCell className="tablecell">{d.firstName}</TableCell>
-                    <TableCell className="tablecell">{d.lastName}</TableCell>
-                    <TableCell className="tablecell"> {d.login} </TableCell>
+                    <TableCell className="tablecell">{d.firstname}</TableCell>
+                    <TableCell className="tablecell">{d.lastname}</TableCell>
+                    <TableCell className="tablecell"> {d.username} </TableCell>
                     <TableCell
                       className="tablecell"
                       style={{ textAlign: "center", width: "35%" }}
@@ -283,7 +227,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                           width: "200px",
                           margin: "5px",
                         }}
-                        onClick={(event) => deleteButtonHandler(event, d.id)}
+                        onClick={(event) => {
+                          console.log(d.id);
+                        }}
                         tabIndex={d.id}
                       >
                         Delete
@@ -298,7 +244,10 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                           width: "200px",
                           margin: "5px",
                         }}
-                        onClick={(event) => editButtonHandler(event, d)}
+                        onClick={(event) => {
+                          setEditUser(true);
+                          setEditUserData(d);
+                        }}
                         tabIndex={d.id}
                       >
                         Edit
@@ -316,9 +265,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                 ).map((d) => (
                   <TableRow hover>
                     <TableCell className="tablecell"> {d.id} </TableCell>
-                    <TableCell className="tablecell">{d.firstName}</TableCell>
-                    <TableCell className="tablecell">{d.lastName}</TableCell>
-                    <TableCell className="tablecell"> {d.login} </TableCell>
+                    <TableCell className="tablecell">{d.firstname}</TableCell>
+                    <TableCell className="tablecell">{d.lastname}</TableCell>
+                    <TableCell className="tablecell"> {d.username} </TableCell>
                   </TableRow>
                 ))}
           </TableBody>
@@ -344,14 +293,223 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           </TableFooter>
         </Table>
       </TableContainer>
-      {addUser && <Register setAddUser={setAddUser}></Register>}
-      {editUser && (
-        <EditUser
-          setEditUser={setEditUser}
-          editUserData={editUserData}
-        ></EditUser>
-      )}
+
+      {/* add user */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={addUser}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          ADD NEW INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            setAddUser(false);
+            // addIngredientHandler(event);
+          }}
+        >
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              label="First Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewUser((prevState) => ({
+                  ...prevState,
+                  name: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              label="Last Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewUser((prevState) => ({
+                  ...prevState,
+                  lastname: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              label="Username"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewUser((prevState) => ({
+                  ...prevState,
+                  username: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              label="Password"
+              type="password"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewUser((prevState) => ({
+                  ...prevState,
+                  password: event.target.value,
+                }));
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setAddUser(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* edit ingredient */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: 435,
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="xs"
+        open={editUser}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          EDIT INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            setEditUser(false);
+            // editIngredientHandler(event);
+          }}
+        >
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editUserData.firstname}
+              label="First Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditUserData((prevState) => ({
+                  ...prevState,
+                  name: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editUserData.lastname}
+              label="Last Name"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditUserData((prevState) => ({
+                  ...prevState,
+                  lastname: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editUserData.username}
+              label="Username"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditUserData((prevState) => ({
+                  ...prevState,
+                  username: event.target.value,
+                }));
+              }}
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              value={editUserData.password}
+              label="Password"
+              type="password"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setEditUserData((prevState) => ({
+                  ...prevState,
+                  password: event.target.value,
+                }));
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setEditUser(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Ok</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </Box>
+  ) : (
+    <></>
   );
 };
 export default ManageUsers;
