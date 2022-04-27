@@ -323,7 +323,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           // filterRecipes();
         }}
       >
-        Add Filter
+        Tag Filter
         <FilterListIcon style={{ marginLeft: "10px" }} />
       </Button>
 
@@ -469,6 +469,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         {loading && <LinearProgress />}
         <form
           onSubmit={(event) => {
+            setNewRecipeTagLabel([]);
             addRecipeHandler(event);
           }}
         >
@@ -536,6 +537,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               color="error"
               onClick={() => {
                 setAddRecipe(false);
+                setNewRecipeTagLabel([]);
               }}
             >
               Cancel
