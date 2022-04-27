@@ -570,6 +570,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         {loading && <LinearProgress />}
         <form
           onSubmit={(event) => {
+            event.preventDefault();
+            setNewRecipeTagLabel([]);
             // editRecipeHandler(event);
           }}
         >
@@ -591,6 +593,46 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 }));
               }}
             />
+            <TextField
+              autoFocus
+              required
+              multiline
+              margin="dense"
+              value={editRecipeData.instructions}
+              id="name"
+              label="Instructions"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                setNewRecipe((prevState) => ({
+                  ...prevState,
+                  instructions: event.target.value,
+                }));
+              }}
+              sx={{ margin: "10px 0px 10px 0px" }}
+            />
+            <Box sx={{ margin: "10px 0px 10px 0px" }}>
+              <InputLabel>Tags</InputLabel>
+              <Select
+                id="tags"
+                multiple
+                value={newRecipeTagLabel}
+                onChange={handleTagChange}
+                input={<OutlinedInput sx={{ width: "100%" }} label="Name" />}
+                MenuProps={MenuProps}
+              >
+                {tagOptions.map((t) => (
+                  <MenuItem
+                    key={t}
+                    value={t}
+                    style={getStyles(t, newRecipeTagLabel, theme)}
+                  >
+                    {t}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button
@@ -598,6 +640,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               color="error"
               onClick={() => {
                 setEditRecipe(false);
+                setNewRecipeTagLabel([]);
               }}
             >
               Cancel
