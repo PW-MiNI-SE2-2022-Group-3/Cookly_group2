@@ -11,7 +11,7 @@ import bg from "../Images/bg1.jpg";
 
 import axios from "axios";
 
-import { sha256 } from "crypto-hash";
+const { sha256 } = require("crypto-hash");
 
 interface LoginProps {
   setIsLogged: any;
