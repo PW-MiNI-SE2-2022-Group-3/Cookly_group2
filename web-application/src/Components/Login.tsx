@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Button, Grid, TextField } from "@material-ui/core";
+
+import Button from "@mui/material/Button";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@mui/material/TextField";
 import { InputAdornment } from "@mui/material";
 import { AccountCircle, LockRounded } from "@mui/icons-material";
+
 import logo from "../Images/logo.png";
 import bg from "../Images/bg1.jpg";
+
 import axios from "axios";
-import MainWindow from "./MainWindow";
+
+import { sha256 } from "crypto-hash";
 
 interface LoginProps {
   setIsLogged: any;
@@ -17,14 +23,26 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
   const [username, setUsername] = useState("");
 
   //handleLogin
-  const handleLogin = (event: any) => {
-    const data = {
-      login: username,
-      password: password,
-    };
-
-    //call api ---- TODO --- if false setLogin.. to false
-    props.setIsLogged(true);
+  const handleLogin = async (event: any) => {
+    let secret = await sha256(password);
+    axios
+      .post(
+        "http://localhost:3001/login",
+        { username: username, password: secret },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        props.setIsLogged(true);
+      })
+      .catch((err) => {
+        props.setIsLogged(false);
+        alert(err);
+      });
   };
 
   return (
@@ -77,6 +95,8 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
               margin="normal"
               data-testid="password-textfield"
               placeholder="Password"
+              type="password"
+              //ppaasswoord type
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
@@ -102,7 +122,6 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             >
               Log In
             </Button>
-            {/* Also check for error while authorization */}
           </div>
           <div />
         </Grid>
