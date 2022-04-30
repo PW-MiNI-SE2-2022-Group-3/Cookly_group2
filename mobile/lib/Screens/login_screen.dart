@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../Utilities/constants.dart';
 import '../Utilities/user_model.dart';
+import '../Utilities/apiProvider.dart';
+import '../Utilities/error_popup.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({required Key key}) : super(key: key);
@@ -29,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CooklyProvider cooklyProvider = CooklyProvider();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -78,17 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.0,
               ),
               ElevatedButton(
+
                   onPressed: () async {
+                    Navigator.pushNamed(context, 'main');
                     try {
                       setState(() {
                         isLoading = true;
                       });
-                      user = MyUser(email, password);
-                      Future.delayed(const Duration(seconds: 4), () {
+                      var resCode = await cooklyProvider.loginMethod(email, password);
                         setState(() {
                           isLoading = false;
-                        });
-                        Navigator.pushNamed(context, 'main');
+                          if(resCode==200)
+                            Navigator.pushNamed(context, 'main');
+                          else{
+                          }
                       });
                     } catch (e) {
                       if (kDebugMode) {
