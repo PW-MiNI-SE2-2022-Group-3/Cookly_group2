@@ -13,7 +13,7 @@ class CooklyProvider extends GetConnect {
   var ingredientUrl = Uri(
     scheme: 'http',
     host: 'localhost',
-    path: '/ingredients',
+    path: '/ingredients/all',
     port: 3001,
     queryParameters: {'page': '0', 'limit': '5000',},
   );
@@ -44,7 +44,8 @@ class CooklyProvider extends GetConnect {
   }
 
   // Get request
-  Future<Response> getIngredients() => get('http://localhost:3001/ingredients?page=0&limit=5000');
+  Future<Response> getIngredients() => get('http://localhost:3001/ingredients/next?page=0&limit=5000');
+  Future<Response> postngredients() => post('http://localhost:3001/ingredients/all?page=0&limit=5000', {"name":"",},);
   // Post request
   Future<Response> postUser() => post('http://localhost:3001/ingredients',
       jsonEncode({'id': 1, 'name':'chicken'})) ;

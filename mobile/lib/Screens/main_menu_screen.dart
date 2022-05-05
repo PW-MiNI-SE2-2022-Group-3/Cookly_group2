@@ -1,4 +1,11 @@
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:mobile_cookly/Utilities/apiProvider.dart';
+import '../models/Ingredient.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({required Key key}) : super(key: key);
@@ -7,9 +14,124 @@ class MainMenuScreen extends StatefulWidget {
   _MainMenuScreenState createState() => _MainMenuScreenState();
 }
 
+
 class _MainMenuScreenState extends State<MainMenuScreen> {
+  late Future<List<Ingredient>>  _fetchedData; //<== (1) here is your Future
+  LinkedHashMap<Ingredient, bool> tmpCopy = LinkedHashMap<Ingredient, bool>();
+  var selectedIngredients = {Ingredient.fromName("testIng"): true};
+  CooklyProvider cooklyProvider = CooklyProvider();
+  Future<List<Ingredient>> fetchIngredients() async {
+    final response = await http.post(cooklyProvider.ingredientUrl,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"name":""},),);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var r = jsonDecode(response.body);
+
+      List<Ingredient> ingredients = List.generate(r['ingredients'].length, (index) =>
+          Ingredient.fromName(r['ingredients'][index]['name']));
+        ingredients.forEach((element) {
+          selectedIngredients[element] = false;
+        }
+      );
+      return ingredients;
+
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('error response code: ${response.statusCode}');
+      throw Exception('Failed to load ingredients');
+    }
+  }
+  late Future<List<Ingredient>> futureIngredients;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _fetchedData = fetchIngredients();
+    selectedIngredients.clear();
+    futureIngredients = fetchIngredients();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+
+    return MaterialApp(
+      home: Scaffold(
+          body:
+          Container(
+            child: FutureBuilder(
+              future: _fetchedData,
+              builder: (BuildContext context, AsyncSnapshot<List<Ingredient>> snapshot) {
+                if (!(snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData)) {
+
+                  LinkedHashMap<Ingredient, bool> posts = LinkedHashMap<Ingredient, bool>();
+
+                  (snapshot.data!).forEach((element) {
+                    posts[element]=false;
+                    // if(!tmpCopy.containsKey(element))
+                    //   tmpCopy[element] = false;
+
+                  });
+
+                  if(tmpCopy.isEmpty){
+                    posts.forEach((key, value) {
+                      tmpCopy[key]=value;
+                    });
+                  }
+                  
+                  return ListView(
+                    children: posts.keys
+                        .map(
+                          (Ingredient ingredient) => CheckboxListTile(
+                          title: Text(ingredient.name!),
+                            value: tmpCopy[ingredient],
+                            onChanged: (bool? value) {
+                            setState(() {
+                              print(posts);
+                              if(tmpCopy[ingredient]==false){
+                                tmpCopy[ingredient]=true;
+                              }else{
+                                tmpCopy[ingredient]=false;
+                              }
+                              // tmpCopy[ingredient] = !tmpCopy[ingredient]!;
+                              print(tmpCopy[ingredient]);
+                              // tmpCopy = posts;
+                            });
+                          },
+                          ),
+                    )
+                        .toList(),
+                  );
+                } else {
+                  return const Center(
+                      child: CircularProgressIndicator(
+
+                      )
+                  );
+                }
+              },
+            ),
+            // child: Obx(()=>Text("${c.ingredients.toString()}")),
+          )
+        //
+        // ListView.builder(
+        //   // Let the ListView know how many items it needs to build.
+        //   itemCount: items.length,
+        //   // Provide a builder function. This is where the magic happens.
+        //   // Convert each item into a widget based on the type of item it is.
+        //   itemBuilder: (context, index) {
+        //     final item = items[index];
+        //
+        //     return ListTile(
+        //       title: item.buildTitle(context),
+        //       subtitle: item.buildSubtitle(context),
+        //     );
+        //   },
+        // ),
+      ),
+    );
   }
 }
