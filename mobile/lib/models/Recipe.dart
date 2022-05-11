@@ -1,7 +1,7 @@
 import 'ingredient.dart';
 class Recipe{
-  String? name;
-  String? instructions;
+  String name="";
+  String instructions="";
   List<Ingredient>? ingredients;
   List<String>? tags;
   Recipe();

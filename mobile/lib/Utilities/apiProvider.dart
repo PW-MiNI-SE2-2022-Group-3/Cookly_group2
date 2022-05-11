@@ -17,7 +17,35 @@ class CooklyProvider extends GetConnect {
     port: 3001,
     queryParameters: {'page': '0', 'limit': '5000',},
   );
+  var recipesUrl = Uri(
+    scheme: 'http',
+    host: 'localhost',
+    path: '/recipes/user',
+    port: 3001,
+    queryParameters: {'page': '0', 'limit': '5000',},
+  );
 
+
+  Future<List<Ingredient>> fetchIngredients() async {
+    final response = await http.post(ingredientUrl,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"name":""},),);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      var r = jsonDecode(response.body);
+
+      List<Ingredient> ingredients = List.generate(r['ingredients'].length, (index) =>
+          Ingredient.fromName(r['ingredients'][index]['name']));
+      return ingredients;
+
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      print('error response code: ${response.statusCode}');
+      throw Exception('Failed to load ingredients');
+    }
+  }
 
   Future loginMethod(String username,String password) async {
     var bytes1 = utf8.encode(password);         // data being hashed

@@ -1,5 +1,5 @@
 class Ingredient{
-  String? name;
+  String name="IngredientNotInitialized";
   String? quantity;
   Ingredient();
   @override

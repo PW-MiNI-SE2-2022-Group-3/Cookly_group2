@@ -8,6 +8,7 @@ import 'Screens/register_screen.dart';
 import 'Screens/saved_recipes_screen.dart';
 import 'Screens/selector_screen.dart';
 import 'package:flutter/material.dart';
+import 'Screens/recipe_screen.dart';
 
 
 void main() {
@@ -22,10 +23,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      initialRoute: 'main',
+      initialRoute: 'login',
       routes: {
         'login': (context) => LoginScreen(
               key: Key("LoginScreenKey"),
+            ),
+        'recipes': (context) => RecipeScreen(
+              key: Key("recipeScreenKey"),
             ),
         'main': (context) => MainMenuScreen(
               key: Key("MainScreenKey"),

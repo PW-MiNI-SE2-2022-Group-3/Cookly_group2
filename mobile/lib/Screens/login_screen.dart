@@ -19,6 +19,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String password = "", email = "";
 
+
+  final FReeTshirt = (List<int> arr)=>(arr.map((n){
+    print("runing");
+    var i=0;
+    for(var m=n;m%2!=0; ++i){
+      m~/=2;
+    }
+    return [n,i];
+  }).toList()..sort((a, b) => a[1]-b[1])).last.first;
+
   late MyUser user;
 
   bool isLoading = false;
@@ -32,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("free thisrt: "+ FReeTshirt([2,3,5,6]).toString());
     CooklyProvider cooklyProvider = CooklyProvider();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
 
                   onPressed: () async {
-                    Navigator.pushNamed(context, 'main');
                     try {
                       setState(() {
                         isLoading = true;
@@ -92,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       var resCode = await cooklyProvider.loginMethod(email, password);
                         setState(() {
                           isLoading = false;
-                          if(resCode==200)
+                          if(resCode==200) {
                             Navigator.pushNamed(context, 'main');
-                          else{
+                          } else{
                           }
                       });
                     } catch (e) {
