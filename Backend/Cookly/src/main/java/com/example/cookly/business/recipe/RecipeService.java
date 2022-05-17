@@ -6,6 +6,7 @@ import com.example.cookly.business.recipe.model.RecipeTag;
 import com.example.cookly.exceptions.models.*;
 import com.example.cookly.mapper.RecipeMapper;
 import com.example.cookly.models.dto.RecipeDTO;
+import com.example.cookly.models.dto.RecipeIngredientDTO;
 import com.example.cookly.repositories.RecipeIngredientRepository;
 import com.example.cookly.repositories.RecipeRepository;
 import com.example.cookly.repositories.TagRepository;
@@ -48,10 +49,6 @@ public class RecipeService implements RecipeServiceInterface {
                 recipeDTO ->  {
                     try {
                         recipeRepository.save(recipeDTO);
-
-                        recipeDTO.getIngredientSet().forEach(i ->
-                                recipeIngredientRepository.addIngredientForRecipe(i.getRecipe().getRecipeId(), i.getIngredient().getIngredientId(), i.getQuantity()));
-
                     } catch (final DataIntegrityViolationException e) {
                         throw new IngredientDuplicateException(recipe.getName());
                     } catch (final DataAccessException e) {

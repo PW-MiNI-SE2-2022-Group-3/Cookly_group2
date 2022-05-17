@@ -7,15 +7,18 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
 public interface RecipeIngredientRepository  extends PagingAndSortingRepository<RecipeIngredientDTO, Long> {
-  @Modifying
-  @Query(value = "insert into recipe_ingredient (recipe_id, ingredient_id, quantity) values (:recipeId, :ingredientId, :quantity", nativeQuery = true )
+
+
+  @Query(value = "insert into ingredient_recipe (recipe_id, ingredient_id, quantity) values (:recipeId, :ingredientId, :quantity)", nativeQuery = true )
   void addIngredientForRecipe(@Param("recipeId") long recipeId,
                                 @Param("ingredientId") long ingredientId,
                                 @Param("quantity") String quantity);
 
     @Modifying
-    @Query(value = " delete from recipe_ingredient where recipe_id = :recipeId", nativeQuery = true)
+    @Query(value = " delete from ingredient_recipe where recipe_id = :recipeId", nativeQuery = true)
     void deleteAllByRecipeId(@Param("recipeId") Long recipeId);
 }
