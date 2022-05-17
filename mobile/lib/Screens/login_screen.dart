@@ -7,6 +7,7 @@ import '../Utilities/constants.dart';
 import '../Utilities/user_model.dart';
 import '../Utilities/apiProvider.dart';
 import '../Utilities/error_popup.dart';
+import 'package:http/http.dart' as http;
 
 
 class LoginScreen extends StatefulWidget {
@@ -99,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {
                         isLoading = true;
                       });
-                      var resCode = await cooklyProvider.loginMethod(email, password);
+                      var resCode = await cooklyProvider.loginMethod(email, password, http.Client());
                         setState(() {
                           isLoading = false;
                           if(resCode==200) {

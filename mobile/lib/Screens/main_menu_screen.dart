@@ -90,8 +90,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    _fetchedData = fetchIngredients();
+    _fetchedData = cooklyProvider.fetchIngredients(http.Client());
     selectedIngredients.clear();
     futureIngredients = fetchIngredients();
     super.initState();
@@ -150,6 +149,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                             .toList());
                         widgets.add(
                           MaterialButton(
+                            key: Key("show_recipes_button_key"),
                               child: Text("Show my recipes"),
                               onPressed: ()=>{
                               onPressedButton()

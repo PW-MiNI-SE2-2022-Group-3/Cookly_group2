@@ -23,28 +23,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
 
 
-  Future<List<Recipe>> fetchRecipes(List<Ingredient> args) async {
-    final response = await http.post(cooklyProvider.recipesUrl,
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(args),
-    );
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      var r = jsonDecode(response.body);
-      print(r);
-      List<Recipe> recipes = List.generate(r['recipes'].length, (index) =>
-          Recipe.fromJson(r));
-      print("decoded first"+recipes.first.name);
-      return recipes;
 
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      print('error response code: ${response.statusCode}');
-      throw Exception('Failed to load recipes');
-    }
-  }
 
 
   late Future<List<Ingredient>> futureIngredients;
@@ -52,13 +31,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    _fetchedData = cooklyProvider.fetchRecipes([], http.Client());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as List<Ingredient>;
-    _fetchedData = fetchRecipes(args);
 
     return MaterialApp(
       home: Scaffold(
@@ -77,23 +56,36 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         fetchedRecipes.add(element);
                       });
 
-                      return ListView(
-                        children: fetchedRecipes
-                            .map(
-                              (Recipe recipe) => Column(
-                                children: [
-                                  Text(recipe.name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                                  Text(recipe.instructions, style: TextStyle(fontSize: 15),),
-                                  Text(recipe.ingredients.toString(), style: TextStyle(fontSize: 15),),
-                                  // Text(recipe.tags.toString(), style: TextStyle(fontSize: 15),),
+                      return Expanded(
+                        child: ListView(
+                          children: fetchedRecipes
+                              .map(
+                                (Recipe recipe) => Column(
 
-                                ],
+                                  children: [
+                                    Container(
+                                      height:200,
+                                      width: 200,
+                                      child: Column(
+                                        children: [
+                                          Text(recipe.name, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                          Text(recipe.instructions, style: TextStyle(fontSize: 15),),
+                                          Text(recipe.ingredients.toString(), style: TextStyle(fontSize: 15),),
+                                          // Text(recipe.tags.toString(), style: TextStyle(fontSize: 15),),
+                                  ],
+                                      ),
+                                    )
 
-                          ),
-                        )
-                            .toList(),
+
+                                  ],
+
+                            ),
+                          )
+                              .toList(),
+                        ),
                       );
                     } else {
+                      print(snapshot);
                       return const Center(
                           child: CircularProgressIndicator(
 
