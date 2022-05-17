@@ -27,8 +27,8 @@ public class Recipecontroller {
         this.recipeService = recipeService;
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @RequestParam(value = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteIngredient(@RequestHeader HttpHeaders headers, @PathVariable(value = "id") Long id) {
         if(recipeService.deleteRecipe(id))
             return ResponseEntity.ok(id.toString());
         return ResponseEntity.badRequest().body("No ingredient matching this id was found");

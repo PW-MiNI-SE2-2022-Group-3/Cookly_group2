@@ -38,6 +38,7 @@ import FoodBankIcon from "@mui/icons-material/FoodBank";
 
 import { useTheme } from "@mui/material/styles";
 import InputLabel from "@mui/material/InputLabel";
+import { PATH } from "../Constants/API";
 
 interface ManageRecipesProps {}
 
@@ -145,16 +146,16 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
 
   const getData = () => {
     axios
-      .post("http://localhost:3001/recipes/all?page=0&limit=5000", {
+      .post(PATH + "/recipes/all?page=0&limit=5000", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "---",
         },
       })
-      .then((response) => {
+      .then((response: { data: { recipes: any; }; }) => {
         setData(response.data.recipes);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -164,7 +165,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
       target: { value },
     } = event;
     setNewRecipeTagLabel(typeof value === "string" ? value.split(",") : value);
-    setNewRecipeTags((prevState) => ({ ...prevState, value }));
+    setNewRecipeTags((prevState: any) => ({ ...prevState, value }));
     console.log(newRecipeTags);
   };
 
@@ -174,17 +175,17 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     event.preventDefault();
 
     axios
-      .post("http://localhost:3001/recipes", {
+      .post(PATH + "/recipes", {
         name: newRecipe.name,
         id: 0,
       })
-      .then((response) => {
+      .then((response: any) => {
         setAddRecipe(false);
         setNewRecipe({});
         setLoading(false);
         getData();
       })
-      .catch((err) => {
+      .catch((err: any) => {
         setLoading(false);
         alert(err);
       });
@@ -196,7 +197,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     event.preventDefault();
     axios
       .put(
-        "http://localhost:3001/recipes?id=" + editRecipeData.id,
+        PATH + "/recipes?id=" + editRecipeData.id,
         editRecipeData,
         {
           headers: {
@@ -205,13 +206,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         setEditRecipe(false);
         setEditRecipeData({});
         setLoading(false);
         getData();
       })
-      .catch((err) => {
+      .catch((err: { message: any; }) => {
         setLoading(false);
         alert(err.message);
       });
@@ -220,16 +221,16 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   //Delete Recipe
   const deleteButtonHandler = (event: any, recipeId: number) => {
     axios
-      .delete("http://localhost:3001/recipes/" + recipeId, {
+      .delete(PATH + "/recipes/" + recipeId, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "---",
         },
       })
-      .then((response) => {
+      .then((response: any) => {
         getData();
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -238,7 +239,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   const filterRecipes = () => {
     axios
       .post(
-        "http://localhost:3001/recipes/all?page=0&limit=5000",
+        PATH + "/recipes/all?page=0&limit=5000",
         { name: searchValue, tags: [filterValue] },
         {
           headers: {
@@ -247,10 +248,10 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           },
         }
       )
-      .then((response) => {
+      .then((response: { data: { recipes: any; }; }) => {
         setData(response.data.recipes);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -283,7 +284,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         InputProps={{
           startAdornment: <SearchIcon />,
         }}
-        onChange={(event) => {
+        onChange={(event: { target: { value: string; }; }) => {
           setSearchValue(event.target.value);
           if (event.target.value !== "") filterRecipes();
           else getData();
@@ -394,7 +395,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => deleteButtonHandler(event, d.id)}
+                    onClick={(event: any) => deleteButtonHandler(event, d.id)}
                     tabIndex={d.id}
                   >
                     Delete
@@ -409,7 +410,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => {
+                    onClick={(event: any) => {
                       setEditRecipe(true);
                       setEditRecipeData(d);
                       console.log("From edit", d);
@@ -468,7 +469,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
-          onSubmit={(event) => {
+          onSubmit={(event: any) => {
             setNewRecipeTagLabel([]);
             addRecipeHandler(event);
           }}
@@ -483,8 +484,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
-                setNewRecipe((prevState) => ({
+              onChange={(event: { target: { value: any; }; }) => {
+                setNewRecipe((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
                 }));
@@ -501,8 +502,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
-                setNewRecipe((prevState) => ({
+              onChange={(event: { target: { value: any; }; }) => {
+                setNewRecipe((prevState: any) => ({
                   ...prevState,
                   instructions: event.target.value,
                 }));
@@ -569,10 +570,10 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
-          onSubmit={(event) => {
+          onSubmit={(event: { preventDefault: () => void; }) => {
             event.preventDefault();
             setNewRecipeTagLabel([]);
-            // editRecipeHandler(event);
+            editRecipeHandler(event);
           }}
         >
           <DialogContent sx={{ marginTop: "20px" }}>
@@ -586,8 +587,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
-                setEditRecipeData((prevState) => ({
+              onChange={(event: { target: { value: any; }; }) => {
+                setEditRecipeData((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
                 }));
@@ -604,8 +605,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
-                setNewRecipe((prevState) => ({
+              onChange={(event: { target: { value: any; }; }) => {
+                setNewRecipe((prevState: any) => ({
                   ...prevState,
                   instructions: event.target.value,
                 }));

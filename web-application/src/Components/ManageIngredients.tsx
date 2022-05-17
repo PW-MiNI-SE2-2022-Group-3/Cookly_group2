@@ -30,6 +30,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
 import "../styles/Manage.css";
+import { PATH } from "../Constants/API";
 
 interface ManageIngredientsProps {}
 
@@ -58,20 +59,6 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [data, setData] = useState<IngredientResponse[]>([]);
-  // const [data, setData] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Butter",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Chicken",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Water",
-  //   },
-  // ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,16 +70,16 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
 
   const getData = () => {
     axios
-      .post("http://localhost:3001/ingredients/all?page=0&limit=5000", {
+      .post(PATH + "/ingredients/all?page=0&limit=5000", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "---",
         },
       })
-      .then((response) => {
+      .then((response: { data: { ingredients: any; }; }) => {
         setData(response.data.ingredients);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -103,16 +90,16 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     event.preventDefault();
 
     axios
-      .post("http://localhost:3001/ingredients", {
+      .post(PATH + "/ingredients", {
         name: newIngredient.name,
       })
-      .then((response) => {
+      .then((response: any) => {
         setAddIngredient(false);
         setNewIngredient({});
         setLoading(false);
         getData();
       })
-      .catch((err) => {
+      .catch((err: any) => {
         setLoading(false);
         alert(err);
       });
@@ -124,7 +111,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     event.preventDefault();
     axios
       .put(
-        "http://localhost:3001/ingredients?id=" + editIngredientData.id,
+        PATH + "/ingredients?id=" + editIngredientData.id,
         editIngredientData,
         {
           headers: {
@@ -133,13 +120,13 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         setEditIngredient(false);
         setEditIngredientData({});
         setLoading(false);
         getData();
       })
-      .catch((err) => {
+      .catch((err: { message: any; }) => {
         setLoading(false);
         alert(err.message);
       });
@@ -148,16 +135,16 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   //Delete Ingredient
   const deleteButtonHandler = (event: any, ingredientId: number) => {
     axios
-      .delete("http://localhost:3001/ingredients/" + ingredientId, {
+      .delete(PATH + "/ingredients/" + ingredientId, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "---",
         },
       })
-      .then((response) => {
+      .then((response: any) => {
         getData();
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -166,7 +153,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   const filterIngredients = () => {
     axios
       .post(
-        "http://localhost:3001/ingredients/all?page=0&limit=5000",
+        PATH + "/ingredients/all?page=0&limit=5000",
         { name: searchValue },
         {
           headers: {
@@ -175,10 +162,10 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           },
         }
       )
-      .then((response) => {
+      .then((response: { data: { ingredients: any; }; }) => {
         setData(response.data.ingredients);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         alert(err);
       });
   };
@@ -209,7 +196,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         InputProps={{
           startAdornment: <SearchIcon />,
         }}
-        onChange={(event) => {
+        onChange={(event: { target: { value: string; }; }) => {
           setSearchValue(event.target.value);
           if (event.target.value !== "") filterIngredients();
           else getData();
@@ -279,7 +266,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => deleteButtonHandler(event, d.id)}
+                    onClick={(event: any) => deleteButtonHandler(event, d.id)}
                     tabIndex={d.id}
                   >
                     Delete
@@ -294,7 +281,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                       width: "200px",
                       margin: "5px",
                     }}
-                    onClick={(event) => {
+                    onClick={(event: any) => {
                       setEditIngredient(true);
                       setEditIngredientData({ name: d.name, id: d.id });
                     }}
@@ -352,7 +339,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
-          onSubmit={(event) => {
+          onSubmit={(event: any) => {
             addIngredientHandler(event);
           }}
         >
@@ -366,7 +353,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
+              onChange={(event: { target: { value: any; }; }) => {
                 setNewIngredient({ name: event.target.value });
               }}
             />
@@ -408,7 +395,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
-          onSubmit={(event) => {
+          onSubmit={(event: any) => {
             editIngredientHandler(event);
           }}
         >
@@ -423,8 +410,8 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event) => {
-                setEditIngredientData((prevState) => ({
+              onChange={(event: { target: { value: any; }; }) => {
+                setEditIngredientData((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
                 }));
