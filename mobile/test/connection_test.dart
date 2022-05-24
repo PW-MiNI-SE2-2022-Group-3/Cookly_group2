@@ -17,12 +17,15 @@ void main() {
 
       // Use Mockito to return a successful response when it calls the
       // provided http.Client.
+      // when(cooklyProvider.
+      // fetchIngredients(client)).
+      // thenAnswer((_) async=>Ingredient.listFromJson(["egssMock", "chickenMock"]));
       when(client
           .get(cooklyProvider.ingredientUrl))
           .thenAnswer((_) async =>
           http.Response('{"name": "eggsMock", "id": 2}', 200));
 
-      expect(await (client), isA<Ingredient>());
+      expect(await (client.get(cooklyProvider.ingredientUrl)), isA<http.Response>());
     });
 
     test('throws an exception if the http call completes with an error', () {
@@ -31,10 +34,10 @@ void main() {
       // Use Mockito to return an unsuccessful response when it calls the
       // provided http.Client.
       when(client
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1')))
-          .thenAnswer((_) async => http.Response('Not Found', 404));
+          .get(Uri.parse(cooklyProvider.ingredientUrl.toString()+"/5")))
+          .thenAnswer((_) async => throw Exception);
 
-      expect(cooklyProvider.fetchIngredients(client), throwsException);
+      expect(client.get(Uri.parse(cooklyProvider.ingredientUrl.toString()+"/5")), throwsException);
     });
   });
 }

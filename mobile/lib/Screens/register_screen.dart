@@ -117,6 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 100,
                     ),
                     ElevatedButton(
+                      style: kButtonStyle,
                         key: Key("register_button"),
                         onPressed: () async {
                           print(email);
