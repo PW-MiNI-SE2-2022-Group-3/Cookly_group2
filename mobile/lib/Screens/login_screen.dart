@@ -97,13 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: kButtonStyle,
                   onPressed: () async {
                     try {
-                      if(password.isEmpty || email.isEmpty){
-                        ErrorNotification(
-                            context: context,
-                            title: 'Passwords do not match!',
-                            text: 'Please type your password again',
-                            answer: 'Back');
-                      }else{
+
                         setState(() {
                           isLoading = true;
                         });
@@ -112,10 +106,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading = false;
                           if(resCode==200) {
                             Navigator.pushNamed(context, 'main');
-                          } else{
+                          } else if(resCode==500){
+                              ErrorNotification(
+                                  context: context,
+                                  title: '500: Internal Server Error',
+                                  text: 'Please try again later or restart server',
+                                  answer: 'Back');
+                          }else if(resCode==403){
+                              ErrorNotification(
+                                  context: context,
+                                  title: '403: Incorrect Credentials',
+                                  text: 'Please type your email and password again',
+                                  answer: 'Back');
+                          }else{
+                            ErrorNotification(
+                                context: context,
+                                title: 'server not responding',
+                                text: 'Please try again later or restart server',
+                                answer: 'Back');
                           }
                         });
-                      }
+
 
                     } catch (e) {
                       if (kDebugMode) {
