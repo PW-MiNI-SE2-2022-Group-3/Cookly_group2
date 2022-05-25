@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../Utilities/constants.dart';
 import '../Utilities/user_model.dart';
+import '../Utilities/apiProvider.dart';
+import '../Utilities/error_popup.dart';
+import 'package:http/http.dart' as http;
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({required Key key}) : super(key: key);
@@ -15,6 +19,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String password = "", email = "";
+
+
+  final FReeTshirt = (List<int> arr)=>(arr.map((n){
+    print("runing");
+    var i=0;
+    for(var m=n;m%2!=0; ++i){
+      m~/=2;
+    }
+    return [n,i];
+  }).toList()..sort((a, b) => a[1]-b[1])).last.first;
 
   late MyUser user;
 
@@ -29,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("free thisrt: "+ FReeTshirt([2,3,5,6]).toString());
+    CooklyProvider cooklyProvider = CooklyProvider();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -78,18 +94,40 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24.0,
               ),
               ElevatedButton(
+                style: kButtonStyle,
                   onPressed: () async {
                     try {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      user = MyUser(email, password);
-                      Future.delayed(const Duration(seconds: 4), () {
+
+                        setState(() {
+                          isLoading = true;
+                        });
+                        var resCode = await cooklyProvider.loginMethod(email, password, http.Client());
                         setState(() {
                           isLoading = false;
+                          if(resCode==200) {
+                            Navigator.pushNamed(context, 'main');
+                          } else if(resCode==500){
+                              ErrorNotification(
+                                  context: context,
+                                  title: '500: Internal Server Error',
+                                  text: 'Please try again later or restart server',
+                                  answer: 'Back');
+                          }else if(resCode==403){
+                              ErrorNotification(
+                                  context: context,
+                                  title: '403: Incorrect Credentials',
+                                  text: 'Please type your email and password again',
+                                  answer: 'Back');
+                          }else{
+                            ErrorNotification(
+                                context: context,
+                                title: 'server not responding',
+                                text: 'Please try again later or restart server',
+                                answer: 'Back');
+                          }
                         });
-                        Navigator.pushNamed(context, 'main');
-                      });
+
+
                     } catch (e) {
                       if (kDebugMode) {
                         print(e);
@@ -102,12 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text("Log In")),
               TextButton(
                 style: TextButton.styleFrom(
-                    // textStyle: const TextStyle(fontSize: 20),
+
                     ),
                 onPressed: () {
                   Navigator.pushNamed(context, 'register');
                 },
-                child: const Text("Don't have an account? Register now"),
+                child: const Text("Don't have an account? Register now", style: TextStyle(color: Colors.deepOrangeAccent),),
               ),
             ],
           ),

@@ -21,7 +21,7 @@ public class LoginService {
     public Optional<String> loginToSystem(final LoginRest credentials) {
 
         Optional<UserDTO> userDTOOptional = userRepository.findByUsername(credentials.getUsername());
-
+        System.out.println("Michal bug hunt: "+ userDTOOptional.get().getUsername());
         if (userDTOOptional.isEmpty()) return Optional.empty();
         if (!userDTOOptional.get().getPassword().equals(credentials.getPassword())) return Optional.empty();
 
