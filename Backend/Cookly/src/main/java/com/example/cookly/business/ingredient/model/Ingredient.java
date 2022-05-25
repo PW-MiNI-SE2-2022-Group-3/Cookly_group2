@@ -7,6 +7,14 @@ public class Ingredient {
     private String name;
     private String quantity;
 
+    public Ingredient() {
+    }
+
+    public Ingredient(long ingredientId, String name, String quantity) {
+        this.ingredientId = ingredientId;
+        this.name = name;
+        this.quantity = quantity;
+    }
 
 
     public long getIngredientId() {
