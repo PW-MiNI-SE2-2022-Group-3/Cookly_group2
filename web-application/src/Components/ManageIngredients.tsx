@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Slide from "@mui/material/Slide";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -30,11 +31,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
 import "../styles/Manage.css";
+import { TransitionProps } from "@mui/material/transitions";
 import { PATH } from "../Constants/API";
 
 interface ManageIngredientsProps {}
 
 const columns = ["NO.", "NAME", "ACTIONS"];
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
@@ -76,7 +87,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           Authorization: "---",
         },
       })
-      .then((response: { data: { ingredients: any; }; }) => {
+      .then((response: { data: { ingredients: any } }) => {
         setData(response.data.ingredients);
       })
       .catch((err: any) => {
@@ -126,7 +137,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         setLoading(false);
         getData();
       })
-      .catch((err: { message: any; }) => {
+      .catch((err: { message: any }) => {
         setLoading(false);
         alert(err.message);
       });
@@ -162,7 +173,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           },
         }
       )
-      .then((response: { data: { ingredients: any; }; }) => {
+      .then((response: { data: { ingredients: any } }) => {
         setData(response.data.ingredients);
       })
       .catch((err: any) => {
@@ -196,7 +207,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         InputProps={{
           startAdornment: <SearchIcon />,
         }}
-        onChange={(event: { target: { value: string; }; }) => {
+        onChange={(event: { target: { value: string } }) => {
           setSearchValue(event.target.value);
           if (event.target.value !== "") filterIngredients();
           else getData();
@@ -328,6 +339,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         maxWidth="xs"
         open={addIngredient}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -353,7 +365,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setNewIngredient({ name: event.target.value });
               }}
             />
@@ -384,6 +396,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         maxWidth="xs"
         open={editIngredient}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -410,7 +423,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setEditIngredientData((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,

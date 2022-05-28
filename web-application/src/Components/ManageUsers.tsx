@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Slide from "@mui/material/Slide";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -32,11 +33,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 
 import "../styles/Manage.css";
+import { TransitionProps } from "@mui/material/transitions";
 
 interface ManageUserProps {}
 
 const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
   type IngredientResponse = {
@@ -305,6 +316,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         }}
         maxWidth="xs"
         open={addUser}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -410,6 +422,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         }}
         maxWidth="xs"
         open={editUser}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
