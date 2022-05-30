@@ -1,3 +1,4 @@
+//edit recipe check
 import React from "react";
 import { useState, useEffect } from "react";
 
@@ -11,6 +12,8 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import InputLabel from "@mui/material/InputLabel";
+import Slide from "@mui/material/Slide";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -22,6 +25,11 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Select from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
+
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -35,9 +43,11 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import EditIcon from "@mui/icons-material/Edit";
 import SearchIcon from "@mui/icons-material/Search";
 import FoodBankIcon from "@mui/icons-material/FoodBank";
+import AddIcon from "@mui/icons-material/Add";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { useTheme } from "@mui/material/styles";
-import InputLabel from "@mui/material/InputLabel";
+import { TransitionProps } from "@mui/material/transitions";
 import { PATH } from "../Constants/API";
 
 interface ManageRecipesProps {}
@@ -73,14 +83,26 @@ function getStyles(name: string, personName: any, theme: any) {
   };
 }
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const ManageRecipes: React.FC<ManageRecipesProps> = (
   props: ManageRecipesProps
 ) => {
-  type IngredientResponse = {
+  type IngredientResponseBase = {
     id?: number;
     name?: string;
   };
-
+  type IngredientResponse = {
+    ingredient?: IngredientResponseBase;
+    quantity?: string;
+  };
   type RecipeResponse = {
     id?: number;
     name?: string;
@@ -95,12 +117,22 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
 
   const [addRecipe, setAddRecipe] = useState(false);
   const [newRecipe, setNewRecipe] = useState<RecipeResponse>({});
+
   const [newRecipeTags, setNewRecipeTags] = useState([]);
   const [newRecipeTagLabel, setNewRecipeTagLabel] = useState([]);
-  const [newRecipeIngredientss, setNewRecipeIngredients] = useState([]);
 
   const [editRecipe, setEditRecipe] = useState(false);
   const [editRecipeData, setEditRecipeData] = useState<RecipeResponse>({});
+
+  const [addIngredient, setAddIngredient] = useState(false);
+  const [newIngredient, setNewIngredient] = useState<IngredientResponse>({});
+  const [newIngredients, setNewIngredients] = useState<IngredientResponse[]>(
+    []
+  );
+
+  const [editIngredient, setEditIngredient] = useState(false);
+  const [editIngredientData, setEditIngredientData] =
+    useState<IngredientResponse>({});
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -111,34 +143,22 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [data, setData] = useState<RecipeResponse[]>([]);
-  // const [data, setData] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Butter Chicken",
-  //     instructions:
-  //       "take chicken and butten and smash them together until it works",
-  //     tags: "no lactose",
-  //     Ingredients: "butter, chicken",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Schabowy",
-  //     instructions: "take surowy kotlet and fry it on a pan",
-  //     tags: "gluten free",
-  //     Ingredients: "surpoy kotlet",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "butter",
-  //     instructions: "take butter chicken and remove chicken",
-  //     tags: "no lactose",
-  //     Ingredients: "butter chicken",
-  //   },
-  // ]);
+  const [ingredientData, setIngredientData] = useState<
+    IngredientResponseBase[]
+  >([]);
+
+  const capitalizeWords = (arr: string[]) => {
+    return arr.map((element) => {
+      return (
+        element.charAt(0).toUpperCase() + element.substring(1).toLowerCase()
+      );
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       getData();
+      getIngredientData();
     };
 
     fetchData();
@@ -152,8 +172,24 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           Authorization: "---",
         },
       })
-      .then((response: { data: { recipes: any; }; }) => {
+      .then((response: { data: { recipes: any } }) => {
         setData(response.data.recipes);
+      })
+      .catch((err: any) => {
+        alert(err);
+      });
+  };
+
+  const getIngredientData = () => {
+    axios
+      .post(PATH + "/ingredients/all?page=0&limit=5000", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response: { data: { ingredients: any } }) => {
+        setIngredientData(response.data.ingredients);
       })
       .catch((err: any) => {
         alert(err);
@@ -164,9 +200,18 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     const {
       target: { value },
     } = event;
+
     setNewRecipeTagLabel(typeof value === "string" ? value.split(",") : value);
-    setNewRecipeTags((prevState: any) => ({ ...prevState, value }));
-    console.log(newRecipeTags);
+
+    setNewRecipeTags((prevState: any) => ({
+      ...prevState,
+      value,
+    }));
+
+    setNewRecipe((prevState: any) => ({
+      ...prevState,
+      tags: value,
+    }));
   };
 
   //Add Recipe
@@ -175,13 +220,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     event.preventDefault();
 
     axios
-      .post(PATH + "/recipes", {
-        name: newRecipe.name,
-        id: 0,
+      .post(PATH + "/recipes", newRecipe, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
       })
       .then((response: any) => {
-        setAddRecipe(false);
-        setNewRecipe({});
         setLoading(false);
         getData();
       })
@@ -191,28 +236,25 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
       });
   };
 
+  //----------------------------------------------------------
   //Edit Recipe
   const editRecipeHandler = (event: any) => {
     setLoading(true);
     event.preventDefault();
     axios
-      .put(
-        PATH + "/recipes?id=" + editRecipeData.id,
-        editRecipeData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "---",
-          },
-        }
-      )
+      .put(PATH + "/recipes?id=" + editRecipeData.id, editRecipeData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
       .then((response: any) => {
         setEditRecipe(false);
         setEditRecipeData({});
         setLoading(false);
         getData();
       })
-      .catch((err: { message: any; }) => {
+      .catch((err: { message: any }) => {
         setLoading(false);
         alert(err.message);
       });
@@ -236,24 +278,27 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   };
 
   //Filter Recipes
-  const filterRecipes = () => {
+  const filterRecipes = (searchText: string) => {
+    let filterOptions = {
+      name: searchText,
+      tags: filterValue !== "" ? [filterValue.toLowerCase()] : [],
+    };
+
     axios
-      .post(
-        PATH + "/recipes/all?page=0&limit=5000",
-        { name: searchValue, tags: [filterValue] },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "---",
-          },
-        }
-      )
-      .then((response: { data: { recipes: any; }; }) => {
+      .post(PATH + "/recipes/all?page=0&limit=5000", filterOptions, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response: { data: { recipes: any } }) => {
         setData(response.data.recipes);
       })
       .catch((err: any) => {
         alert(err);
       });
+
+    setFilterValue("");
   };
 
   const emptyRows = () => {
@@ -272,6 +317,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
+        value={searchValue}
         id="outlined-basic"
         variant="standard"
         placeholder="Search"
@@ -284,12 +330,24 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         InputProps={{
           startAdornment: <SearchIcon />,
         }}
-        onChange={(event: { target: { value: string; }; }) => {
+        onChange={(event: { target: { value: string } }) => {
           setSearchValue(event.target.value);
-          if (event.target.value !== "") filterRecipes();
+          if (event.target.value !== "") filterRecipes(event.target.value);
           else getData();
         }}
       />
+      <IconButton
+        sx={{
+          color: "gray",
+        }}
+        onClick={() => {
+          setSearchValue("");
+          setFilterValue("");
+          getData();
+        }}
+      >
+        <RefreshIcon />
+      </IconButton>
       <Button
         variant="contained"
         sx={{
@@ -321,7 +379,6 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         }}
         onClick={() => {
           setAddFilter(true);
-          // filterRecipes();
         }}
       >
         Tag Filter
@@ -362,21 +419,27 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               : data
             ).map((d: any) => (
               <TableRow hover>
-                <TableCell className="tablecell"> {d.id} </TableCell>
-                <TableCell className="tablecell">{d.name}</TableCell>
-                <TableCell className="tablecell">{d.instructions}</TableCell>
-                <TableCell className="tablecell">
+                <TableCell className="tablecell">{d.id}</TableCell>
+                <TableCell className="tablecell" sx={{ width: "10%" }}>
+                  {d.name}
+                </TableCell>
+                <TableCell className="tablecell" sx={{ width: "25%" }}>
+                  {d.instructions}
+                </TableCell>
+                <TableCell className="tablecell" sx={{ width: "15%" }}>
                   <ul>
                     {d.tags.map((t: any) => (
                       <li>{t}</li>
                     ))}
                   </ul>
                 </TableCell>
-                <TableCell className="tablecell">
+                <TableCell className="tablecell" sx={{ width: "15%" }}>
                   <ul>
                     {d.ingredients.map((i: any) => (
                       <li>
-                        {i.quantity} of {i.ingredient.name}
+                        {i.ingredient.name}
+                        <br></br>
+                        <em>{i.quantity}</em>
                       </li>
                     ))}
                   </ul>
@@ -413,7 +476,14 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                     onClick={(event: any) => {
                       setEditRecipe(true);
                       setEditRecipeData(d);
-                      console.log("From edit", d);
+
+                      // let constTags = d.tags;
+                      // for (let i = 0; i < constTags.length; i++) {
+                      //   constTags[i] = capitalizeWords(
+                      //     constTags[i].split(" ")
+                      //   ).join(" ");
+                      // }
+                      setNewRecipeTagLabel(d.tags);
                     }}
                     tabIndex={d.id}
                   >
@@ -452,12 +522,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         sx={{
           "& .MuiDialog-paper": {
             width: "80%",
-            maxHeight: 435,
+            maxHeight: "650px",
             borderRadius: 0,
           },
         }}
-        maxWidth="xs"
+        maxWidth="sm"
         open={addRecipe}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -470,8 +541,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         {loading && <LinearProgress />}
         <form
           onSubmit={(event: any) => {
-            setNewRecipeTagLabel([]);
             addRecipeHandler(event);
+            setAddRecipe(false);
+            setNewRecipe({});
+            setNewRecipeTags([]);
+            setNewRecipeTagLabel([]);
+            setAddIngredient(false);
+            setNewIngredients([]);
           }}
         >
           <DialogContent>
@@ -484,7 +560,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setNewRecipe((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
@@ -502,7 +578,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setNewRecipe((prevState: any) => ({
                   ...prevState,
                   instructions: event.target.value,
@@ -523,13 +599,58 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 {tagOptions.map((t) => (
                   <MenuItem
                     key={t}
-                    value={t}
+                    value={t.toLowerCase()}
                     style={getStyles(t, newRecipeTagLabel, theme)}
                   >
                     {t}
                   </MenuItem>
                 ))}
               </Select>
+            </Box>
+            <Box sx={{ margin: "10px 0px 10px 0px" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginTop: "20px",
+                }}
+              >
+                <InputLabel>Ingredients</InputLabel>
+                <Button
+                  sx={{
+                    float: "right",
+                    borderRadius: 5,
+                    padding: 0,
+                    minWidth: "10px",
+                    color: "gray",
+                  }}
+                  onClick={() => {
+                    setAddIngredient(true);
+                  }}
+                >
+                  <AddIcon />
+                </Button>
+              </Box>
+              <List
+                dense={true}
+                sx={{
+                  border: 1,
+                  borderColor: "lightgray",
+                  borderRadius: 1,
+                  maxHeight: "150px",
+                  overflow: "auto",
+                }}
+              >
+                {newRecipe.ingredients !== undefined &&
+                  newRecipe.ingredients.map((i: any) => (
+                    <ListItem>
+                      <ListItemText
+                        primary={i.ingredient.name}
+                        secondary={i.quantity}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
             </Box>
           </DialogContent>
           <DialogActions>
@@ -538,7 +659,11 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               color="error"
               onClick={() => {
                 setAddRecipe(false);
+                setNewRecipe({});
+                setNewRecipeTags([]);
                 setNewRecipeTagLabel([]);
+                setAddIngredient(false);
+                setNewIngredients([]);
               }}
             >
               Cancel
@@ -553,12 +678,13 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         sx={{
           "& .MuiDialog-paper": {
             width: "80%",
-            maxHeight: 435,
+            maxHeight: "650px",
             borderRadius: 0,
           },
         }}
-        maxWidth="xs"
+        maxWidth="sm"
         open={editRecipe}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -570,7 +696,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
-          onSubmit={(event: { preventDefault: () => void; }) => {
+          onSubmit={(event: { preventDefault: () => void }) => {
             event.preventDefault();
             setNewRecipeTagLabel([]);
             editRecipeHandler(event);
@@ -579,7 +705,6 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
               autoFocus
-              required
               margin="dense"
               value={editRecipeData.name}
               id="name"
@@ -587,7 +712,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setEditRecipeData((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
@@ -596,7 +721,6 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             />
             <TextField
               autoFocus
-              required
               multiline
               margin="dense"
               value={editRecipeData.instructions}
@@ -605,7 +729,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setNewRecipe((prevState: any) => ({
                   ...prevState,
                   instructions: event.target.value,
@@ -626,13 +750,61 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 {tagOptions.map((t) => (
                   <MenuItem
                     key={t}
-                    value={t}
+                    value={t.toLowerCase()}
                     style={getStyles(t, newRecipeTagLabel, theme)}
                   >
                     {t}
                   </MenuItem>
                 ))}
               </Select>
+            </Box>
+            <Box sx={{ margin: "10px 0px 10px 0px" }}>
+              <InputLabel>Ingredients</InputLabel>
+              <List
+                dense={true}
+                sx={{
+                  border: 1,
+                  borderColor: "lightgray",
+                  borderRadius: 1,
+                  maxHeight: "150px",
+                  overflow: "auto",
+                }}
+              >
+                {editRecipeData.ingredients !== undefined &&
+                  editRecipeData.ingredients.map((i: any) => (
+                    <ListItem
+                      secondaryAction={
+                        <>
+                          <IconButton
+                            edge="end"
+                            aria-label="edit"
+                            style={{ marginRight: "1px" }}
+                            onClick={() => {
+                              setEditIngredient(true);
+                              setEditIngredientData(i);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => {
+                              // editRecipeData.ingredients?.splice()
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </>
+                      }
+                    >
+                      <ListItemText
+                        primary={i.ingredient.name}
+                        secondary={i.quantity}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
             </Box>
           </DialogContent>
           <DialogActions>
@@ -662,6 +834,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         }}
         maxWidth="xs"
         open={addFilter}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -671,44 +844,218 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         >
           FILTER TAGS
         </DialogTitle>
-        <DialogContent dividers>
-          <RadioGroup
-            aria-label="tag"
-            name="tag"
-            value={filterValue}
-            onChange={(event) => {
-              setFilterValue(event.target.value);
-            }}
-          >
-            {tagOptions.map((option: string) => (
-              <FormControlLabel
-                value={option}
-                key={option}
-                control={<Radio />}
-                label={option}
-              />
-            ))}
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={() => {
-              setAddFilter(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            // type="submit"
-            onClick={() => {
-              console.log("Filter Value: " + filterValue);
-              setAddFilter(false);
-            }}
-          >
-            Ok
-          </Button>
-        </DialogActions>
+        <form
+          onSubmit={(event: { preventDefault: () => void }) => {
+            event.preventDefault();
+            filterRecipes(searchValue);
+          }}
+        >
+          <DialogContent dividers>
+            <RadioGroup
+              aria-label="tag"
+              name="tag"
+              value={filterValue}
+              onChange={(event) => {
+                setFilterValue(event.target.value);
+              }}
+            >
+              {tagOptions.map((option: string) => (
+                <FormControlLabel
+                  value={option}
+                  key={option}
+                  control={<Radio />}
+                  label={option}
+                />
+              ))}
+            </RadioGroup>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              autoFocus
+              onClick={() => {
+                setAddFilter(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              onClick={() => {
+                setAddFilter(false);
+              }}
+            >
+              Ok
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* add ingredient */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: "650px",
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="sm"
+        open={addIngredient}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          ADD INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event: { preventDefault: () => void }) => {
+            event.preventDefault();
+            setAddIngredient(false);
+            setNewIngredients([
+              ...newIngredients,
+              {
+                ingredient: newIngredient.ingredient,
+                quantity: newIngredient.quantity,
+              },
+            ]);
+            setNewRecipe((prevState: any) => ({
+              ...prevState,
+              ingredients: [
+                ...newIngredients,
+                {
+                  ingredient: newIngredient.ingredient,
+                  quantity: newIngredient.quantity,
+                },
+              ],
+            }));
+            setNewIngredient({});
+          }}
+        >
+          <DialogContent sx={{ marginTop: "20px" }}>
+            <Box sx={{ margin: "10px 0px 10px 0px" }}>
+              <InputLabel>Ingredient Name</InputLabel>
+              <Select
+                id="ingredients"
+                onChange={(event: any) => {
+                  setNewIngredient((prevState: any) => ({
+                    ...prevState,
+                    ingredient: {
+                      id: 0,
+                      name: event.target.value,
+                    },
+                  }));
+                }}
+                input={<OutlinedInput sx={{ width: "100%" }} label="Name" />}
+                MenuProps={MenuProps}
+              >
+                {ingredientData.map((i) => (
+                  <MenuItem key={i.name} value={i.name}>
+                    {i.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="quantity"
+              label="Quantity"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event: { target: { value: any } }) => {
+                setNewIngredient((prevState: any) => ({
+                  ...prevState,
+                  quantity: event.target.value,
+                }));
+              }}
+              sx={{ margin: "10px 0px 10px 0px" }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setAddIngredient(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Ok</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+      {/* edit ingredient */}
+      <Dialog
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "80%",
+            maxHeight: "650px",
+            borderRadius: 0,
+          },
+        }}
+        maxWidth="sm"
+        open={editIngredient}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle
+          sx={{
+            backgroundColor: "#c4560c",
+            color: "white",
+          }}
+        >
+          EDIT INGREDIENT
+        </DialogTitle>
+        {loading && <LinearProgress />}
+        <form
+          onSubmit={(event: { preventDefault: () => void }) => {
+            event.preventDefault();
+            console.log(editIngredientData);
+            setEditIngredient(false);
+            // editRecipeHandler(event);
+          }}
+        >
+          <DialogContent sx={{ marginTop: "20px" }}>
+            <TextField
+              autoFocus
+              value={editIngredientData.quantity}
+              margin="dense"
+              id="quantity"
+              label="Quantity"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(event: { target: { value: any } }) => {
+                setEditIngredientData((prevState: any) => ({
+                  ...prevState,
+                  quantity: event.target.value,
+                }));
+              }}
+              sx={{ margin: "10px 0px 10px 0px" }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              type="reset"
+              color="error"
+              onClick={() => {
+                setEditIngredient(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Ok</Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </Box>
   ) : (

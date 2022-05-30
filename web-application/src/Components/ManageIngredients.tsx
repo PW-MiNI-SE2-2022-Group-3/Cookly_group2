@@ -161,11 +161,11 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   };
 
   //Filter Ingredients
-  const filterIngredients = () => {
+  const filterIngredients = (searchText: string) => {
     axios
       .post(
         PATH + "/ingredients/all?page=0&limit=5000",
-        { name: searchValue },
+        { name: searchText },
         {
           headers: {
             "Content-Type": "application/json",
@@ -209,7 +209,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         onChange={(event: { target: { value: string } }) => {
           setSearchValue(event.target.value);
-          if (event.target.value !== "") filterIngredients();
+          if (event.target.value !== "") filterIngredients(event.target.value);
           else getData();
         }}
       />
