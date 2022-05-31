@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widets/bottom_navigator_bar.dart';
+import '../Widets/row_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({required Key key}) : super(key: key);
@@ -23,10 +24,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                backgroundColor: Colors.deepOrangeAccent,
+              CircleAvatar(
+                backgroundColor: Colors.deepOrange[100],
                 radius: 55,
-                backgroundImage: AssetImage('lib/assets/placeholder.png'),
+                backgroundImage: const AssetImage('lib/assets/placeholder.png'),
               ),
               const SizedBox(
                 height: 10,
@@ -38,28 +39,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 30,
                 ),
               ),
+              const Divider(
+                thickness: 2,
+              ),
               const Text(
                 "Email placeholder",
-                style: TextStyle(fontSize: 22),
+                style: TextStyle(fontSize: 26),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "editProfile");
-                },
-                child: const Text(
-                  "Edit Profile",
-                  style: TextStyle(fontSize: 22),
-                ),
+              const Divider(
+                thickness: 2,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "login");
-                },
-                child: const Text(
-                  "Log Out",
-                  style: TextStyle(fontSize: 22, color: Colors.red),
-                ),
+              rowButton(context, 'Edit Profile', 'login', Colors.black),
+              const Divider(
+                thickness: 2,
               ),
+              rowButton(context, "Log Out", "login", Colors.red),
+              const Divider(
+                thickness: 2,
+              ),
+              rowButton(context, 'Creators', 'creators', Colors.blue),
             ],
           ),
         ),
