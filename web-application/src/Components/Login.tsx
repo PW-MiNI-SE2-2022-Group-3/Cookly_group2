@@ -51,6 +51,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
       <Grid container style={{ minHeight: "100vh" }}>
         <Grid item xs={12} sm={6}>
           <img
+            data-testid="background-img"
             src={bg}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
             alt="brand"
@@ -75,7 +76,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             }}
           >
             <Grid container justify="center">
-              <img src={logo} width={300} alt="logo" />
+              <img data-testid="logo-img" src={logo} width={300} alt="logo" />
             </Grid>
             <TextField
               margin="normal"
