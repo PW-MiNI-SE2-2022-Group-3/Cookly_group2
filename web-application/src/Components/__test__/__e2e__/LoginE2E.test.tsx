@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Page } from "puppeteer";
 
 const URL = "http://localhost:3000/";
 
@@ -9,6 +9,7 @@ describe("login process validation", () => {
   beforeAll(async () => {
     browser = await puppeteer.launch();
     page = await browser.newPage();
+    await page.setViewport({ width: 1200, height: 700 });
   });
 
   it("username validation", async () => {
@@ -43,7 +44,7 @@ describe("login process validation", () => {
     expect(passwordValue).toBe("admin");
   });
 
-  it("whole process", async () => {
+  it("successful login process", async () => {
     await page.goto(URL);
 
     await page.click("#username");
@@ -67,6 +68,9 @@ describe("login process validation", () => {
     );
 
     await page.click("#login-button");
+    await page.screenshot({
+      path: "./src/Components/__test__/__e2e__/successful_login.png",
+    });
 
     expect(usernameType).toBe("text");
     expect(usernameValue).toBe("adam");
@@ -75,13 +79,56 @@ describe("login process validation", () => {
     expect(passwordValue).toBe("piwo1");
   });
 
-  it("shows the next window", async () => {
-    await page.waitForSelector("#users-button");
+  test("unsuccessful login process", async () => {
+    await page.goto(URL);
 
-    const login = await page.$eval("#users-button", (input: any) => input);
+    await page.click("#username");
+    await page.type("#username", "addamm");
 
-    expect(login).toBeDefined();
-  });
+    const usernameType = await page.$eval("#username", (input: any) =>
+      input.getAttribute("type")
+    );
+    const usernameValue = await page.$eval("#username", (input: any) =>
+      input.getAttribute("value")
+    );
+
+    await page.click("#password");
+    await page.type("#password", "wrongPassword!2@");
+
+    const passwordType = await page.$eval("#password", (input: any) =>
+      input.getAttribute("type")
+    );
+    const passwordValue = await page.$eval("#password", (input: any) =>
+      input.getAttribute("value")
+    );
+
+    await page.click("#login-button");
+    await handleAlert(page);
+    await page.screenshot({
+      path: "./src/Components/__test__/__e2e__/unsuccessful_login.png",
+    });
+
+    expect(usernameType).toBe("text");
+    expect(usernameValue).toBe("addamm");
+
+    expect(passwordType).toBe("password");
+    expect(passwordValue).toBe("wrongPassword!2@");
+  }, 10000);
 
   afterAll(() => browser.close());
 });
+
+//handle alerts
+async function handleAlert(page: Page): Promise<void> {
+  let dialogType: any;
+  let dialogMessage: any;
+
+  const element = await page.$("#alert");
+  element?.click();
+
+  page.on("dialog", async (dialog) => {
+    dialogType = dialog.type();
+    dialogMessage = dialog.message();
+    await dialog.accept();
+  });
+}
