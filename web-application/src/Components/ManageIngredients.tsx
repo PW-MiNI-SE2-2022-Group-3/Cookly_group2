@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Slide from "@mui/material/Slide";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -30,11 +31,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import EggIcon from "@mui/icons-material/Egg";
 
 import "../styles/Manage.css";
+import { TransitionProps } from "@mui/material/transitions";
 import { PATH } from "../Constants/API";
 
 interface ManageIngredientsProps {}
 
 const columns = ["NO.", "NAME", "ACTIONS"];
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ManageIngredients: React.FC<ManageIngredientsProps> = (
   props: ManageIngredientsProps
@@ -76,7 +87,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           Authorization: "---",
         },
       })
-      .then((response: { data: { ingredients: any; }; }) => {
+      .then((response: { data: { ingredients: any } }) => {
         setData(response.data.ingredients);
       })
       .catch((err: any) => {
@@ -126,7 +137,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         setLoading(false);
         getData();
       })
-      .catch((err: { message: any; }) => {
+      .catch((err: { message: any }) => {
         setLoading(false);
         alert(err.message);
       });
@@ -150,11 +161,11 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   };
 
   //Filter Ingredients
-  const filterIngredients = () => {
+  const filterIngredients = (searchText: string) => {
     axios
       .post(
         PATH + "/ingredients/all?page=0&limit=5000",
-        { name: searchValue },
+        { name: searchText },
         {
           headers: {
             "Content-Type": "application/json",
@@ -162,7 +173,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           },
         }
       )
-      .then((response: { data: { ingredients: any; }; }) => {
+      .then((response: { data: { ingredients: any } }) => {
         setData(response.data.ingredients);
       })
       .catch((err: any) => {
@@ -184,8 +195,10 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
-        id="outlined-basic"
+        data-testid="search-textfield"
+        id="search-textfield"
         variant="standard"
+        value={searchValue}
         placeholder="Search"
         sx={{
           backgroundColor: "white",
@@ -196,13 +209,15 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         InputProps={{
           startAdornment: <SearchIcon />,
         }}
-        onChange={(event: { target: { value: string; }; }) => {
+        onChange={(event: { target: { value: string } }) => {
           setSearchValue(event.target.value);
-          if (event.target.value !== "") filterIngredients();
+          if (event.target.value !== "") filterIngredients(event.target.value);
           else getData();
         }}
       />
       <Button
+        data-testid="add-button"
+        id="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -244,7 +259,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id="ingredients-tablebody">
             {(rowsPerPage > 0
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
@@ -258,6 +273,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                   style={{ textAlign: "center", width: "35%" }}
                 >
                   <Button
+                    data-testid="delete-button"
                     variant="contained"
                     style={{
                       backgroundColor: "darkred",
@@ -273,6 +289,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                     <DeleteIcon style={{ marginLeft: "10px" }} />
                   </Button>
                   <Button
+                    data-testid="edit-button"
                     variant="contained"
                     style={{
                       backgroundColor: "green",
@@ -328,6 +345,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         maxWidth="xs"
         open={addIngredient}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -345,21 +363,25 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="name-textfield"
+              id="name-textfield"
+              value={newIngredient.name}
               autoFocus
               required
               margin="dense"
-              id="name"
               label="Ingredient Name"
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setNewIngredient({ name: event.target.value });
               }}
             />
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-button"
+              id="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -368,7 +390,13 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button
+              data-testid="submit-button"
+              id="submit-button"
+              type="submit"
+            >
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -384,6 +412,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
         maxWidth="xs"
         open={editIngredient}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -401,6 +430,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="name-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -410,7 +440,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               type="text"
               fullWidth
               variant="standard"
-              onChange={(event: { target: { value: any; }; }) => {
+              onChange={(event: { target: { value: any } }) => {
                 setEditIngredientData((prevState: any) => ({
                   ...prevState,
                   name: event.target.value,
@@ -420,6 +450,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -428,7 +459,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="submit-edit-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

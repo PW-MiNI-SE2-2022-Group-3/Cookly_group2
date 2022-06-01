@@ -11,7 +11,7 @@ import bg from "../Images/bg1.jpg";
 
 import axios from "axios";
 
-// const { sha256 } = require("crypto-hash");
+var forge = require("node-forge");
 
 interface LoginProps {
   setIsLogged: any;
@@ -24,26 +24,28 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
 
   //handleLogin
   const handleLogin = async (event: any) => {
-    // let secret = await sha256(password);
-    // axios
-    //   .post(
-    //     "http://localhost:3001/login",
-    //     { username: username, password: secret },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: "---",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     props.setIsLogged(true);
-    //   })
-    //   .catch((err) => {
-    //     props.setIsLogged(false);
-    //     alert(err);
-    //   });
-    props.setIsLogged(true);
+    let md = forge.md.sha256.create();
+    md.update(password);
+    let secret = md.digest().toHex();
+
+    axios
+      .post(
+        "http://localhost:3001/login",
+        { username: username, password: secret },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        props.setIsLogged(true);
+      })
+      .catch((err) => {
+        props.setIsLogged(false);
+        alert(err);
+      });
   };
 
   return (
@@ -51,6 +53,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
       <Grid container style={{ minHeight: "100vh" }}>
         <Grid item xs={12} sm={6}>
           <img
+            data-testid="background-img"
             src={bg}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
             alt="brand"
@@ -75,11 +78,13 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             }}
           >
             <Grid container justify="center">
-              <img src={logo} width={300} alt="logo" />
+              <img data-testid="logo-img" src={logo} width={300} alt="logo" />
             </Grid>
             <TextField
               margin="normal"
+              value={username}
               data-testid="username-textfield"
+              id="username"
               placeholder="Username"
               onChange={(event) => {
                 setUsername(event.target.value);
@@ -94,10 +99,11 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             />
             <TextField
               margin="normal"
+              value={password}
               data-testid="password-textfield"
+              id="password"
               placeholder="Password"
               type="password"
-              //ppaasswoord type
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
@@ -112,6 +118,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             <div style={{ height: 20 }} />
             <Button
               data-testid="login-button"
+              id="login-button"
               placeholder="Log In"
               style={{
                 backgroundColor: "#c4560c",

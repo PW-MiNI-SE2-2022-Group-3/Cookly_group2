@@ -1,0 +1,850 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <header
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-hip9hq-MuiPaper-root-MuiAppBar-root"
+          style="background-color: rgb(196, 86, 12);"
+        >
+          <div
+            class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
+          >
+            <div
+              class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-zvu9qn-MuiTypography-root"
+              >
+                COOKLY
+              </div>
+              <div
+                class="MuiBox-root css-1t6c9ts"
+              >
+                <button
+                  class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-vs5193-MuiButtonBase-root-MuiButton-root"
+                  data-testid="users-button"
+                  id="users-button"
+                  tabindex="0"
+                  type="button"
+                >
+                  USERS
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+                <button
+                  class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
+                  data-testid="recipes-button"
+                  id="recipes-button"
+                  tabindex="0"
+                  type="button"
+                >
+                  RECIPES
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+                <button
+                  class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
+                  data-testid="ingredients-button"
+                  id="ingredients-button"
+                  tabindex="0"
+                  type="button"
+                >
+                  INGREDIENTS
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-lmtt9i-MuiButtonBase-root-MuiButton-root"
+                data-testid="logout-button"
+                id="logout-button"
+                tabindex="0"
+                type="button"
+              >
+                LOG OUT
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </header>
+        <div
+          class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
+          style="margin-top: 20px;"
+        >
+          <div
+            class="MuiBox-root css-0"
+            style="width: 100%; margin: auto; padding-top: 20px;"
+          >
+            <div
+              class="MuiBox-root css-1t6c9ts"
+            >
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1eejppv-MuiButtonBase-root-MuiButton-root"
+                data-testid="admins-button"
+                tabindex="0"
+                type="button"
+              >
+                ADMINS
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1mqcfuv-MuiButtonBase-root-MuiButton-root"
+                data-testid="appusers-button"
+                tabindex="0"
+                type="button"
+              >
+                APP USERS
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <button
+              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
+              data-testid="add-button"
+              tabindex="0"
+              type="button"
+            >
+              Add Admin
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="PersonIcon"
+                focusable="false"
+                style="margin-left: 10px;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root tablecontainer css-11xur9t-MuiPaper-root-MuiTableContainer-root"
+              style="border-radius: 0;"
+            >
+              <table
+                class="MuiTable-root table css-rqglhn-MuiTable-root"
+              >
+                <thead
+                  class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+                >
+                  <tr
+                    class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+                  >
+                    <th
+                      class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                      scope="col"
+                      style="color: white;"
+                    >
+                      USER ID
+                    </th>
+                    <th
+                      class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                      scope="col"
+                      style="color: white;"
+                    >
+                      FIRST NAME
+                    </th>
+                    <th
+                      class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                      scope="col"
+                      style="color: white;"
+                    >
+                      LAST NAME
+                    </th>
+                    <th
+                      class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                      scope="col"
+                      style="color: white;"
+                    >
+                      USERNAME
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+                >
+                  <tr
+                    class="MuiTableRow-root MuiTableRow-hover css-1q1u3t4-MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                       
+                      1
+                       
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                      Ayetijhya
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                      Desmukhya
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                       
+                      ayeti82
+                       
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root MuiTableRow-hover css-1q1u3t4-MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                       
+                      2
+                       
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                      Erza
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                      Scarlet
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                    >
+                       
+                      scarlet56
+                       
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot
+                  class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"
+                >
+                  <tr
+                    class="MuiTableRow-root MuiTableRow-footer css-1q1u3t4-MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-footer MuiTableCell-sizeSmall MuiTablePagination-root css-m0bqz3-MuiTableCell-root-MuiTablePagination-root"
+                      colspan="5"
+                    >
+                      <div
+                        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+                      >
+                        <div
+                          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+                        />
+                        <p
+                          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+                          id="mui-10"
+                        >
+                          Rows per page:
+                        </p>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+                          variant="standard"
+                        >
+                          <select
+                            aria-label="rows per page"
+                            class="MuiTablePagination-select MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input css-m3l1ig-MuiNativeSelect-select-MuiInputBase-input"
+                            id="mui-9"
+                          >
+                            <option
+                              class="MuiTablePagination-menuItem"
+                              value="5"
+                            >
+                              5
+                            </option>
+                            <option
+                              class="MuiTablePagination-menuItem"
+                              value="10"
+                            >
+                              10
+                            </option>
+                            <option
+                              class="MuiTablePagination-menuItem"
+                              value="25"
+                            >
+                              25
+                            </option>
+                            <option
+                              class="MuiTablePagination-menuItem"
+                              value="-1"
+                            >
+                              All
+                            </option>
+                          </select>
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+                            data-testid="ArrowDropDownIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 10l5 5 5-5z"
+                            />
+                          </svg>
+                        </div>
+                        <p
+                          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+                        >
+                          1–2 of 2
+                        </p>
+                        <div
+                          class="MuiBox-root css-1zye22"
+                        >
+                          <button
+                            aria-label="first page"
+                            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                            disabled=""
+                            tabindex="-1"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="FirstPageIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M18.41 16.59 13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            aria-label="previous page"
+                            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                            disabled=""
+                            tabindex="-1"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="KeyboardArrowLeftIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            aria-label="next page"
+                            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                            disabled=""
+                            tabindex="-1"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="KeyboardArrowRightIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            aria-label="last page"
+                            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                            disabled=""
+                            tabindex="-1"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="LastPageIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-hip9hq-MuiPaper-root-MuiAppBar-root"
+        style="background-color: rgb(196, 86, 12);"
+      >
+        <div
+          class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
+        >
+          <div
+            class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-zvu9qn-MuiTypography-root"
+            >
+              COOKLY
+            </div>
+            <div
+              class="MuiBox-root css-1t6c9ts"
+            >
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-vs5193-MuiButtonBase-root-MuiButton-root"
+                data-testid="users-button"
+                id="users-button"
+                tabindex="0"
+                type="button"
+              >
+                USERS
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
+                data-testid="recipes-button"
+                id="recipes-button"
+                tabindex="0"
+                type="button"
+              >
+                RECIPES
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
+                data-testid="ingredients-button"
+                id="ingredients-button"
+                tabindex="0"
+                type="button"
+              >
+                INGREDIENTS
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <button
+              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-lmtt9i-MuiButtonBase-root-MuiButton-root"
+              data-testid="logout-button"
+              id="logout-button"
+              tabindex="0"
+              type="button"
+            >
+              LOG OUT
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </header>
+      <div
+        class="MuiContainer-root MuiContainer-maxWidthXl css-19r6kue-MuiContainer-root"
+        style="margin-top: 20px;"
+      >
+        <div
+          class="MuiBox-root css-0"
+          style="width: 100%; margin: auto; padding-top: 20px;"
+        >
+          <div
+            class="MuiBox-root css-1t6c9ts"
+          >
+            <button
+              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1eejppv-MuiButtonBase-root-MuiButton-root"
+              data-testid="admins-button"
+              tabindex="0"
+              type="button"
+            >
+              ADMINS
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1mqcfuv-MuiButtonBase-root-MuiButton-root"
+              data-testid="appusers-button"
+              tabindex="0"
+              type="button"
+            >
+              APP USERS
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+          <button
+            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
+            data-testid="add-button"
+            tabindex="0"
+            type="button"
+          >
+            Add Admin
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="PersonIcon"
+              focusable="false"
+              style="margin-left: 10px;"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root tablecontainer css-11xur9t-MuiPaper-root-MuiTableContainer-root"
+            style="border-radius: 0;"
+          >
+            <table
+              class="MuiTable-root table css-rqglhn-MuiTable-root"
+            >
+              <thead
+                class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+                >
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                    scope="col"
+                    style="color: white;"
+                  >
+                    USER ID
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                    scope="col"
+                    style="color: white;"
+                  >
+                    FIRST NAME
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                    scope="col"
+                    style="color: white;"
+                  >
+                    LAST NAME
+                  </th>
+                  <th
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall tablecellheader css-1howxi1-MuiTableCell-root"
+                    scope="col"
+                    style="color: white;"
+                  >
+                    USERNAME
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-hover css-1q1u3t4-MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                     
+                    1
+                     
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                    Ayetijhya
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                    Desmukhya
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                     
+                    ayeti82
+                     
+                  </td>
+                </tr>
+                <tr
+                  class="MuiTableRow-root MuiTableRow-hover css-1q1u3t4-MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                     
+                    2
+                     
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                    Erza
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                    Scarlet
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall tablecell css-dsuxgy-MuiTableCell-root"
+                  >
+                     
+                    scarlet56
+                     
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot
+                class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"
+              >
+                <tr
+                  class="MuiTableRow-root MuiTableRow-footer css-1q1u3t4-MuiTableRow-root"
+                >
+                  <td
+                    class="MuiTableCell-root MuiTableCell-footer MuiTableCell-sizeSmall MuiTablePagination-root css-m0bqz3-MuiTableCell-root-MuiTablePagination-root"
+                    colspan="5"
+                  >
+                    <div
+                      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+                    >
+                      <div
+                        class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+                      />
+                      <p
+                        class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+                        id="mui-10"
+                      >
+                        Rows per page:
+                      </p>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+                        variant="standard"
+                      >
+                        <select
+                          aria-label="rows per page"
+                          class="MuiTablePagination-select MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input css-m3l1ig-MuiNativeSelect-select-MuiInputBase-input"
+                          id="mui-9"
+                        >
+                          <option
+                            class="MuiTablePagination-menuItem"
+                            value="5"
+                          >
+                            5
+                          </option>
+                          <option
+                            class="MuiTablePagination-menuItem"
+                            value="10"
+                          >
+                            10
+                          </option>
+                          <option
+                            class="MuiTablePagination-menuItem"
+                            value="25"
+                          >
+                            25
+                          </option>
+                          <option
+                            class="MuiTablePagination-menuItem"
+                            value="-1"
+                          >
+                            All
+                          </option>
+                        </select>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                      </div>
+                      <p
+                        class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+                      >
+                        1–2 of 2
+                      </p>
+                      <div
+                        class="MuiBox-root css-1zye22"
+                      >
+                        <button
+                          aria-label="first page"
+                          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          disabled=""
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="FirstPageIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M18.41 16.59 13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          aria-label="previous page"
+                          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          disabled=""
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="KeyboardArrowLeftIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          aria-label="next page"
+                          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          disabled=""
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="KeyboardArrowRightIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          aria-label="last page"
+                          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          disabled=""
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="LastPageIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M5.59 7.41 10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

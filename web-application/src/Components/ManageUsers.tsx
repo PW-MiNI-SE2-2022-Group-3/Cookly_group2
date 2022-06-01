@@ -10,14 +10,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Slide from "@mui/material/Slide";
 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -32,11 +30,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 
 import "../styles/Manage.css";
+import { TransitionProps } from "@mui/material/transitions";
 
 interface ManageUserProps {}
 
 const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
 const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
   type IngredientResponse = {
@@ -111,6 +119,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         <Button
+          data-testid="admins-button"
           key="admins"
           sx={{
             background: clickedAdmin ? "brown" : "#c4560c",
@@ -130,6 +139,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           ADMINS
         </Button>
         <Button
+          data-testid="appusers-button"
           key="appUsers"
           sx={{
             background: clickedAppUser ? "brown" : "#c4560c",
@@ -149,6 +159,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         </Button>
       </Box>
       <Button
+        data-testid="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -219,6 +230,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                       style={{ textAlign: "center", width: "35%" }}
                     >
                       <Button
+                        data-testid="delete-button"
                         variant="contained"
                         style={{
                           backgroundColor: "darkred",
@@ -236,6 +248,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                         <DeleteIcon style={{ marginLeft: "10px" }} />
                       </Button>
                       <Button
+                        data-testid="edit-button"
                         variant="contained"
                         style={{
                           backgroundColor: "green",
@@ -305,6 +318,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         }}
         maxWidth="xs"
         open={addUser}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -324,6 +338,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         >
           <DialogContent>
             <TextField
+              data-testid="fname-textfield"
               autoFocus
               required
               margin="dense"
@@ -339,6 +354,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="lname-textfield"
               autoFocus
               required
               margin="dense"
@@ -354,6 +370,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="username-textfield"
               autoFocus
               required
               margin="dense"
@@ -369,6 +386,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="password-textfield"
               autoFocus
               required
               margin="dense"
@@ -386,6 +404,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -394,7 +413,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button data-testid="submit-button" type="submit">
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -410,6 +431,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         }}
         maxWidth="xs"
         open={editUser}
+        TransitionComponent={Transition}
       >
         <DialogTitle
           sx={{
@@ -429,6 +451,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         >
           <DialogContent>
             <TextField
+              data-testid="fname-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -445,6 +468,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="lname-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -461,6 +485,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="username-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -477,6 +502,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="password-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -495,6 +521,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="cancel-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -503,7 +530,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="ok-edit-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
