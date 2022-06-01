@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../Utilities/apiProvider.dart';
 import '../Utilities/constants.dart';
 import '../Utilities/error_popup.dart';
-import '../Utilities/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({required Key key}) : super(key: key);
@@ -20,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   List<String> args = [];
   @override
   Widget build(BuildContext context) {
+    CooklyProvider cooklyProvider = CooklyProvider();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -138,16 +140,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           isLoading = true;
                         });
-                        if (password == passwordAgain && password.length > 7) {
-                          final newUser =
-                              MyUser(email, password) as Future<MyUser>;
+                        // if(name.length<2){
+                        //   ErrorNotification(
+                        //       context: context,
+                        //       title: 'You must provide name!',
+                        //       text: 'Please enter your name',
+                        //       answer: 'Back');
+                        // }
+                        if (password == passwordAgain &&
+                            password.length > 2 &&
+                            name.length > 1) {
+                          var resCode = await cooklyProvider.registerMethod(
+                              email, password, http.Client());
+                          setState(() {
+                            isLoading = false;
+                            if (resCode == 200) {
+                              Navigator.pushNamed(context, 'main');
+                            } else if (resCode == 404) {
+                              ErrorNotification(
+                                  context: context,
+                                  title: '404: Path Not Found',
+                                  text:
+                                      'API endpoint has not been programmed or is incorrect',
+                                  answer: 'Back');
+                            } else if (resCode == 403) {
+                              ErrorNotification(
+                                  context: context,
+                                  title: '403: Username Already Exists',
+                                  text: 'Please choose another name',
+                                  answer: 'Back');
+                            } else if (resCode == 500) {
+                              ErrorNotification(
+                                  context: context,
+                                  title: '500: Internal Server Error',
+                                  text:
+                                      'Please try again later or restart server',
+                                  answer: 'Back');
+                            } else {
+                              ErrorNotification(
+                                  context: context,
+                                  title: 'server not responding',
+                                  text:
+                                      'Please try again later or restart server',
+                                  answer: 'Back');
+                            }
+                          });
 
-                          if (newUser != null) {
-                            args.add(name);
-                            args.add(email);
-                            Navigator.pushNamed(context, '/main',
-                                arguments: args);
-                          }
+                          // final newUser =
+                          //     MyUser(email, password) as Future<MyUser>;
+
+                          // if (newUser != null) {
+                          //   args.add(name);
+                          //   args.add(email);
+                          //   Navigator.pushNamed(context, '/main',
+                          //       arguments: args);
+                          // }
+
                         } else if (password != passwordAgain) {
                           //notification about wrong password
                           ErrorNotification(
@@ -158,8 +206,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         } else {
                           ErrorNotification(
                               context: context,
-                              title: 'Passwords are too short',
-                              text: 'Please choose another password',
+                              title: 'name or password is too short',
+                              text: 'Please choose another password/name',
                               answer: 'Back');
                         }
 
