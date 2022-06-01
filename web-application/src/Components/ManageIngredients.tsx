@@ -217,6 +217,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
       />
       <Button
         data-testid="add-button"
+        id="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -258,7 +259,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id="ingredients-tablebody">
             {(rowsPerPage > 0
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
@@ -363,10 +364,11 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
               data-testid="name-textfield"
+              id="name-textfield"
+              value={newIngredient.name}
               autoFocus
               required
               margin="dense"
-              id="name"
               label="Ingredient Name"
               type="text"
               fullWidth
@@ -379,6 +381,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           <DialogActions>
             <Button
               data-testid="reset-button"
+              id="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -387,7 +390,11 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button data-testid="submit-button" type="submit">
+            <Button
+              data-testid="submit-button"
+              id="submit-button"
+              type="submit"
+            >
               Add
             </Button>
           </DialogActions>

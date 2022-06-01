@@ -40,6 +40,7 @@ Object {
         <button
           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
           data-testid="add-button"
+          id="add-button"
           tabindex="0"
           type="button"
         >
@@ -98,6 +99,7 @@ Object {
             </thead>
             <tbody
               class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+              id="ingredients-tablebody"
             />
             <tfoot
               class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"
@@ -297,6 +299,7 @@ Object {
       <button
         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
         data-testid="add-button"
+        id="add-button"
         tabindex="0"
         type="button"
       >
@@ -355,6 +358,7 @@ Object {
           </thead>
           <tbody
             class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+            id="ingredients-tablebody"
           />
           <tfoot
             class="MuiTableFooter-root css-9cgc89-MuiTableFooter-root"
