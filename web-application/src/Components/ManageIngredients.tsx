@@ -195,6 +195,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
   return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
+        data-testid="search-textfield"
         id="outlined-basic"
         variant="standard"
         placeholder="Search"
@@ -214,6 +215,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         }}
       />
       <Button
+        data-testid="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -269,6 +271,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                   style={{ textAlign: "center", width: "35%" }}
                 >
                   <Button
+                    data-testid="delete-button"
                     variant="contained"
                     style={{
                       backgroundColor: "darkred",
@@ -284,6 +287,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
                     <DeleteIcon style={{ marginLeft: "10px" }} />
                   </Button>
                   <Button
+                    data-testid="edit-button"
                     variant="contained"
                     style={{
                       backgroundColor: "green",
@@ -357,6 +361,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="name-textfield"
               autoFocus
               required
               margin="dense"
@@ -372,6 +377,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -380,7 +386,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button data-testid="submit-button" type="submit">
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -414,6 +422,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="name-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -433,6 +442,7 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -441,7 +451,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="submit-edit-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

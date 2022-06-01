@@ -317,6 +317,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
   return data !== undefined ? (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
+        data-testid="search-textfield"
         value={searchValue}
         id="outlined-basic"
         variant="standard"
@@ -349,6 +350,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         <RefreshIcon />
       </IconButton>
       <Button
+        data-testid="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -367,6 +369,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         <FoodBankIcon style={{ marginLeft: "10px" }} />
       </Button>
       <Button
+        data-testid="filter-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -450,6 +453,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                   style={{ textAlign: "center", width: "35%" }}
                 >
                   <Button
+                    data-testid="delete-button"
                     variant="contained"
                     style={{
                       backgroundColor: "darkred",
@@ -465,6 +469,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                     <DeleteIcon style={{ marginLeft: "10px" }} />
                   </Button>
                   <Button
+                    data-testid="edit-button"
                     variant="contained"
                     style={{
                       backgroundColor: "green",
@@ -552,6 +557,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         >
           <DialogContent>
             <TextField
+              data-testid="name-textfield"
               autoFocus
               required
               margin="dense"
@@ -569,11 +575,12 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               sx={{ margin: "10px 0px 10px 0px" }}
             />
             <TextField
+              data-testid="instructions-textfield"
               autoFocus
               required
               multiline
               margin="dense"
-              id="name"
+              id="instructions"
               label="Instructions"
               type="text"
               fullWidth
@@ -589,6 +596,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             <Box sx={{ margin: "10px 0px 10px 0px" }}>
               <InputLabel>Tags</InputLabel>
               <Select
+                data-testid="tags-select"
                 id="tags"
                 multiple
                 value={newRecipeTagLabel}
@@ -617,6 +625,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               >
                 <InputLabel>Ingredients</InputLabel>
                 <Button
+                  data-testid="add-ingredients-button"
                   sx={{
                     float: "right",
                     borderRadius: 5,
@@ -655,6 +664,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -668,7 +678,9 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button data-testid="submit-button" type="submit">
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -704,6 +716,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="name-edit-textfield"
               autoFocus
               margin="dense"
               value={editRecipeData.name}
@@ -720,11 +733,12 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               }}
             />
             <TextField
+              data-testid="instructions-edit-textfield"
               autoFocus
               multiline
               margin="dense"
               value={editRecipeData.instructions}
-              id="name"
+              id="instructions"
               label="Instructions"
               type="text"
               fullWidth
@@ -740,6 +754,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             <Box sx={{ margin: "10px 0px 10px 0px" }}>
               <InputLabel>Tags</InputLabel>
               <Select
+                data-testid="tags-edit-select"
                 id="tags"
                 multiple
                 value={newRecipeTagLabel}
@@ -809,6 +824,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -818,7 +834,9 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="submit-edit-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -852,6 +870,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         >
           <DialogContent dividers>
             <RadioGroup
+              data-testid="tags-radiogroup"
               aria-label="tag"
               name="tag"
               value={filterValue}
@@ -871,6 +890,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-filter-button"
               autoFocus
               onClick={() => {
                 setAddFilter(false);
@@ -879,6 +899,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
               Cancel
             </Button>
             <Button
+              data-testid="submit-filter-button"
               type="submit"
               onClick={() => {
                 setAddFilter(false);
@@ -940,6 +961,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             <Box sx={{ margin: "10px 0px 10px 0px" }}>
               <InputLabel>Ingredient Name</InputLabel>
               <Select
+                data-testid="ingredients-select"
                 id="ingredients"
                 onChange={(event: any) => {
                   setNewIngredient((prevState: any) => ({
@@ -962,6 +984,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             </Box>
 
             <TextField
+              data-testid="quantity-textfield"
               autoFocus
               required
               margin="dense"
@@ -981,6 +1004,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-ingredient-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -989,7 +1013,9 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="submit-ingredient-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -1026,6 +1052,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
         >
           <DialogContent sx={{ marginTop: "20px" }}>
             <TextField
+              data-testid="quantity-edit-textfield"
               autoFocus
               value={editIngredientData.quantity}
               margin="dense"
@@ -1045,6 +1072,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-ingredient-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -1053,7 +1081,12 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button
+              data-testid="submit-ingredient-edit-textfield"
+              type="submit"
+            >
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
