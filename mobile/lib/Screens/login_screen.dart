@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../Utilities/constants.dart';
 import '../Utilities/user_model.dart';
@@ -21,14 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = "", email = "";
 
 
-  final FReeTshirt = (List<int> arr)=>(arr.map((n){
-    print("runing");
-    var i=0;
-    for(var m=n;m%2!=0; ++i){
-      m~/=2;
-    }
-    return [n,i];
-  }).toList()..sort((a, b) => a[1]-b[1])).last.first;
+
 
   late MyUser user;
 
@@ -43,111 +37,119 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("free thisrt: "+ FReeTshirt([2,3,5,6]).toString());
     CooklyProvider cooklyProvider = CooklyProvider();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              //Flexible(
-              // child: Hero(
-              //   tag: 'logoMe',
-              //   child: Container(
-              //     height: 200.0,
-              //     child: Image.asset('images/logoMe.png'),
-              //   ),
-              // ),
-              //),
-              const SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                  key: Key("email_TF"),
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    email = value;
-                    //Do something with the user input.
-                  },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your email')),
-              const SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                  key: Key("password_TF"),
-                  textAlign: TextAlign.center,
-                  obscureText: true,
-                  onChanged: (value) {
-                    password = value;
-                    //Do something with the user input.
-                  },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter your password')),
-              const SizedBox(
-                height: 24.0,
-              ),
-              ElevatedButton(
-                style: kButtonStyle,
-                  onPressed: () async {
-                    try {
+        child: Container(
+          decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('lib/assets/cookly_logo.png'),
+        fit: BoxFit.scaleDown,
+          alignment: Alignment.topCenter,
+      ),
+    ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                //Flexible(
+                // child: Hero(
+                //   tag: 'logoMe',
+                //   child: Container(
+                //     height: 200.0,
+                //     child: Image.asset('images/logoMe.png'),
+                //   ),
+                // ),
+                //),
+                const SizedBox(
+                  height: 48.0,
+                ),
+                TextField(
+                    key: Key("email_TF"),
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      email = value;
+                      //Do something with the user input.
+                    },
+                    decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your email')),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                    key: Key("password_TF"),
+                    textAlign: TextAlign.center,
+                    obscureText: true,
+                    onChanged: (value) {
+                      password = value;
+                      //Do something with the user input.
+                    },
+                    decoration: kTextFieldDecoration.copyWith(
+                        hintText: 'Enter your password')),
+                const SizedBox(
+                  height: 24.0,
+                ),
+                ElevatedButton(
+                  style: kButtonStyle,
+                    onPressed: () async {
+                      try {
 
-                        setState(() {
-                          isLoading = true;
-                        });
-                        var resCode = await cooklyProvider.loginMethod(email, password, http.Client());
-                        setState(() {
-                          isLoading = false;
-                          if(resCode==200) {
-                            Navigator.pushNamed(context, 'main');
-                          } else if(resCode==500){
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var resCode = await cooklyProvider.loginMethod(email, password, http.Client());
+                          setState(() {
+                            isLoading = false;
+                            if(resCode==200) {
+                              Navigator.pushNamed(context, 'main');
+                            } else if(resCode==500){
+                                ErrorNotification(
+                                    context: context,
+                                    title: '500: Internal Server Error',
+                                    text: 'Please try again later or restart server',
+                                    answer: 'Back');
+                            }else if(resCode==403){
+                                ErrorNotification(
+                                    context: context,
+                                    title: '403: Incorrect Credentials',
+                                    text: 'Please type your email and password again',
+                                    answer: 'Back');
+                            }else{
                               ErrorNotification(
                                   context: context,
-                                  title: '500: Internal Server Error',
+                                  title: 'server not responding',
                                   text: 'Please try again later or restart server',
                                   answer: 'Back');
-                          }else if(resCode==403){
-                              ErrorNotification(
-                                  context: context,
-                                  title: '403: Incorrect Credentials',
-                                  text: 'Please type your email and password again',
-                                  answer: 'Back');
-                          }else{
-                            ErrorNotification(
-                                context: context,
-                                title: 'server not responding',
-                                text: 'Please try again later or restart server',
-                                answer: 'Back');
-                          }
+                            }
+                          });
+
+
+                      } catch (e) {
+                        if (kDebugMode) {
+                          print(e);
+                        }
+                        setState(() {
+                          isLoading = false;
                         });
-
-
-                    } catch (e) {
-                      if (kDebugMode) {
-                        print(e);
                       }
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
-                  },
-                  child: Text("Log In")),
-              TextButton(
-                style: TextButton.styleFrom(
+                    },
+                    child: Text("Log In")),
+                TextButton(
+                  style: TextButton.styleFrom(
 
-                    ),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'register');
-                },
-                child: const Text("Don't have an account? Register now", style: TextStyle(color: Colors.deepOrangeAccent),),
-              ),
-            ],
+                      ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'register');
+                  },
+                  child: const Text("Don't have an account? Register now", style: TextStyle(color: Colors.deepOrangeAccent),),
+                ),
+              ],
+            ),
           ),
         ),
       ),

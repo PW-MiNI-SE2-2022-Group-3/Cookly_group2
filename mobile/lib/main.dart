@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/material.dart';
+
+import 'Screens/edit_profile.dart';
 import 'Screens/forgot_password_screen.dart';
 import 'Screens/login_screen.dart';
 import 'Screens/main_menu_screen.dart';
 import 'Screens/profile_screen.dart';
+import 'Screens/recipe_screen.dart';
 import 'Screens/register_screen.dart';
 import 'Screens/saved_recipes_screen.dart';
 import 'Screens/selector_screen.dart';
-import 'package:flutter/material.dart';
-import 'Screens/recipe_screen.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         'register': (context) => RegisterScreen(
               key: Key("RegisterScreenKey"),
             ),
+        'edit': (context) => editProfileScreen(key: Key("editProfileScreenKey"))
       },
       theme: ThemeData(
         // This is the theme of your application.

@@ -1,4 +1,4 @@
-import 'ingredient.dart';
+import 'Ingredient.dart';
 class Recipe{
   String name="";
   String instructions="";
