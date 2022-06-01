@@ -11,7 +11,7 @@ import bg from "../Images/bg1.jpg";
 
 import axios from "axios";
 
-// const { sha256 } = require("crypto-hash");
+var forge = require("node-forge");
 
 interface LoginProps {
   setIsLogged: any;
@@ -24,26 +24,28 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
 
   //handleLogin
   const handleLogin = async (event: any) => {
-    // let secret = await sha256(password);
-    // axios
-    //   .post(
-    //     "http://localhost:3001/login",
-    //     { username: username, password: secret },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: "---",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     props.setIsLogged(true);
-    //   })
-    //   .catch((err) => {
-    //     props.setIsLogged(false);
-    //     alert(err);
-    //   });
-    props.setIsLogged(true);
+    let md = forge.md.sha256.create();
+    md.update(password);
+    let secret = md.digest().toHex();
+
+    axios
+      .post(
+        "http://localhost:3001/login",
+        { username: username, password: secret },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "---",
+          },
+        }
+      )
+      .then((response) => {
+        props.setIsLogged(true);
+      })
+      .catch((err) => {
+        props.setIsLogged(false);
+        alert(err);
+      });
   };
 
   return (
@@ -80,7 +82,9 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             </Grid>
             <TextField
               margin="normal"
+              value={username}
               data-testid="username-textfield"
+              id="username"
               placeholder="Username"
               onChange={(event) => {
                 setUsername(event.target.value);
@@ -95,7 +99,9 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             />
             <TextField
               margin="normal"
+              value={password}
               data-testid="password-textfield"
+              id="password"
               placeholder="Password"
               type="password"
               onChange={(event) => {
@@ -112,6 +118,7 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
             <div style={{ height: 20 }} />
             <Button
               data-testid="login-button"
+              id="login-button"
               placeholder="Log In"
               style={{
                 backgroundColor: "#c4560c",

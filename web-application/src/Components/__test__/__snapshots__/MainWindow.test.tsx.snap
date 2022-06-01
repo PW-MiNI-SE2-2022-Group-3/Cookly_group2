@@ -27,6 +27,7 @@ Object {
                 <button
                   class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-vs5193-MuiButtonBase-root-MuiButton-root"
                   data-testid="users-button"
+                  id="users-button"
                   tabindex="0"
                   type="button"
                 >
@@ -38,6 +39,7 @@ Object {
                 <button
                   class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
                   data-testid="recipes-button"
+                  id="recipes-button"
                   tabindex="0"
                   type="button"
                 >
@@ -49,6 +51,7 @@ Object {
                 <button
                   class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
                   data-testid="ingredients-button"
+                  id="ingredients-button"
                   tabindex="0"
                   type="button"
                 >
@@ -419,6 +422,7 @@ Object {
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-vs5193-MuiButtonBase-root-MuiButton-root"
                 data-testid="users-button"
+                id="users-button"
                 tabindex="0"
                 type="button"
               >
@@ -430,6 +434,7 @@ Object {
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
                 data-testid="recipes-button"
+                id="recipes-button"
                 tabindex="0"
                 type="button"
               >
@@ -441,6 +446,7 @@ Object {
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-ti8me6-MuiButtonBase-root-MuiButton-root"
                 data-testid="ingredients-button"
+                id="ingredients-button"
                 tabindex="0"
                 type="button"
               >

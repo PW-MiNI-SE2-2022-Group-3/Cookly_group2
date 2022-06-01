@@ -33,6 +33,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button
                 data-testid="users-button"
+                id="users-button"
                 key="users"
                 sx={{
                   background: clickedUser ? "brown" : "#c4560c",
@@ -52,6 +53,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               </Button>
               <Button
                 data-testid="recipes-button"
+                id="recipes-button"
                 key="recipes"
                 sx={{
                   background: clickedRecipe ? "brown" : "#c4560c",
@@ -71,6 +73,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               </Button>
               <Button
                 data-testid="ingredients-button"
+                id="ingredients-button"
                 key="ingredients"
                 sx={{
                   background: clickedIngredient ? "brown" : "#c4560c",
