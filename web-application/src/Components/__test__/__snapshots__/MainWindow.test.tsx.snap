@@ -64,6 +64,7 @@ Object {
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-lmtt9i-MuiButtonBase-root-MuiButton-root"
                 data-testid="logout-button"
+                id="logout-button"
                 tabindex="0"
                 type="button"
               >
@@ -459,6 +460,7 @@ Object {
             <button
               class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-lmtt9i-MuiButtonBase-root-MuiButton-root"
               data-testid="logout-button"
+              id="logout-button"
               tabindex="0"
               type="button"
             >

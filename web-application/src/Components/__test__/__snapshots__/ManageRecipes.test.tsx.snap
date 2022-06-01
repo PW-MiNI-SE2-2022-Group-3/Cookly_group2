@@ -30,7 +30,7 @@ Object {
             <input
               aria-invalid="false"
               class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedStart css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="outlined-basic"
+              id="search-textfield"
               placeholder="Search"
               type="text"
               value=""
@@ -351,7 +351,7 @@ Object {
           <input
             aria-invalid="false"
             class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedStart css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            id="outlined-basic"
+            id="search-textfield"
             placeholder="Search"
             type="text"
             value=""

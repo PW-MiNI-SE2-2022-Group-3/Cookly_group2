@@ -69,7 +69,7 @@ describe("login process validation", () => {
 
     await page.click("#login-button");
     await page.screenshot({
-      path: "./src/Components/__test__/__e2e__/successful_login.png",
+      path: "./src/Components/__test__/__e2e__/img/successful_login.png",
     });
 
     expect(usernameType).toBe("text");
@@ -105,7 +105,7 @@ describe("login process validation", () => {
     await page.click("#login-button");
     await handleAlert(page);
     await page.screenshot({
-      path: "./src/Components/__test__/__e2e__/unsuccessful_login.png",
+      path: "./src/Components/__test__/__e2e__/img/unsuccessful_login.png",
     });
 
     expect(usernameType).toBe("text");

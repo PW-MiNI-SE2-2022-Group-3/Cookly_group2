@@ -196,8 +196,9 @@ const ManageIngredients: React.FC<ManageIngredientsProps> = (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
         data-testid="search-textfield"
-        id="outlined-basic"
+        id="search-textfield"
         variant="standard"
+        value={searchValue}
         placeholder="Search"
         sx={{
           backgroundColor: "white",

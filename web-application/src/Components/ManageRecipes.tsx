@@ -318,8 +318,8 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <TextField
         data-testid="search-textfield"
+        id="search-textfield"
         value={searchValue}
-        id="outlined-basic"
         variant="standard"
         placeholder="Search"
         sx={{
