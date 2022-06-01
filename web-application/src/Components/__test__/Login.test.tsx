@@ -33,6 +33,7 @@ it("renders background correctly", () => {
 
 it("renders button correctly", () => {
   const { getByTestId } = render(<LoginScreen setIsLogged={false} />);
+  expect(getByTestId("login-button")).toBeInTheDocument();
   expect(getByTestId("login-button")).toHaveTextContent("Log In");
 });
 

@@ -16,9 +16,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
@@ -122,6 +119,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         <Button
+          data-testid="admins-button"
           key="admins"
           sx={{
             background: clickedAdmin ? "brown" : "#c4560c",
@@ -141,6 +139,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           ADMINS
         </Button>
         <Button
+          data-testid="appusers-button"
           key="appUsers"
           sx={{
             background: clickedAppUser ? "brown" : "#c4560c",
@@ -160,6 +159,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         </Button>
       </Box>
       <Button
+        data-testid="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -230,6 +230,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                       style={{ textAlign: "center", width: "35%" }}
                     >
                       <Button
+                        data-testid="delete-button"
                         variant="contained"
                         style={{
                           backgroundColor: "darkred",
@@ -247,6 +248,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
                         <DeleteIcon style={{ marginLeft: "10px" }} />
                       </Button>
                       <Button
+                        data-testid="edit-button"
                         variant="contained"
                         style={{
                           backgroundColor: "green",
@@ -336,6 +338,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         >
           <DialogContent>
             <TextField
+              data-testid="fname-textfield"
               autoFocus
               required
               margin="dense"
@@ -351,6 +354,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="lname-textfield"
               autoFocus
               required
               margin="dense"
@@ -366,6 +370,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="username-textfield"
               autoFocus
               required
               margin="dense"
@@ -381,6 +386,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="password-textfield"
               autoFocus
               required
               margin="dense"
@@ -398,6 +404,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="reset-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -406,7 +413,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             >
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button data-testid="submit-button" type="submit">
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -442,6 +451,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         >
           <DialogContent>
             <TextField
+              data-testid="fname-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -458,6 +468,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="lname-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -474,6 +485,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="username-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -490,6 +502,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
+              data-testid="password-edit-textfield"
               autoFocus
               required
               margin="dense"
@@ -508,6 +521,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           </DialogContent>
           <DialogActions>
             <Button
+              data-testid="cancel-edit-button"
               type="reset"
               color="error"
               onClick={() => {
@@ -516,7 +530,9 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             >
               Cancel
             </Button>
-            <Button type="submit">Ok</Button>
+            <Button data-testid="ok-edit-button" type="submit">
+              Ok
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

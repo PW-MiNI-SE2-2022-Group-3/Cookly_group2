@@ -8,18 +8,12 @@ import {
   cleanup,
 } from "@testing-library/react";
 import MainWindow from "./../MainWindow";
-import App from "../../App";
 
 afterEach(cleanup);
 
 it("renders correctly without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(<MainWindow setIsLogged={true} />, div);
-});
-
-it("matches snapshot", () => {
-  const tree = render(<MainWindow setIsLogged={true} />);
-  expect(tree).toMatchSnapshot();
 });
 
 it("renders buttons correctly", () => {
@@ -32,4 +26,9 @@ it("renders buttons correctly", () => {
   expect(getByTestId("recipes-button")).toHaveTextContent("RECIPES");
   expect(getByTestId("ingredients-button")).toHaveTextContent("INGREDIENTS");
   expect(getByTestId("logout-button")).toHaveTextContent("LOG OUT");
+});
+
+it("matches snapshot", () => {
+  const tree = render(<MainWindow setIsLogged={true} />);
+  expect(tree).toMatchSnapshot();
 });

@@ -85,6 +85,7 @@ Object {
             >
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1eejppv-MuiButtonBase-root-MuiButton-root"
+                data-testid="admins-button"
                 tabindex="0"
                 type="button"
               >
@@ -95,6 +96,7 @@ Object {
               </button>
               <button
                 class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1mqcfuv-MuiButtonBase-root-MuiButton-root"
+                data-testid="appusers-button"
                 tabindex="0"
                 type="button"
               >
@@ -106,6 +108,7 @@ Object {
             </div>
             <button
               class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
+              data-testid="add-button"
               tabindex="0"
               type="button"
             >
@@ -247,7 +250,7 @@ Object {
                         />
                         <p
                           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                          id="mui-6"
+                          id="mui-10"
                         >
                           Rows per page:
                         </p>
@@ -258,7 +261,7 @@ Object {
                           <select
                             aria-label="rows per page"
                             class="MuiTablePagination-select MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input css-m3l1ig-MuiNativeSelect-select-MuiInputBase-input"
-                            id="mui-5"
+                            id="mui-9"
                           >
                             <option
                               class="MuiTablePagination-menuItem"
@@ -474,6 +477,7 @@ Object {
           >
             <button
               class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1eejppv-MuiButtonBase-root-MuiButton-root"
+              data-testid="admins-button"
               tabindex="0"
               type="button"
             >
@@ -484,6 +488,7 @@ Object {
             </button>
             <button
               class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1mqcfuv-MuiButtonBase-root-MuiButton-root"
+              data-testid="appusers-button"
               tabindex="0"
               type="button"
             >
@@ -495,6 +500,7 @@ Object {
           </div>
           <button
             class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1t69hsd-MuiButtonBase-root-MuiButton-root"
+            data-testid="add-button"
             tabindex="0"
             type="button"
           >
@@ -636,7 +642,7 @@ Object {
                       />
                       <p
                         class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                        id="mui-6"
+                        id="mui-10"
                       >
                         Rows per page:
                       </p>
@@ -647,7 +653,7 @@ Object {
                         <select
                           aria-label="rows per page"
                           class="MuiTablePagination-select MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input css-m3l1ig-MuiNativeSelect-select-MuiInputBase-input"
-                          id="mui-5"
+                          id="mui-9"
                         >
                           <option
                             class="MuiTablePagination-menuItem"

@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import ManageUsers from "./ManageUsers";
 import ManageRecipes from "./ManageRecipes";
 import ManageIngredients from "./ManageIngredients";
-import LoginScreen from "./Login";
 
 interface MainWindowProps {
   setIsLogged: any;
