@@ -94,6 +94,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
             </Box>
             <Button
               data-testid="logout-button"
+              id="logout-button"
               key="logOut"
               sx={{
                 my: 2,
