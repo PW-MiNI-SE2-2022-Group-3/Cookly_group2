@@ -2,6 +2,7 @@ package com.example.cookly.security;
 
 import com.example.cookly.models.dto.UserDTO;
 import com.example.cookly.models.rest.LoginRest;
+import com.example.cookly.models.rest.TokenRest;
 import com.example.cookly.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,7 @@ public class LoginService {
     }
 
 
+    public TokenRest registerUser(LoginRest loginForm) {
+        return new TokenRest("you are registered");
+    }
 }
