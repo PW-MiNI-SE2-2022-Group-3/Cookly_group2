@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Divider(
                 thickness: 2,
               ),
-              rowButton(context, 'Edit Profile', 'login', Colors.black),
+              rowButton(context, 'Edit Profile', 'edit', Colors.black),
               const Divider(
                 thickness: 2,
               ),
