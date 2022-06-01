@@ -314,10 +314,6 @@ describe("ingredients validation", () => {
     await page.click("#search-textfield");
     await page.type("#search-textfield", "Shiitake");
 
-    await page.screenshot({
-      path: "./src/Components/__test__/__e2e__/img/ingredients_search.png",
-    });
-
     //check add button rendering
     await page.waitForSelector("#add-button");
     const addButtonType = await page.$eval("#add-button", (input: any) =>
