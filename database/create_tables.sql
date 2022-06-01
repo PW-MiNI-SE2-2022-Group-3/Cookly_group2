@@ -54,7 +54,8 @@ create table users (
     password varchar(64) not null,
     token varchar(36) not null,
     is_admin int not null,
-    constraint users_pk primary key (id)
+    constraint users_pk primary key (id),
+    constraint ingredients_uk unique key (name)
 )engine = INNODB;
 
 insert into users(username, password, token, is_admin) values ('adam', '72f194207f667cb4a544c75507cd44bdaaf1d70625b8197fd2bcfc44d4077ffa', 'stopa', 1);

@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public class IngredientMapper {
 
-    private IngredientMapper() {}
 
     public static Optional<Ingredient> mapToIngredient(final IngredientDTO ingredientDTO) {
         if (Objects.nonNull(ingredientDTO)) {
