@@ -51,8 +51,18 @@ class _editProfileScreenState extends State<editProfileScreen> {
                           return new_val!.trim().isEmpty ? "Enter name" : null;
                         },
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Your name'),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrangeAccent),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            focusColor: Colors.deepOrangeAccent,
+                            fillColor: Colors.deepOrangeAccent,
+                            labelText: 'Your name',
+                            labelStyle:
+                                TextStyle(color: Colors.deepOrangeAccent)),
                       ),
                     ),
                     Container(
@@ -63,8 +73,18 @@ class _editProfileScreenState extends State<editProfileScreen> {
                           return new_val!.trim().isEmpty ? "Enter email" : null;
                         },
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Your email'),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrangeAccent),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            focusColor: Colors.deepOrangeAccent,
+                            fillColor: Colors.deepOrangeAccent,
+                            labelText: 'Your email',
+                            labelStyle:
+                                TextStyle(color: Colors.deepOrangeAccent)),
                       ),
                     ),
                     Container(
@@ -77,8 +97,18 @@ class _editProfileScreenState extends State<editProfileScreen> {
                               : null;
                         },
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Your new password'),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrangeAccent),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                            focusColor: Colors.deepOrangeAccent,
+                            fillColor: Colors.deepOrangeAccent,
+                            labelText: 'Your new password',
+                            labelStyle:
+                                TextStyle(color: Colors.deepOrangeAccent)),
                       ),
                     ),
                     const SizedBox(
