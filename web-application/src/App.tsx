@@ -9,20 +9,13 @@ import ManageUsers from "./Components/ManageUsers";
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            isLogged ? (
-              <MainWindow setIsLogged={setIsLogged} />
-            ) : (
-              <LoginScreen setIsLogged={setIsLogged} />
-            )
-          }
-        ></Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      {isLogged ? (
+        <MainWindow setIsLogged={setIsLogged} />
+      ) : (
+        <LoginScreen setIsLogged={setIsLogged} />
+      )}
+    </>
   );
 }
 

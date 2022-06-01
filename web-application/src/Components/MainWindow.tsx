@@ -20,7 +20,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
   const [clickedRecipe, setclickedRecipe] = useState(false);
   const [clickedIngredient, setClickedIngredient] = useState(false);
   return (
-    <>
+    <div>
       <AppBar position="static" style={{ backgroundColor: "#c4560c" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -33,6 +33,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button
+                data-testid="users-button"
                 key="users"
                 sx={{
                   background: clickedUser ? "brown" : "#c4560c",
@@ -51,6 +52,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 USERS
               </Button>
               <Button
+                data-testid="recipes-button"
                 key="recipes"
                 sx={{
                   background: clickedRecipe ? "brown" : "#c4560c",
@@ -69,6 +71,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 RECIPES
               </Button>
               <Button
+                data-testid="ingredients-button"
                 key="ingredients"
                 sx={{
                   background: clickedIngredient ? "brown" : "#c4560c",
@@ -88,6 +91,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
               </Button>
             </Box>
             <Button
+              data-testid="logout-button"
               key="logOut"
               sx={{
                 my: 2,
@@ -101,9 +105,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
                 props.setIsLogged(false);
               }}
             >
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                LOG OUT
-              </Link>
+              LOG OUT
             </Button>
           </Toolbar>
         </Container>
@@ -113,7 +115,7 @@ const MainWindow: React.FC<MainWindowProps> = (props: MainWindowProps) => {
         {clickedRecipe ? <ManageRecipes /> : null}
         {clickedIngredient ? <ManageIngredients /> : null}
       </Container>
-    </>
+    </div>
   );
 };
 

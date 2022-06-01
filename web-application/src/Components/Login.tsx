@@ -98,7 +98,6 @@ const LoginScreen: React.FC<LoginProps> = (props: LoginProps) => {
               data-testid="password-textfield"
               placeholder="Password"
               type="password"
-              //ppaasswoord type
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
