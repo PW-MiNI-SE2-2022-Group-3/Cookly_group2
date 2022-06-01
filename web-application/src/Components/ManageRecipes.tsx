@@ -884,7 +884,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 <FormControlLabel
                   value={option}
                   key={option}
-                  control={<Radio />}
+                  control={<Radio id={option} />}
                   label={option}
                 />
               ))}

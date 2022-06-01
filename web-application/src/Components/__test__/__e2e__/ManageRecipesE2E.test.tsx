@@ -314,6 +314,16 @@ describe("recipes validation", () => {
 
     //click tag filter button
     await page.click("#filter-button");
+
+    //select tag
+    // await page.click("#Vegetarian");
+
+    // const isTagSelected = await page.$eval("#Vegetarian", (input: any) =>
+    //   input.getProperty("checked")
+    // );
+
+    // expect(isTagSelected).toBe(true);
+
     await page.screenshot({
       path: "./src/Components/__test__/__e2e__/img/1.png",
     });
