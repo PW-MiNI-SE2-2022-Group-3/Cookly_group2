@@ -9,6 +9,8 @@ import {
 } from "@testing-library/react";
 import ManageRecipes from "../ManageRecipes";
 
+afterEach(cleanup);
+
 it("renders correctly without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(<ManageRecipes />, div);

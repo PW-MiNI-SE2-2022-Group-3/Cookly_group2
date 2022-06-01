@@ -9,6 +9,8 @@ import {
 } from "@testing-library/react";
 import ManageUsers from "./../ManageUsers";
 
+afterEach(cleanup);
+
 it("renders correctly without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(<ManageUsers />, div);

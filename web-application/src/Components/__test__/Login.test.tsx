@@ -9,7 +9,6 @@ import {
 } from "@testing-library/react";
 import LoginScreen from "./../Login";
 import { isTSAnyKeyword } from "@babel/types";
-// import renderer from "react-test-renderer";
 
 afterEach(cleanup);
 

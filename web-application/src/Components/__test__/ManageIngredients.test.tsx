@@ -7,7 +7,12 @@ import {
   queryByTestId,
   cleanup,
 } from "@testing-library/react";
+import { setupServer } from "msw/node";
+import { MockedRequest, rest } from "msw";
+import { ResponseComposition } from "msw/lib/types/response";
 import ManageIngredients from "../ManageIngredients";
+
+afterEach(cleanup);
 
 it("renders correctly without crashing", () => {
   const div = document.createElement("div");
