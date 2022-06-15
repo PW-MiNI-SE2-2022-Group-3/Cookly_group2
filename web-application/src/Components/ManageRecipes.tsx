@@ -351,6 +351,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
       </IconButton>
       <Button
         data-testid="add-button"
+        id="add-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -370,6 +371,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
       </Button>
       <Button
         data-testid="filter-button"
+        id="filter-button"
         variant="contained"
         sx={{
           backgroundColor: "#c4560c",
@@ -882,7 +884,7 @@ const ManageRecipes: React.FC<ManageRecipesProps> = (
                 <FormControlLabel
                   value={option}
                   key={option}
-                  control={<Radio />}
+                  control={<Radio id={option} />}
                   label={option}
                 />
               ))}

@@ -60,6 +60,7 @@ Object {
         <button
           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-91aoiw-MuiButtonBase-root-MuiButton-root"
           data-testid="add-button"
+          id="add-button"
           tabindex="0"
           type="button"
         >
@@ -83,6 +84,7 @@ Object {
         <button
           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-91aoiw-MuiButtonBase-root-MuiButton-root"
           data-testid="filter-button"
+          id="filter-button"
           tabindex="0"
           type="button"
         >
@@ -381,6 +383,7 @@ Object {
       <button
         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-91aoiw-MuiButtonBase-root-MuiButton-root"
         data-testid="add-button"
+        id="add-button"
         tabindex="0"
         type="button"
       >
@@ -404,6 +407,7 @@ Object {
       <button
         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-91aoiw-MuiButtonBase-root-MuiButton-root"
         data-testid="filter-button"
+        id="filter-button"
         tabindex="0"
         type="button"
       >
