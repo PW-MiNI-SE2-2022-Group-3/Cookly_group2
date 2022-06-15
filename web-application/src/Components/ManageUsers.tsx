@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
@@ -22,20 +22,22 @@ import TableBody from "@mui/material/TableBody";
 import TableFooter from "@mui/material/TableFooter";
 import TablePaginationActions from "./TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 import axios from "axios";
 
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import PersonIcon from "@mui/icons-material/Person";
 
 import "../styles/Manage.css";
 import { TransitionProps } from "@mui/material/transitions";
+import { PATH } from "../Constants/API";
+
+var forge = require("node-forge");
 
 interface ManageUserProps {}
 
-const columns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME", "ACTIONS"];
-const adminColumns = ["USER ID", "FIRST NAME", "LAST NAME", "USERNAME"];
+const columns = ["USERNAME", "ACTIONS"];
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -47,60 +49,82 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
-  type IngredientResponse = {
-    id?: number;
-    name?: string;
-  };
-
-  type RecipeResponse = {
-    id?: number;
-    name?: string;
-    instructions?: string;
-    ingredients?: IngredientResponse[];
-    tags?: string[];
-  };
-
   type UserResponse = {
-    id?: number;
-    firstname?: string;
-    lastname?: string;
     username?: string;
     password?: string;
-    isAdmin?: boolean;
-    savedRecipes?: RecipeResponse[];
+    token?: string;
+    isadmin?: boolean;
   };
 
   const [loading, setLoading] = useState(false);
 
-  const [addUser, setAddUser] = useState(false);
-  const [newUser, setNewUser] = useState<UserResponse>({});
-
   const [editUser, setEditUser] = useState(false);
   const [editUserData, setEditUserData] = useState<UserResponse>({});
+  const [validData, setValidData] = useState({ isValid: true, message: "" });
 
   const [clickedAdmin, setClickedAdmin] = useState(true);
-  const [clickedAppUser, setclickedAppUser] = useState(false);
-
-  const [searchValue, setSearchValue] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // const [data, setData] = useState<UserResponse[]>([]);
-  const [data, setData] = useState([
-    {
-      id: 1,
-      firstname: "Ayetijhya",
-      lastname: "Desmukhya",
-      username: "ayeti82",
-    },
-    {
-      id: 2,
-      firstname: "Erza",
-      lastname: "Scarlet",
-      username: "scarlet56",
-    },
-  ]);
+  const [data, setData] = useState<UserResponse[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      getData();
+    };
+
+    fetchData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get(PATH + "/user?page=0&limit=5000", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "---",
+        },
+      })
+      .then((response: { data: { ingredients: any } }) => {
+        setData(response.data.ingredients);
+      })
+      .catch((err: any) => {
+        alert(err);
+      });
+  };
+
+  const convertToSha = (password: any) => {
+    let md = forge.md.sha256.create();
+    md.update(password);
+    return md.digest().toHex();
+  };
+
+  //Edit Ingredient
+  // const editIngredientHandler = (event: any) => {
+  //   setLoading(true);
+  //   event.preventDefault();
+  //   axios
+  //     .put(
+  //       PATH + "/ingredients?id=" + editIngredientData.id,
+  //       editIngredientData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "---",
+  //         },
+  //       }
+  //     )
+  //     .then((response: any) => {
+  //       setEditIngredient(false);
+  //       setEditIngredientData({});
+  //       setLoading(false);
+  //       getData();
+  //     })
+  //     .catch((err: { message: any }) => {
+  //       setLoading(false);
+  //       alert(err.message);
+  //     });
+  // };
 
   const emptyRows = () => {
     return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -119,7 +143,7 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
     <Box style={{ width: "100%", margin: "auto", paddingTop: "20px" }}>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         <Button
-          data-testid="admins-button"
+          data-testid="users-button"
           key="admins"
           sx={{
             background: clickedAdmin ? "brown" : "#c4560c",
@@ -133,50 +157,11 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
           }}
           onClick={() => {
             setClickedAdmin(true);
-            setclickedAppUser(false);
           }}
         >
-          ADMINS
-        </Button>
-        <Button
-          data-testid="appusers-button"
-          key="appUsers"
-          sx={{
-            background: clickedAppUser ? "brown" : "#c4560c",
-            my: 2,
-            width: "10%",
-            color: "white",
-            display: "block",
-            borderRadius: 0,
-            "&:hover": { backgroundColor: "#d97938" },
-          }}
-          onClick={() => {
-            setClickedAdmin(false);
-            setclickedAppUser(true);
-          }}
-        >
-          APP USERS
+          USERS
         </Button>
       </Box>
-      <Button
-        data-testid="add-button"
-        variant="contained"
-        sx={{
-          backgroundColor: "#c4560c",
-          color: "white",
-          float: "right",
-          marginBottom: "10px",
-          borderRadius: 0,
-          width: "15%",
-          "&:hover": { backgroundColor: "#d97938" },
-        }}
-        onClick={() => {
-          setAddUser(true);
-        }}
-      >
-        {clickedAdmin ? "Add Admin" : "Add User"}
-        <PersonIcon style={{ marginLeft: "10px" }} />
-      </Button>
       <TableContainer
         component={Paper}
         className="tablecontainer"
@@ -185,104 +170,53 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         <Table size="small" className="table">
           <TableHead>
             <TableRow>
-              {clickedAppUser
-                ? columns.map((name) => (
-                    <TableCell
-                      key={name}
-                      className="tablecellheader"
-                      style={{
-                        textAlign: name === "ACTIONS" ? "center" : "left",
-                        color: "white",
-                      }}
-                    >
-                      {name}
-                    </TableCell>
-                  ))
-                : adminColumns.map((name) => (
-                    <TableCell
-                      key={name}
-                      className="tablecellheader"
-                      style={{
-                        color: "white",
-                      }}
-                    >
-                      {name}
-                    </TableCell>
-                  ))}
+              {columns.map((name) => (
+                <TableCell
+                  key={name}
+                  className="tablecellheader"
+                  style={{
+                    textAlign: name === "ACTIONS" ? "center" : "left",
+                    color: "white",
+                  }}
+                >
+                  {name}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {clickedAppUser
-              ? (rowsPerPage > 0
-                  ? data.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : data
-                ).map((d) => (
-                  <TableRow hover>
-                    <TableCell className="tablecell"> {d.id} </TableCell>
-                    <TableCell className="tablecell">{d.firstname}</TableCell>
-                    <TableCell className="tablecell">{d.lastname}</TableCell>
-                    <TableCell className="tablecell"> {d.username} </TableCell>
-                    <TableCell
-                      className="tablecell"
-                      style={{ textAlign: "center", width: "35%" }}
-                    >
-                      <Button
-                        data-testid="delete-button"
-                        variant="contained"
-                        style={{
-                          backgroundColor: "darkred",
-                          color: "white",
-                          borderRadius: 0,
-                          width: "200px",
-                          margin: "5px",
-                        }}
-                        onClick={(event) => {
-                          console.log(d.id);
-                        }}
-                        tabIndex={d.id}
-                      >
-                        Delete
-                        <DeleteIcon style={{ marginLeft: "10px" }} />
-                      </Button>
-                      <Button
-                        data-testid="edit-button"
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
-                          color: "white",
-                          borderRadius: 0,
-                          width: "200px",
-                          margin: "5px",
-                        }}
-                        onClick={(event) => {
-                          setEditUser(true);
-                          setEditUserData(d);
-                        }}
-                        tabIndex={d.id}
-                      >
-                        Edit
-                        <EditIcon style={{ marginLeft: "10px" }} />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : (rowsPerPage > 0
-                  ? data.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : data
-                ).map((d) => (
-                  <TableRow hover>
-                    <TableCell className="tablecell"> {d.id} </TableCell>
-                    <TableCell className="tablecell">{d.firstname}</TableCell>
-                    <TableCell className="tablecell">{d.lastname}</TableCell>
-                    <TableCell className="tablecell"> {d.username} </TableCell>
-                  </TableRow>
-                ))}
+            {(rowsPerPage > 0
+              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : data
+            ).map((d) => (
+              <TableRow hover>
+                <TableCell className="tablecell">{d.username}</TableCell>
+                <TableCell
+                  className="tablecell"
+                  style={{ textAlign: "center", width: "35%" }}
+                >
+                  <Button
+                    data-testid="edit-button"
+                    variant="contained"
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                      borderRadius: 0,
+                      width: "200px",
+                      margin: "5px",
+                    }}
+                    onClick={(event) => {
+                      setEditUser(true);
+                      setEditUserData(d);
+                    }}
+                    // tabIndex={d.id}
+                  >
+                    Edit
+                    <EditIcon style={{ marginLeft: "10px" }} />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -307,125 +241,12 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
         </Table>
       </TableContainer>
 
-      {/* add user */}
-      <Dialog
-        sx={{
-          "& .MuiDialog-paper": {
-            width: "80%",
-            maxHeight: 435,
-            borderRadius: 0,
-          },
-        }}
-        maxWidth="xs"
-        open={addUser}
-        TransitionComponent={Transition}
-      >
-        <DialogTitle
-          sx={{
-            backgroundColor: "#c4560c",
-            color: "white",
-          }}
-        >
-          ADD NEW INGREDIENT
-        </DialogTitle>
-        {loading && <LinearProgress />}
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            setAddUser(false);
-            // addIngredientHandler(event);
-          }}
-        >
-          <DialogContent>
-            <TextField
-              data-testid="fname-textfield"
-              autoFocus
-              required
-              margin="dense"
-              label="First Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setNewUser((prevState) => ({
-                  ...prevState,
-                  name: event.target.value,
-                }));
-              }}
-            />
-            <TextField
-              data-testid="lname-textfield"
-              autoFocus
-              required
-              margin="dense"
-              label="Last Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setNewUser((prevState) => ({
-                  ...prevState,
-                  lastname: event.target.value,
-                }));
-              }}
-            />
-            <TextField
-              data-testid="username-textfield"
-              autoFocus
-              required
-              margin="dense"
-              label="Username"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setNewUser((prevState) => ({
-                  ...prevState,
-                  username: event.target.value,
-                }));
-              }}
-            />
-            <TextField
-              data-testid="password-textfield"
-              autoFocus
-              required
-              margin="dense"
-              label="Password"
-              type="password"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setNewUser((prevState) => ({
-                  ...prevState,
-                  password: event.target.value,
-                }));
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              data-testid="reset-button"
-              type="reset"
-              color="error"
-              onClick={() => {
-                setAddUser(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button data-testid="submit-button" type="submit">
-              Add
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-
       {/* edit ingredient */}
       <Dialog
         sx={{
           "& .MuiDialog-paper": {
             width: "80%",
-            maxHeight: 435,
+            maxHeight: 455,
             borderRadius: 0,
           },
         }}
@@ -439,55 +260,23 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
             color: "white",
           }}
         >
-          EDIT INGREDIENT
+          EDIT USER
         </DialogTitle>
         {loading && <LinearProgress />}
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            setEditUser(false);
-            // editIngredientHandler(event);
+            if (validData.isValid) {
+              setEditUser(false);
+              console.log(editUserData);
+              // editIngredientHandler(event);
+            } else {
+              alert(validData.message);
+            }
           }}
         >
           <DialogContent>
             <TextField
-              data-testid="fname-edit-textfield"
-              autoFocus
-              required
-              margin="dense"
-              value={editUserData.firstname}
-              label="First Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setEditUserData((prevState) => ({
-                  ...prevState,
-                  name: event.target.value,
-                }));
-              }}
-            />
-            <TextField
-              data-testid="lname-edit-textfield"
-              autoFocus
-              required
-              margin="dense"
-              value={editUserData.lastname}
-              label="Last Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event) => {
-                setEditUserData((prevState) => ({
-                  ...prevState,
-                  lastname: event.target.value,
-                }));
-              }}
-            />
-            <TextField
-              data-testid="username-edit-textfield"
-              autoFocus
-              required
               margin="dense"
               value={editUserData.username}
               label="Username"
@@ -502,21 +291,74 @@ const ManageUsers: React.FC<ManageUserProps> = (props: ManageUserProps) => {
               }}
             />
             <TextField
-              data-testid="password-edit-textfield"
-              autoFocus
-              required
               margin="dense"
-              value={editUserData.password}
-              label="Password"
+              label="Current Password"
+              type="password"
+              fullWidth
+              variant="standard"
+              tabIndex={0}
+              onChange={(event) => {
+                if (convertToSha(event.target.value) == editUserData.password)
+                  setValidData((prevState) => ({
+                    ...prevState,
+                    isValid: true,
+                    message: "",
+                  }));
+                else
+                  setValidData((prevState) => ({
+                    ...prevState,
+                    isValid: false,
+                    message: "Invalid Credential!",
+                  }));
+              }}
+            />
+            <TextField
+              margin="dense"
+              label="New Password"
               type="password"
               fullWidth
               variant="standard"
               onChange={(event) => {
                 setEditUserData((prevState) => ({
                   ...prevState,
-                  password: event.target.value,
+                  password: convertToSha(event.target.value),
                 }));
               }}
+            />
+            <TextField
+              margin="dense"
+              label="Confirm Password"
+              type="password"
+              fullWidth
+              variant="standard"
+              onChange={(event) => {
+                if (convertToSha(event.target.value) == editUserData.password)
+                  setValidData((prevState) => ({
+                    ...prevState,
+                    isValid: true,
+                    message: "",
+                  }));
+                else
+                  setValidData((prevState) => ({
+                    ...prevState,
+                    isValid: false,
+                    message:
+                      "New password doesn't match with Confirm password!",
+                  }));
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(event) => {
+                    setEditUserData((prevState) => ({
+                      ...prevState,
+                      isadmin: event.target.checked,
+                    }));
+                  }}
+                />
+              }
+              label="Are you an admin?"
             />
           </DialogContent>
           <DialogActions>
