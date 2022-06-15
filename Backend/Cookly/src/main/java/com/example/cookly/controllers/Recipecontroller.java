@@ -11,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,5 +63,53 @@ public class Recipecontroller {
 
         recipeService.updateRecipe(RecipeMapper.mapToRecipe(recipe).orElseThrow(RecipeEmptyException::new));
         return  ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<RecipeAllRest> getRecipeToUser(@RequestHeader HttpHeaders headers,
+                                                                 @RequestParam(value = "page") Integer page,
+                                                                 @RequestParam(value = "limit") Integer limit) {
+        final Set<RecipeRest> recipes = recipeService
+                .getAllRecipes(0,10000,null, null).stream()
+                .map(RecipeMapper::mapToRecipeRest)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+        Set<RecipeRest> selected = new HashSet<RecipeRest>();
+        if (recipes.isEmpty() == false) {
+                selected.add(getRandomElement(recipes));
+        }
+        return ResponseEntity.ok(new RecipeAllRest(1, selected));
+    }
+
+    private static <E>
+    E getRandomElement(Set<? extends E> set)
+    {
+
+        Random random = new Random();
+
+        // Generate a random number using nextInt
+        // method of the Random class.
+        int randomNumber = random.nextInt(set.size());
+
+        Iterator<? extends E> iterator = set.iterator();
+
+        int currentIndex = 0;
+        E randomElement = null;
+
+        // iterate the HashSet
+        while (iterator.hasNext()) {
+
+            randomElement = iterator.next();
+
+            // if current index is equal to random number
+            if (currentIndex == randomNumber)
+                return randomElement;
+
+            // increase the current index
+            currentIndex++;
+        }
+
+        return randomElement;
     }
 }
